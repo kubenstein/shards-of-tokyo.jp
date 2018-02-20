@@ -13,5 +13,5 @@ results
 results/**/*
 coverage
 coverage/**/*
-public/assets
-public/assets/**/*
+
+app/public/assets/
