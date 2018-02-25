@@ -1,3 +1,95 @@
+@import 'normalize';
+@import 'variables';
+@import 'mixins';
+@import 'top';
+@import 'footer';
+
+.clearfix {
+  @include clearfix();
+}
+
+html, body {
+  min-height: 100%;
+}
+
 body {
-  background-color: grey;
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
+  color: $cocoa_bean;
+}
+
+.wrapper {
+  width: 1250px;
+  margin: 0 auto;
+}
+
+.content {
+  width: 1000px;
+  margin: 0 auto 80px;
+}
+
+.plans {
+  display: flex;
+  justify-content: space-between;
+}
+
+.plan {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  padding: 15px;
+  box-sizing: border-box;
+
+  .header {
+    margin-top: 25px;
+    font-size: 55px;
+    text-align: center;
+    font-weight: normal;
+  }
+
+  .desc {
+    margin-top: 15px;
+  }
+
+  .btn-subscribe {
+    display: block;
+    margin-top: 15px;
+    padding: 8px;
+    background: $cinnabar;
+    color: $white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 23px;
+    border-radius: 5px;
+    box-shadow: $btn_box_shadow;
+  }
+
+  &::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    border-radius: 20px;
+    background-color: white;
+  }
+
+  &::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    z-index: -2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 25px;
+    background: $mona_lisa;
+    background: -moz-linear-gradient(-45deg, $mona_lisa 0%, $cinnabar 100%);
+    background: -webkit-linear-gradient(-45deg, $mona_lisa 0%, $cinnabar 100%);
+    background: linear-gradient(135deg, $mona_lisa 0%, $cinnabar 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb794', endColorstr='#e43f32',GradientType=1 );
+  }
 }

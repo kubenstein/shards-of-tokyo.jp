@@ -1,1 +1,19 @@
-h1 Hello World
+.wrapper
+  .top
+    #mosaique.mosaique
+    .logo
+      h1 Shards of Tokyo
+      h2 Japan, candies, adventure! Japanese items delivery
+    .menu
+      a href='#' My account
+
+  .content
+    .plans
+      - plans.each do |plan|
+        .plan
+          h3.header= plan.price
+          p.desc= plan.description
+          a.btn-subscribe href="/subscription/plan-#{plan.id}" subscribe
+
+  .footer
+    p.copyright © www.shards-of-japan.jp
