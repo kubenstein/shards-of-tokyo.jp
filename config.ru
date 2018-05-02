@@ -1,6 +1,6 @@
-require './app/app'
+require './app/web/server'
 
 ENV['RACK_ENV'] ||= 'development'
 
-use App
+use WebServer
 run Sinatra::Application

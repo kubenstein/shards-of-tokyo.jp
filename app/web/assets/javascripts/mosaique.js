@@ -3,17 +3,17 @@
   if (!$mosaique) return;
 
   var polygonsString = "";
-  var i = 0;
+  var mosaiqueCounter = 0;
 
   function nextData() {
     var data = dataHeroA;
     var polygons = data.polygons;
 
-    if (i >= polygons.length) i = 0;
+    if (mosaiqueCounter >= polygons.length) mosaiqueCounter = 0;
 
     return {
-      newCycle: (i === 0),
-      polygon: data.polygons[i++],
+      newCycle: (mosaiqueCounter === 0),
+      polygon: data.polygons[mosaiqueCounter++],
       meta: {
         width: data.meta.width,
         height: data.meta.height,
@@ -34,11 +34,13 @@
 
     polygonsString += "<polygon points='"+ polygon.p +"' fill='"+ polygon.f +"' fill-opacity='"+ polygon.o +"' />,";
 
+    if (mosaiqueCounter % 10) return;
+
     $mosaique.innerHTML = "" +
     "<svg xmlns='http://www.w3.org/2000/svg' version='1.2' width='"+ meta.width +"' height='"+ meta.height +"'>" +
     "<rect x='0' y='0' width='"+ meta.width +"' height='"+ meta.height +"' fill='"+ meta.background +"' fill-opacity='1' />," +
     "["+ polygonsString +"]" +
     "</svg>";
-  }, 100);
+  }, 10);
 
 })();

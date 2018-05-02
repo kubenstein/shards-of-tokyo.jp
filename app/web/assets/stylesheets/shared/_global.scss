@@ -1,0 +1,31 @@
+html, body {
+  min-height: 100%;
+}
+
+body {
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
+  color: $cocoa_bean;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input, button, textarea {
+  outline: none;
+}
+
+.clearfix {
+  @include clearfix();
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 1250px;
+}
+
+a {
+  color: $cinnabar;
+}

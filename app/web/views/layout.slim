@@ -4,5 +4,8 @@ html
     title Shards of Tokyo
     == stylesheet_tag 'application'
   body
-    == yield
+    .wrapper
+      == slim :'top/index'
+      == yield
+      == slim :'footer/index'
     == javascript_tag 'application'
