@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'slim'
 require 'require_all'
+require_all './app/lib'
 require_all './app/web/lib'
 
 class WebServer < Sinatra::Base
@@ -11,11 +12,12 @@ class WebServer < Sinatra::Base
   end
 
   post '/registration' do
-    if (params['email'] == '')
-      slim :'registration/_form', locals: { errors: [:email_empty], fields: params }
-    else
+    validation_results = SoT::RegistrationValidator.new.validate(params)
+    if validation_results.valid?
       puts "register #{params}"
       redirect '/registration/success'
+    else
+      slim :'registration/_form', locals: { errors: validation_results.errors, fields: params }
     end
   end
 
