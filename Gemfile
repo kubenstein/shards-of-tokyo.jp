@@ -10,7 +10,6 @@ gem 'slim'
 gem 'sprockets'
 gem 'sprockets-sass'
 gem 'sprockets-helpers'
-gem 'yui-compressor'
 gem 'sass'
 
 group :development do

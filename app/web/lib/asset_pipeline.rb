@@ -1,5 +1,4 @@
 require 'sprockets-helpers'
-require 'yui/compressor'
 require 'sass'
 
 module AssetPipeline extend self
@@ -24,7 +23,7 @@ module AssetPipeline extend self
     end
 
     app.configure :production do
-      assets.css_compressor = YUI::CssCompressor.new
+      assets.css_compressor = :scss
     end
 
     Sprockets::Helpers.configure do |config|
