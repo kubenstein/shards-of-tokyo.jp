@@ -5,6 +5,7 @@ module SoT
         user = create_user(params)
         send_email_to(user)
         send_email_to_me(user)
+        user
       end
 
       private

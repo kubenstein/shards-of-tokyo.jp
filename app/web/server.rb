@@ -6,6 +6,7 @@ require_all './app/web/lib'
 
 class WebServer < Sinatra::Base
   register AssetPipeline
+  enable :sessions
 
   get '/' do
     slim :'home_page/index', layout: :home_page_layout
@@ -14,7 +15,8 @@ class WebServer < Sinatra::Base
   post '/registration' do
     validation_results = SoT::Registration::Validator.new.validate(params)
     if validation_results.valid?
-      SoT::Registration::NewUserWorkflow.new.register(params)
+      registered_user = SoT::Registration::NewUserWorkflow.new.register(params)
+      session[:current_user_id] = registered_user.id
       redirect '/registration/success'
     else
       slim :'registration/_form', locals: { errors: validation_results.errors, fields: params }
@@ -22,6 +24,7 @@ class WebServer < Sinatra::Base
   end
 
   get '/registration/success' do
-    slim :'registration/success', locals: { email: 'abc@abc.com' }
+    registered_user = SoT::UserRepository.new.find(session[:current_user_id])
+    slim :'registration/success', locals: { user: registered_user }
   end
 end
