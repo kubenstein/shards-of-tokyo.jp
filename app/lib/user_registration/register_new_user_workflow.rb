@@ -16,11 +16,11 @@ module SoT
       end
 
       def send_email_to(user)
-        # send email..
+        Mailer.new.send_registration_email_to_new_user(user)
       end
 
       def send_email_to_me(user)
-        # send email..
+        Mailer.new.send_info_email_about_new_user(user)
       end
     end
   end

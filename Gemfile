@@ -5,6 +5,7 @@ ruby '2.3.1'
 gem 'rake'
 gem 'sinatra'
 gem 'require_all'
+gem 'pony'
 gem 'slim'
 
 gem 'sprockets'
