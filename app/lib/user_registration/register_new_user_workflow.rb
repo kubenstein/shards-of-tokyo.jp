@@ -2,7 +2,8 @@ module SoT
   module Registration
     class NewUserWorkflow
       def register(params)
-        user = create_user(params)
+        user = create_user(params['email'])
+        create_initial_message(user, params['info']) if params['info']
         send_email_to(user)
         send_email_to_me(user)
         user
@@ -10,9 +11,15 @@ module SoT
 
       private
 
-      def create_user(params)
-        user = User.new(email: params['email'])
+      def create_user(email)
+        user = User.new(email: email)
         UserRepository.new.create_user(user)
+      end
+
+      def create_initial_message(from_user, message)
+        me = UserRepository.new.find_me
+        message = Message.new(from_user_id: from_user.id, to_user_id: me.id, body: message)
+        MessageRepository.new.create_message(message)
       end
 
       def send_email_to(user)
