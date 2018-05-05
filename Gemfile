@@ -7,6 +7,7 @@ gem 'sinatra'
 gem 'require_all'
 gem 'pony'
 gem 'slim'
+gem 'dry-container'
 
 gem 'sprockets'
 gem 'sprockets-sass'
