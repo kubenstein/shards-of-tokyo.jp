@@ -13,13 +13,12 @@ class WebServer < Sinatra::Base
   end
 
   post '/registration' do
-    validation_results = SoT::Registration::Validator.new.validate(params)
-    if validation_results.valid?
-      registered_user = SoT::Registration::NewUserWorkflow.new.register(params)
-      session[:current_user_id] = registered_user.id
+    registration_results = SoT::Registration::NewUserWorkflow.new.register(params)
+    if registration_results.success?
+      session[:current_user_id] = registration_results.user_id
       redirect '/registration/success'
     else
-      slim :'registration/_form', locals: { errors: validation_results.errors, fields: params }
+      slim :'registration/_form', locals: { errors: registration_results.errors, fields: params }
     end
   end
 

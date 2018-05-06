@@ -2,11 +2,22 @@ module SoT
   module Registration
     class NewUserWorkflow
       def register(params)
-        user = create_user(params['email'])
-        create_initial_message(user, params['info']) if params['info']
-        send_email_to(user)
-        send_email_to_me(user)
-        user
+        validation_results = Validator.new.validate(params)
+        if validation_results.valid?
+          user = create_user(params['email'])
+          create_initial_message(user, params['info']) if params['info']
+          send_email_to(user)
+          send_email_to_me(user)
+          Results.new(user.id, [])
+        else
+          Results.new(nil, validation_results.errors)
+        end
+      end
+
+      class Results < Struct.new(:user_id, :errors)
+        def success?
+          errors.empty?
+        end
       end
 
       private
