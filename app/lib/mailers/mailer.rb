@@ -2,6 +2,11 @@ require 'pony'
 
 module SoT
   class Mailer
+    def initialize(smtp_options: nil)
+      @via = smtp_options ? :smtp : :test
+      @via_options = smtp_options || {}
+    end
+
     def send_registration_email_to_new_user(user)
       send(
         to: user.email,
@@ -26,7 +31,8 @@ module SoT
         to: to,
         subject: subject,
         body: body,
-        via: :test
+        via: @via,
+        via_options: @via_options
       )
     end
   end
