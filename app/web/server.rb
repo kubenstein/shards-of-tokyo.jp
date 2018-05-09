@@ -3,14 +3,11 @@ require 'slim'
 require './app/lib/lib'
 require './app/web/lib/asset_pipeline'
 
-class ConfigurationProvider
-  include Import[:session_secret]
-end
 
 class WebServer < Sinatra::Base
   register AssetPipeline
   enable :sessions
-  set :session_secret, ConfigurationProvider.new.session_secret
+  set :session_secret, APP_DEPENDENCIES[:session_secret]
 
   include Import[
     :user_repository,

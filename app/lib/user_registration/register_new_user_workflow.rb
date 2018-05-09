@@ -31,13 +31,13 @@ module SoT
 
       def create_user(email)
         user = User.new(email: email)
-        user_repository.create_user(user)
+        user_repository.create_user(user: user, requester_id: 'system@shards-of-tokyo.jp')
       end
 
       def create_initial_message(from_user, message)
         me = user_repository.find_me
         message = Message.new(from_user_id: from_user.id, to_user_id: me.id, body: message)
-        message_repository.create_message(message)
+        message_repository.create_message(message: message, requester_id: 'system@shards-of-tokyo.jp')
       end
 
       def send_email_to(user)

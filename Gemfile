@@ -8,6 +8,7 @@ gem 'require_all'
 gem 'pony'
 gem 'slim'
 gem 'dry-container'
+gem 'sequel'
 
 gem 'sprockets'
 gem 'sprockets-sass'
@@ -16,6 +17,7 @@ gem 'sass'
 
 group :development do
   gem 'shotgun'
+  gem 'sqlite3'
 end
 
 group :test do

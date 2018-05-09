@@ -1,18 +1,26 @@
 module SoT
   class UserRepository
-    def create_user(user)
-      # persist... and return user with id
-      User.new(email: user.email, id: Time.new.to_i)
+    include Import[
+      :event_store,
+      :state,
+    ]
+
+    def create_user(user:, requester_id:)
+      user_with_id = CloneWithId.new.call(user)
+      payload = Serialize.new.call(user_with_id)
+      event = Event.new(EVENTS::USER_CREATED, requester_id, payload)
+      event_store.add_event(event)
+      user_with_id
     end
 
-    def find(id)
-      # retrive...
-      User.new(email: 'dummy@dummy.pl', id: Time.new.to_i)
+    def find_by(search_opts)
+      attrs = state.get_resources(:users, search_opts)[0]
+      return nil unless attrs
+      User.new(attrs)
     end
 
     def find_me
-      # retrive...
-      User.new(email: 'niewczas.jakub@gmail.com', id: Time.new.to_i)
+      find_by(email: 'niewczas.jakub@gmail.com')
     end
   end
 end

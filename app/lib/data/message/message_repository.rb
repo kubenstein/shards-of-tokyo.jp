@@ -1,13 +1,15 @@
 module SoT
   class MessageRepository
-    def create_message(message)
-      # persist... and return message with id
-      Message.new(
-        id: Time.new.to_i,
-        from: message.from,
-        to: message.to,
-        body: message.body
-      )
+    include Import[
+      :event_store
+    ]
+
+    def create_message(message:, requester_id:)
+      message_with_id = CloneWithId.new.call(message)
+      payload = Serialize.new.call(message_with_id)
+      event = Event.new(EVENTS::MESSAGE_CREATED, requester_id, payload)
+      event_store.add_event(event)
+      message_with_id
     end
   end
 end
