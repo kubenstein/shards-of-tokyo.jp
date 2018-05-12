@@ -29,7 +29,7 @@ class WebServer < Sinatra::Base
   end
 
   get '/registration/success' do
-    registered_user = user_repository.find(session[:current_user_id])
+    registered_user = user_repository.find_by(id: session[:current_user_id])
     slim :'registration/success', locals: { user: registered_user }
   end
 end

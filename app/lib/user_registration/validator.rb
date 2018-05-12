@@ -1,17 +1,28 @@
 module SoT
   module Registration
     class Validator
+      include Import[
+        :user_repository
+      ]
+      
       def validate(params)
-        errors = []
-        errors << :email_empty if params['email'].empty?
-        errors << :email_invalid unless params['email'].include?('@')
-        Results.new(errors)
+        email = params['email']
+        return Results.new([:email_invalid]) unless email.include?('@')
+        return Results.new([:email_taken]) if email_taken?(email)
+
+        Results.new([])
       end
 
       class Results < Struct.new(:errors)
         def valid?
           errors.empty?
         end
+      end
+
+      private
+
+      def email_taken?(email)
+        !!user_repository.find_by(email: email)
       end
     end
   end
