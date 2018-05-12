@@ -3,6 +3,7 @@ require 'require_all'
 require './app/lib/auto_inject'
 
 dependencies = Dry::Container.new.tap do |c|
+  c.register(:session_secret, -> { ENV['SESSION_SECRET'] || 'session_secret' })
   c.register(:user_repository, -> { SoT::UserRepository.new })
   c.register(:message_repository, -> { SoT::MessageRepository.new })
   c.register(:registration_validator, -> { SoT::Registration::Validator.new })
