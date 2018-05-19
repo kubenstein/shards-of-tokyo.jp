@@ -3,6 +3,13 @@ module SoT
     include Import[:state]
     include ResourceCreatable
 
+    def new_user(email:)
+      user_attr = { id: GenerateId.new.call, email: email }
+      User.new(user_attr).tap { |user|
+        user.add_event(Event.for(EVENTS::USER_CREATED, user))
+      }
+    end
+
     def find_by(search_opts)
       attrs = state.get_resources(:users, search_opts)[0]
       return nil unless attrs

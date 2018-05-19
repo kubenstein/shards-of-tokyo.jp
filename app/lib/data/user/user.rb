@@ -4,11 +4,9 @@ module SoT
 
     attr_reader :email, :id
 
-    def initialize(id: nil, email:)
-      @id = id || GenerateId.new.call
+    def initialize(id:, email:)
+      @id = id
       @email = email
-
-      add_event(Event.for(EVENTS::USER_CREATED, self)) unless id
     end
   end
 end

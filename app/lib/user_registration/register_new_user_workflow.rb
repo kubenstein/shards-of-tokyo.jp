@@ -32,12 +32,13 @@ module SoT
       private
 
       def create_user(email)
-        user = User.new(email: email)
-        user_repository.create(user)
+        user_repository.create(
+          user_repository.new_user(email: email)
+        )
       end
 
       def create_initial_message(from_user, message)
-        order = Order.new(user_id: from_user.id)
+        order = order_repository.new_order(user_id: from_user.id)
         order.add_message(text: message)
         order_repository.create(order)
       end

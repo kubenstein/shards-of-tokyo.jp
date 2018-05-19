@@ -2,18 +2,23 @@ module SoT
   class Order
     include Eventable
 
-    attr_reader :id, :user_id
+    attr_reader :id, :user_id, :messages
 
-    def initialize(id: nil, user_id:)
-      @id = id || GenerateId.new.call
+    def initialize(id:, user_id:, messages: [])
+      @id = id
       @user_id = user_id
-
-      add_event(Event.for(EVENTS::ORDER_CREATED, self)) unless id
+      @_messages = messages
     end
 
-    def add_message(from_user_id: user_id, text:)
-      message = Message.new(order_id: id, from_user_id: from_user_id, body: text)
-      add_events(message)
+    def add_message(text:)
+      Message.new(id: GenerateId.new.call, order_id: id, is_from_user: true, body: text).tap do |message|
+        @_messages << message
+        add_event(Event.for(EVENTS::MESSAGE_CREATED, message))
+      end
+    end
+
+    def messages
+      @_messages
     end
   end
 end
