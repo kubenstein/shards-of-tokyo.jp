@@ -10,8 +10,8 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:registration_workflow, -> { SoT::Registration::NewUserWorkflow.new })
 
   if ENV['RACK_ENV'] == 'production'
-    c.register(:event_store, -> { raise 'missing prod event_store!' })
-    c.register(:state, -> {  raise 'missing prod state!' })
+    c.register(:event_store, -> { SoT::SqlEventStore.new(ENV['DATABASE_URL']) })
+    c.register(:state, -> { SoT::SqlState.new(ENV['DATABASE_URL']).clear_state!.tap { |state| c[:event_store].add_subscriber(state) } })
     c.register(:mailer, -> {
       SoT::Mailer.new(smtp_options: {
         domain: 'shards-of-tokyo.jp',
