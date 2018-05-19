@@ -24,8 +24,8 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
       })
     })
   else
-    c.register(:event_store, -> { SoT::SqliteEventStore.new('./app/db/development.db') })
-    c.register(:state, -> { SoT::MemoryState.new.tap { |state| c[:event_store].add_subscriber(state) } })
+    c.register(:event_store, -> { SoT::SqlEventStore.new('sqlite://./app/db/events.db') })
+    c.register(:state, -> { SoT::SqlState.new('sqlite://./app/db/state.db').clear_state!.tap { |state| c[:event_store].add_subscriber(state) } })
     c.register(:mailer, -> { SoT::Mailer.new })
   end
 end

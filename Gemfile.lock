@@ -15,6 +15,7 @@ GEM
       mini_mime (>= 0.1.1)
     mini_mime (1.0.0)
     multi_json (1.13.1)
+    pg (0.20.0)
     pony (1.12)
       mail (>= 2.0)
     rack (1.6.8)
@@ -63,6 +64,7 @@ PLATFORMS
 
 DEPENDENCIES
   dry-container
+  pg
   pony
   rake
   require_all

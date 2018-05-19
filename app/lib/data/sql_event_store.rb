@@ -2,14 +2,19 @@ require 'sequel'
 require 'json'
 
 module SoT
-  class SqliteEventStore
-    def initialize(path_to_db)
-      @connection = Sequel.connect("sqlite://#{path_to_db}")
+  class SqlEventStore
+    def initialize(connection_uri)
+      @connection = Sequel.connect(connection_uri)
       @subscribers = []
     end
 
     def add_event(event)
-      @connection[:events].insert(name: event.name, requester_id: event.requester_id, payload: event.payload.to_json)
+      @connection[:events].insert(
+        name: event.name,
+        requester_id: event.requester_id,
+        payload: event.payload.to_json,
+        created_at: Time.now
+      )
       @subscribers.each { |es| es.add_event(event) }
     end
 
@@ -25,13 +30,14 @@ module SoT
       self
     end
 
-    def self.configure(path_to_db)
-      connection = Sequel.connect("sqlite://#{path_to_db}")
+    def self.configure(connection_uri)
+      connection = Sequel.connect(connection_uri)
       connection.create_table(:events) do
         primary_key :id
         String :name
         String :requester_id
         Text :payload
+        Time :created_at
       end
     end
   end
