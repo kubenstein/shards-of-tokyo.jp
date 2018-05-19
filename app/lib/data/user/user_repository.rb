@@ -6,11 +6,10 @@ module SoT
     ]
 
     def create_user(user:, requester_id:)
-      user_with_id = CloneWithId.new.call(user)
-      payload = Serialize.new.call(user_with_id)
+      payload = Serialize.new.call(user)
       event = Event.new(EVENTS::USER_CREATED, requester_id, payload)
       event_store.add_event(event)
-      user_with_id
+      user
     end
 
     def find_by(search_opts)

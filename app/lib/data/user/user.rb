@@ -3,7 +3,7 @@ module SoT
     attr_reader :email, :id
 
     def initialize(id: nil, email:)
-      @id = id
+      @id = id || GenerateId.new.call
       @email = email
     end
   end

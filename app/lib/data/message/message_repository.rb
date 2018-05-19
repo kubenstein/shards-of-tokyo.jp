@@ -5,11 +5,10 @@ module SoT
     ]
 
     def create_message(message:, requester_id:)
-      message_with_id = CloneWithId.new.call(message)
-      payload = Serialize.new.call(message_with_id)
+      payload = Serialize.new.call(message)
       event = Event.new(EVENTS::MESSAGE_CREATED, requester_id, payload)
       event_store.add_event(event)
-      message_with_id
+      message
     end
   end
 end
