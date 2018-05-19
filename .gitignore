@@ -1,6 +1,5 @@
 .bundle
 .DS_Store
-db/*.sqlite3
 log/*.log
 tmp/**/*
 .idea/**/*
@@ -14,4 +13,5 @@ results/**/*
 coverage
 coverage/**/*
 
+app/db/*.db*
 app/web/public/assets/

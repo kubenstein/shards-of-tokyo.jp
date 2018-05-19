@@ -6,7 +6,8 @@ form.registration-form method="post" action="/registration"
 
   .errors
     - errors.each do |err|
-      = err == :email_empty ? "email can't be empty.." : ''
+      = err == :email_taken ? "email already taken.." : ''
+      = err == :email_invalid ? "email format is invalid.." : ''
 
   label.label for="email"
     | Email
