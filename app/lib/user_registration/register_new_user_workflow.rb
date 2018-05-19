@@ -9,10 +9,12 @@ module SoT
       ]
 
       def register(params)
-        validation_results = registration_validator.validate(params)
+        email = params[:email]
+        info = params[:info]
+        validation_results = registration_validator.validate(email)
         if validation_results.valid?
-          user = create_user(params['email'])
-          create_initial_message(user, params['info']) if params['info']
+          user = create_user(email)
+          create_initial_message(user, info) if info
           send_email_to(user)
           send_email_to_me(user)
           Results.new(user.id, [])

@@ -4,9 +4,8 @@ module SoT
       include Import[
         :user_repository
       ]
-      
-      def validate(params)
-        email = params['email']
+
+      def validate(email)
         return Results.new([:email_invalid]) unless email.include?('@')
         return Results.new([:email_taken]) if email_taken?(email)
 
