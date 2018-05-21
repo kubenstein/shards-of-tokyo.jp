@@ -1,16 +1,7 @@
 module SoT
   class UserRepository
-    include Import[
-      :event_store,
-      :state,
-    ]
-
-    def create_user(user:, requester_id:)
-      payload = Serialize.new.call(user)
-      event = Event.new(EVENTS::USER_CREATED, requester_id, payload)
-      event_store.add_event(event)
-      user
-    end
+    include Import[:state]
+    include ResourceCreatable
 
     def find_by(search_opts)
       attrs = state.get_resources(:users, search_opts)[0]

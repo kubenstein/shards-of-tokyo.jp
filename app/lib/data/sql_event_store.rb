@@ -8,6 +8,10 @@ module SoT
       @subscribers = []
     end
 
+    def add_events(events)
+      events.each { |event| add_event(event) }
+    end
+
     def add_event(event)
       @connection[:events].insert(
         name: event.name,
