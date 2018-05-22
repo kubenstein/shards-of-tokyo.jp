@@ -38,6 +38,7 @@ module SoT
     def clear_state!
       @connection[:users].delete
       @connection[:messages].delete
+      @connection[:orders].delete
       self
     end
 
@@ -57,8 +58,13 @@ module SoT
       connection.create_table(:messages) do
         String :id, primary_key: true
         String :from_user_id
-        String :to_user_id
+        String :order_id
         Text :body
+      end
+
+      connection.create_table(:orders) do
+        String :id, primary_key: true
+        String :user_id
       end
 
       connection.create_table(:system) do
