@@ -11,7 +11,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
 
   if ENV['RACK_ENV'] == 'production'
     c.register(:event_store, -> { SoT::SqlEventStore.new(ENV['DATABASE_URL']) })
-    c.register(:state, -> { SoT::SqlState.new(ENV['DATABASE_URL']).clear_state!.tap { |state| c[:event_store].add_subscriber(state) } })
+    c.register(:state, -> { SoT::SqlState.new(ENV['DATABASE_URL']).tap { |state| c[:event_store].add_subscriber(state, fetch_events_from: state.last_event_id) } })
     c.register(:mailer, -> {
       SoT::Mailer.new(smtp_options: {
         domain: 'shards-of-tokyo.jp',
@@ -25,7 +25,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
     })
   else
     c.register(:event_store, -> { SoT::SqlEventStore.new('sqlite://./app/db/events.db') })
-    c.register(:state, -> { SoT::SqlState.new('sqlite://./app/db/state.db').clear_state!.tap { |state| c[:event_store].add_subscriber(state) } })
+    c.register(:state, -> { SoT::SqlState.new('sqlite://./app/db/state.db').tap { |state| c[:event_store].add_subscriber(state, fetch_events_from: state.last_event_id) } })
     c.register(:mailer, -> { SoT::Mailer.new })
   end
 end
