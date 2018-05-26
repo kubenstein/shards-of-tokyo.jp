@@ -8,5 +8,9 @@ module SoT
       @order_id = order_id
       @body = body
     end
+
+    def from_user?
+      @is_from_user
+    end
   end
 end

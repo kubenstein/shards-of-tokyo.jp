@@ -15,8 +15,10 @@ module SoT
       save_last_event_id(event)
     end
 
-    def get_resources(type, search_opts = {})
-      @connection[type].where(search_opts).all
+    def get_resources(type, search_opts = {}, order_by = [:id, :asc])
+      results = @connection[type].where(search_opts)
+      results = (order_by[1] == :asc) ? results.order(order_by[0]) : results.reverse(order_by[0])
+      results.all
     end
 
     def add_resource(type, data)

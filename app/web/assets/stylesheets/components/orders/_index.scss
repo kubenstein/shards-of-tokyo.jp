@@ -1,0 +1,68 @@
+.orders {
+  .order-list {
+    float: right;
+    padding: 10px 0 10px 10px;
+    border-left: 2px solid $mona_lisa;
+  }
+
+  .order-item {
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+
+    &.active {
+      font-style: italic;
+      text-decoration: underline;
+
+    }
+  }
+
+  .messages {
+    .message {
+      position: relative;
+      width: 70%;
+      padding: 20px;
+      margin-bottom: 30px;
+
+      .time {
+        position: absolute;
+        bottom: -15px;
+        right: 0;
+        font-size: 10px;
+      }
+
+      &::before {
+        content: " ";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        top: calc(50% - 5px);
+        transform: rotateZ(45deg);
+      }
+    }
+
+    .guest {
+      background-color: #ffeadf;
+
+      &::before {
+        left: -5px;
+        background-color: #ffeadf;
+      }
+    }
+
+    .me {
+      margin-left: 20px;
+      background-color: $wild_sand;
+
+      &::before {
+        right: -5px;
+        background-color: $wild_sand;
+      }
+    }
+  }
+
+  .prompt {
+    padding-top: 20px;
+    text-align: center;
+  }
+}
