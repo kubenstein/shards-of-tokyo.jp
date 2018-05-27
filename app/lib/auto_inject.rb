@@ -10,12 +10,12 @@ class AutoInject
     Module.new do
       define_method(:initialize) do |args={}|
         deps_arg = (args.respond_to?(:[]) && args[:deps]) || {}
-        @deps = default_deps.merge(deps_arg)
+        @_deps = default_deps.merge(deps_arg)
         super()
       end
 
       default_deps.each do |name, _|
-        define_method(name) { @deps[name].call }
+        define_method(name) { @_deps[name].call }
       end
     end
   end

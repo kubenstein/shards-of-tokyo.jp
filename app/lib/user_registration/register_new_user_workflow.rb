@@ -3,7 +3,7 @@ module SoT
     class NewUserWorkflow
       include Import[
         :user_repository,
-        :message_repository,
+        :order_repository,
         :registration_validator,
         :mailer
       ]
@@ -32,14 +32,15 @@ module SoT
       private
 
       def create_user(email)
-        user = User.new(email: email)
-        user_repository.create_user(user: user, requester_id: 'system@shards-of-tokyo.jp')
+        user_repository.create(
+          user_repository.new_user(email: email)
+        )
       end
 
       def create_initial_message(from_user, message)
-        me = user_repository.find_me
-        message = Message.new(from_user_id: from_user.id, to_user_id: me.id, body: message)
-        message_repository.create_message(message: message, requester_id: 'system@shards-of-tokyo.jp')
+        order = order_repository.new_order(user_id: from_user.id)
+        order.add_message(text: message)
+        order_repository.create(order)
       end
 
       def send_email_to(user)
