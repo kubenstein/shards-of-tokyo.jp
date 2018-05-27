@@ -1,7 +1,7 @@
 module SoT
   class OrderRepository
     include Import[:state]
-    include ResourceCreatable
+    include ResourceSavable
 
     def new_order(user_id:)
       order_attr = { id: GenerateId.new.call, user_id: user_id }

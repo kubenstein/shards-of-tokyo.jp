@@ -1,7 +1,7 @@
 module SoT
   class UserRepository
     include Import[:state]
-    include ResourceCreatable
+    include ResourceSavable
 
     def new_user(email:)
       user_attr = { id: GenerateId.new.call, email: email }
