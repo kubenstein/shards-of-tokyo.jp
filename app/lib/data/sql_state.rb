@@ -62,6 +62,7 @@ module SoT
         Bool :is_from_user
         String :order_id
         Text :body
+        Time :created_at
       end
 
       connection.create_table(:orders) do

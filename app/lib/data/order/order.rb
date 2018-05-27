@@ -16,6 +16,7 @@ module SoT
         order_id: id,
         is_from_user: !answer,
         body: text,
+        created_at: Time.now
       }
       Message.new(message_attrs).tap do |message|
         @_messages << message

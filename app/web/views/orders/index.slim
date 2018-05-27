@@ -18,4 +18,4 @@
       - selected_order.messages.each do |message|
         .message class=(message.from_user? ? 'guest' : 'me')
           = message.body
-          small.time UNIMPLEMENTED 12:32
+          small.time = message.created_at.strftime('%H:%M %d-%m-%Y')
