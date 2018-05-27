@@ -10,8 +10,14 @@ module SoT
       @_messages = messages
     end
 
-    def add_message(text:)
-      Message.new(id: GenerateId.new.call, order_id: id, is_from_user: true, body: text).tap do |message|
+    def add_message(text:, answer: false)
+      message_attrs = {
+        id: GenerateId.new.call,
+        order_id: id,
+        is_from_user: !answer,
+        body: text,
+      }
+      Message.new(message_attrs).tap do |message|
         @_messages << message
         add_event(Event.for(EVENTS::MESSAGE_CREATED, message))
       end
