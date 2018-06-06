@@ -6,8 +6,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:session_secret, -> { ENV['SESSION_SECRET'] || 'session_secret' })
   c.register(:user_repository, -> { SoT::UserRepository.new })
   c.register(:order_repository, -> { SoT::OrderRepository.new })
-  c.register(:registration_validator, -> { SoT::Registration::Validator.new })
-  c.register(:registration_workflow, -> { SoT::Registration::NewUserWorkflow.new })
+  c.register(:register_user_workflow, -> { SoT::RegisterUser::Workflow.new })
   c.register(:add_order_message_workflow, -> { SoT::AddOrderMessage::Workflow.new })
 
   if ENV['RACK_ENV'] == 'production'

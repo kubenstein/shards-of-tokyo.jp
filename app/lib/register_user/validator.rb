@@ -1,11 +1,11 @@
 module SoT
-  module Registration
+  module RegisterUser
     class Validator
       include Import[
         :user_repository
       ]
 
-      def validate(email)
+      def call(email)
         return Results.new([:email_invalid]) unless email.include?('@')
         return Results.new([:email_taken]) if email_taken?(email)
 

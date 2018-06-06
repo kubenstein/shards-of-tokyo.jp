@@ -12,7 +12,7 @@ class WebServer < Sinatra::Base
   include Import[
     :user_repository,
     :order_repository,
-    :registration_workflow,
+    :register_user_workflow,
     :add_order_message_workflow,
   ]
 
@@ -21,7 +21,7 @@ class WebServer < Sinatra::Base
   end
 
   post '/registration' do
-    registration_results = registration_workflow.register(params)
+    registration_results = register_user_workflow.call(params)
     if registration_results.success?
       session[:current_user_id] = registration_results.user_id
       redirect '/registration/success'
