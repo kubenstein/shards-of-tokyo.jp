@@ -38,8 +38,8 @@ module SoT
       end
 
       def create_initial_message(from_user, message)
-        order = order_repository.new_order(user_id: from_user.id)
-        order.add_message(text: message)
+        order = order_repository.new_order(user: from_user)
+        order.add_message(text: message, from_user: from_user)
         order_repository.create(order)
       end
 

@@ -59,8 +59,8 @@ module SoT
 
       connection.create_table(:messages) do
         String :id, primary_key: true
-        Bool :is_from_user
         String :order_id
+        String :user_id
         Text :body
         Time :created_at
       end
@@ -68,6 +68,7 @@ module SoT
       connection.create_table(:orders) do
         String :id, primary_key: true
         String :user_id
+        Time :created_at
       end
 
       connection.create_table(:system) do

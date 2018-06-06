@@ -10,7 +10,7 @@ user_repo.create(me)
 user_repo.create(jon)
 
 puts "create orders..."
-order = order_repo.new_order(user_id: jon.id)
-order.add_message(text: 'Winter is coming.. Can I have a kotatsu please?')
-order.add_message(text: 'Sure!', answer: true)
+order = order_repo.new_order(user: jon)
+order.add_message(text: 'Winter is coming.. Can I have a kotatsu please?', from_user: jon)
+order.add_message(text: 'Sure!', from_user: me)
 order_repo.create(order)
