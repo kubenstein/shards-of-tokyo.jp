@@ -12,7 +12,8 @@ class WebServer < Sinatra::Base
   include Import[
     :user_repository,
     :order_repository,
-    :registration_workflow
+    :registration_workflow,
+    :add_order_message_workflow,
   ]
 
   get '/' do
@@ -44,7 +45,17 @@ class WebServer < Sinatra::Base
     slim :'orders/index', locals: {
       user: current_user,
       orders: orders,
-      selected_order: selected_order
+      selected_order: selected_order,
+      message_form_error: (!!params[:message_form_error])
     }
+  end
+
+  post '/messages' do
+    result = add_order_message_workflow.call(params)
+    if result.success?
+      redirect "/orders/#{result.order_id}"
+    else
+      redirect "/orders/#{result.order_id}?message_form_error=true"
+    end
   end
 end

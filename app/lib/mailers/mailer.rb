@@ -23,6 +23,22 @@ module SoT
       )
     end
 
+    def send_email_about_new_message_to_user(message)
+      send(
+        to: message.user.email,
+        subject: '[Shards of Tokyo] new message!',
+        body: "message: #{message.body}"
+      )
+    end
+
+    def send_email_about_new_message_to_me(message)
+      send(
+        to: 'niewczas.jakub@gmail.com',
+        subject: '[Shards of Tokyo] new message!',
+        body: "from user: #{message.user.email}\n\norder id: #{message.order.id}n\nmessage: #{message.body}"
+      )
+    end
+
     private
 
     def send(to:, subject:, body:)

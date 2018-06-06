@@ -7,15 +7,18 @@
     - orders.each do |order|
         a.order-item> href="/orders/#{order.id}" class=(order.id == selected_order.id ? 'active' : '')
           | Order&nbsp;
-          = order.id
+          = order.created_at.strftime('%d-%m-%Y')
 
     a.btn> href="" Place new order
 
-  - if selected_order.nil?
-    p.text.prompt 「 You haven’t placed any order yet, feel free to add one from the right hand side menu 」
-  - else
-    .messages
+  .messages
+    - if selected_order.nil?
+      p.text.prompt 「 You haven’t placed any order yet, feel free to add one from the right hand side menu 」
+    - else
       - selected_order.messages.each do |message|
         .message class=(message.from_user? ? 'guest' : 'me')
           = message.body
           small.time = message.created_at.strftime('%H:%M %d-%m-%Y')
+
+    .message-form-wrapper
+      == slim :'orders/_message_form', locals: { order: selected_order, user: user, errors: message_form_error }

@@ -1,3 +1,5 @@
+@import './message_form';
+
 .orders {
   .order-list {
     float: right;
@@ -18,9 +20,10 @@
   }
 
   .messages {
+    width: 780px;
+
     .message {
       position: relative;
-      width: 70%;
       padding: 20px;
       margin-bottom: 30px;
 
@@ -52,6 +55,7 @@
 
     .me {
       margin-left: 20px;
+      margin-right: -20px;
       background-color: $wild_sand;
 
       &::before {
@@ -64,5 +68,9 @@
   .prompt {
     padding-top: 20px;
     text-align: center;
+  }
+
+  .message-form-wrapper {
+    padding-top: 20px;
   }
 }
