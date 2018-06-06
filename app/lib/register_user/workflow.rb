@@ -1,17 +1,16 @@
 module SoT
-  module Registration
-    class NewUserWorkflow
+  module RegisterUser
+    class Workflow
       include Import[
         :user_repository,
         :order_repository,
-        :registration_validator,
         :mailer
       ]
 
-      def register(params)
+      def call(params)
         email = params[:email]
         info = params[:info]
-        validation_results = registration_validator.validate(email)
+        validation_results = Validator.new.call(email)
         if validation_results.valid?
           user = create_user(email)
           create_initial_message(user, info) if info
