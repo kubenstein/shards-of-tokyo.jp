@@ -1,4 +1,4 @@
-.registration-form {
+.message-form {
   margin: 0 auto;
   width: 800px;
 
@@ -8,24 +8,6 @@
     text-align: center;
     color: $cinnabar;
     font-size: 14px;
-
-    &:after {
-      content: " ";
-      position: absolute;
-      top: 9px;
-      right: 0;
-      width: 42%;
-      border-top: 1px solid $cinnabar;
-    }
-
-    &:before {
-      content: " ";
-      position: absolute;
-      top: 9px;
-      left: 0;
-      width: 42%;
-      border-top: 1px solid $cinnabar;
-    }
   }
 
   .errors {
@@ -54,7 +36,7 @@
   }
 
   textarea {
-    height: 140px;
+    height: 100px;
     width: 100%;
     padding: 5px;
     border: 1px solid $mona_lisa;

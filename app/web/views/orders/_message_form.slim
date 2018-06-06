@@ -1,0 +1,15 @@
+- errors ||= nil
+- fields ||= {}
+
+form.message-form method="post" action="/messages"
+  .errors
+    - if errors
+      | message could not be sent
+
+  label.label for="text"
+  textarea#text name="text" placeholder="message..."
+    = fields['text']
+
+  input type="hidden" name="order_id" value=order.id
+  input type="hidden" name="user_id" value=user.id
+  button.btn.btn-submit Send!
