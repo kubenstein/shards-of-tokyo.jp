@@ -9,7 +9,7 @@
           | Order&nbsp;
           = order.created_at.strftime('%d-%m-%Y')
 
-    a.btn> href="" Place new order
+    a.btn> href="/orders/new" Place new order
 
   .messages
     - if selected_order.nil?

@@ -1,0 +1,15 @@
+- errors ||= []
+- fields ||= {}
+
+form.order-form method="post" action="/orders/"
+  .errors
+    - errors.each do |err|
+      = err == :empty_text ? "Text can't be empty.." : ''
+
+  label.label for="text"
+    | New Order
+    small.label-desc Write down what are you interested in:
+  textarea#text name="text" placeholder="order..."
+    = fields['text']
+
+  button.btn.btn-submit Submit!
