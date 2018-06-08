@@ -5,7 +5,7 @@
 
   .order-list
     - orders.each do |order|
-        a.order-item> href="/orders/#{order.id}" class=(order.id == selected_order.id ? 'active' : '')
+        a.order-item> href="/orders/#{order.id}" class=(order.id == selected_order.id ? 'active' : '') title=order.request_text
           | Order&nbsp;
           = order.created_at.strftime('%d-%m-%Y')
 
