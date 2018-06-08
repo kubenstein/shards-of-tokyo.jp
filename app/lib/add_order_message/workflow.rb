@@ -8,13 +8,13 @@ module SoT
       ]
 
       def call(params)
-        user_id = params[:user_id]
+        user = params[:user]
         order_id = params[:order_id]
         text = params[:text]
 
         validation_results = Validator.new.call(params)
         if validation_results.valid?
-          message = create_order_message(text: text, user_id: user_id, order_id: order_id)
+          message = create_order_message(text: text, user: user, order_id: order_id)
           if message.from_user?
             send_email_to_me(message)
           else
@@ -35,8 +35,7 @@ module SoT
 
       private
 
-      def create_order_message(text:, user_id:, order_id:)
-        user = user_repository.find(user_id)
+      def create_order_message(text:, user:, order_id:)
         order = order_repository.find(order_id)
         message = order.add_message(text: text, from_user: user)
         order_repository.save(order)
