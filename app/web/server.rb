@@ -69,6 +69,10 @@ class WebServer < Sinatra::Base
   end
 
   post '/messages' do
+    # waiting for login functionality...
+    # current_user = user_repository.find_by(id: session[:current_user_id])
+    current_user = user_repository.find_by(email: 'snow.jon@gmail.com')
+    params[:user] = current_user
     result = add_order_message_workflow.call(params)
     if result.success?
       redirect "/orders/#{result.order_id}"
