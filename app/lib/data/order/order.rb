@@ -33,5 +33,9 @@ module SoT
     def user
       @_user
     end
+
+    def request_text
+      messages[0].body
+    end
   end
 end

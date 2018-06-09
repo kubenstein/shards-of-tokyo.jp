@@ -14,6 +14,7 @@ class WebServer < Sinatra::Base
     :order_repository,
     :register_user_workflow,
     :add_order_message_workflow,
+    :submit_new_order_workflow,
   ]
 
   get '/' do
@@ -33,6 +34,23 @@ class WebServer < Sinatra::Base
   get '/registration/success' do
     registered_user = user_repository.find_by(id: session[:current_user_id])
     slim :'registration/success', locals: { user: registered_user }
+  end
+
+  post '/orders/?' do
+    # waiting for login functionality...
+    # current_user = user_repository.find_by(id: session[:current_user_id])
+    current_user = user_repository.find_by(email: 'snow.jon@gmail.com')
+    params[:user] = current_user
+    results = submit_new_order_workflow.call(params)
+    if results.success?
+      redirect "/orders/#{results.order_id}"
+    else
+      slim :'orders/_new_form', locals: { errors: results.errors, fields: params }
+    end
+  end
+
+  get '/orders/new' do
+    slim :'orders/_new_form'
   end
 
   get '/orders/?:order_id?' do
