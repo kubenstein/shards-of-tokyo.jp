@@ -21,7 +21,7 @@ module SoT
     end
 
     def find_logged_in(session_id:)
-      confirmend_token_attrs = state.get_resources(:login_tokens, session_id: session_id, used: true, invalidated: false)[0]
+      confirmend_token_attrs = state.get_resources(:login_tokens, session_id: session_id, confirmed: true, invalidated: false)[0]
       return nil unless confirmend_token_attrs
       find(confirmend_token_attrs[:user_id])
     end

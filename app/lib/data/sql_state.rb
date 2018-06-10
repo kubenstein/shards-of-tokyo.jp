@@ -77,7 +77,7 @@ module SoT
         String :user_id
         String :session_id
         Bool :invalidated
-        Bool :used
+        Bool :confirmed
         Time :created_at
       end
 

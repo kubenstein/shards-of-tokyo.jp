@@ -2,13 +2,13 @@ module SoT
   class LoginToken
     include Eventable
 
-    attr_reader :id, :session_id, :user_id, :invalidated, :used, :created_at
+    attr_reader :id, :session_id, :user_id, :invalidated, :confirmed, :created_at
 
-    def initialize(id:, session_id:, user_id:, invalidated:, used:, created_at:)
+    def initialize(id:, session_id:, user_id:, invalidated:, confirmed:, created_at:)
       @id = id
       @session_id = session_id
       @user_id = user_id
-      @used = used
+      @confirmed = confirmed
       @invalidated = invalidated
       @created_at = created_at
     end

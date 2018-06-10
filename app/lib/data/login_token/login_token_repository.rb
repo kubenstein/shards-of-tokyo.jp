@@ -9,7 +9,7 @@ module SoT
         session_id: session_id,
         user_id: user_id,
         invalidated: false,
-        used: false,
+        confirmed: false,
         created_at: Time.now,
       }
       LoginToken.new(lt_attr).tap { |lt|
