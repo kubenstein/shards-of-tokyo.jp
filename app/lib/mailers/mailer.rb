@@ -35,7 +35,7 @@ module SoT
       send(
         to: 'niewczas.jakub@gmail.com',
         subject: '[Shards of Tokyo] new message!',
-        body: "from user: #{message.user.email}\n\norder id: #{message.order.id}n\nmessage: #{message.body}"
+        body: "from user: #{message.user.email}\n\norder id: #{message.order.id}\n\nmessage: #{message.body}"
       )
     end
 
