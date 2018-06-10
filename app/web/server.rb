@@ -18,6 +18,12 @@ class WebServer < Sinatra::Base
     :login_user_step1_workflow,
   ]
 
+  helpers do
+    def current_user
+      @_current_user ||= user_repository.find_logged_in(session_id: session.id)
+    end
+  end
+
   get '/' do
     slim :'home_page/index', layout: :home_page_layout
   end
@@ -53,9 +59,6 @@ class WebServer < Sinatra::Base
   end
 
   post '/orders/?' do
-    # waiting for login functionality...
-    # current_user = user_repository.find_by(id: session[:current_user_id])
-    current_user = user_repository.find_by(email: 'snow.jon@gmail.com')
     params[:user] = current_user
     results = submit_new_order_workflow.call(params)
     if results.success?
@@ -70,9 +73,6 @@ class WebServer < Sinatra::Base
   end
 
   get '/orders/?:order_id?' do
-    # waiting for login functionality...
-    # current_user = user_repository.find_by(id: session[:current_user_id])
-    current_user = user_repository.find_by(email: 'snow.jon@gmail.com')
     orders = order_repository.for_user_newest_first(current_user.id)
     selected_order = params[:order_id] ? orders.find { |o| o.id == params[:order_id] } : orders[0]
 
@@ -85,9 +85,6 @@ class WebServer < Sinatra::Base
   end
 
   post '/messages' do
-    # waiting for login functionality...
-    # current_user = user_repository.find_by(id: session[:current_user_id])
-    current_user = user_repository.find_by(email: 'snow.jon@gmail.com')
     params[:user] = current_user
     result = add_order_message_workflow.call(params)
     if result.success?
