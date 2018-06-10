@@ -21,6 +21,11 @@ class WebServer < Sinatra::Base
     slim :'home_page/index', layout: :home_page_layout
   end
 
+  get '/login/?' do
+
+    slim :'login/email_form'
+  end
+
   post '/registration' do
     registration_results = register_user_workflow.call(params)
     if registration_results.success?

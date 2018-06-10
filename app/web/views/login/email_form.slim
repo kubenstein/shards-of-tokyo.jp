@@ -1,0 +1,11 @@
+- fields ||= {}
+
+form.registration-form method="post" action="/login"
+  span.form-title Login
+
+  label.label for="email"
+    | Email
+    small.label-desc Our system is passwordless, each time you want to login a login link will be sent to provided email.
+  input#email type="email" name="email" placeholder="email" value=fields['email']
+
+  button.btn.btn-submit Login
