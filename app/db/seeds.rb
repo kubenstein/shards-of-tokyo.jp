@@ -14,3 +14,6 @@ order = order_repo.new_order(user: jon)
 order.add_message(text: 'Winter is coming.. Can I have a kotatsu please?', from_user: jon)
 order.add_message(text: 'Sure!', from_user: me)
 order_repo.create(order)
+
+puts "populating read db"
+APP_DEPENDENCIES[:state]
