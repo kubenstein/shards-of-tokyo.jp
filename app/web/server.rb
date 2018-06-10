@@ -29,11 +29,14 @@ class WebServer < Sinatra::Base
   end
 
   get '/login/?' do
+    return redirect '/orders/' if current_user
 
     slim :'login/email_form'
   end
 
   post '/login/?' do
+    return redirect '/orders/' if current_user
+
     params[:session_id] = session.id
     login_step1 = login_user_step1_workflow.call(params)
     if login_step1.success?
@@ -44,6 +47,8 @@ class WebServer < Sinatra::Base
   end
 
   post '/registration' do
+    return redirect '/orders/' if current_user
+
     registration_results = register_user_workflow.call(params)
     if registration_results.success?
       session[:current_user_id] = registration_results.user_id
@@ -59,6 +64,8 @@ class WebServer < Sinatra::Base
   end
 
   post '/orders/?' do
+    return redirect '/login/' unless current_user
+
     params[:user] = current_user
     results = submit_new_order_workflow.call(params)
     if results.success?
@@ -69,10 +76,14 @@ class WebServer < Sinatra::Base
   end
 
   get '/orders/new' do
+    return redirect '/login/' unless current_user
+
     slim :'orders/_new_form'
   end
 
   get '/orders/?:order_id?' do
+    return redirect '/login/' unless current_user
+
     orders = order_repository.for_user_newest_first(current_user.id)
     selected_order = params[:order_id] ? orders.find { |o| o.id == params[:order_id] } : orders[0]
 
@@ -85,6 +96,8 @@ class WebServer < Sinatra::Base
   end
 
   post '/messages' do
+    return redirect '/login/' unless current_user
+
     params[:user] = current_user
     result = add_order_message_workflow.call(params)
     if result.success?
