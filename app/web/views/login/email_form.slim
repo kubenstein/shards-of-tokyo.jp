@@ -1,7 +1,14 @@
+- errors ||= []
 - fields ||= {}
 
 form.registration-form method="post" action="/login"
   span.form-title Login
+
+  .errors
+    - errors.each do |err|
+      = err == :empty_session_id ? "something went wrong, please try again.." : ''
+      = err == :email_not_found ? "email could not be found.." : ''
+      = err == :empty_email ? "email can't be empty.." : ''
 
   label.label for="email"
     | Email

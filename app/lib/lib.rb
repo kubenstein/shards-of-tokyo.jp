@@ -10,6 +10,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:register_user_workflow, memoize: true) { SoT::RegisterUser::Workflow.new }
   c.register(:add_order_message_workflow, memoize: true) { SoT::AddOrderMessage::Workflow.new }
   c.register(:submit_new_order_workflow, memoize: true) { SoT::SubmitNewOrder::Workflow.new }
+  c.register(:login_user_step1_workflow, memoize: true) { SoT::LoginUserStep1::Workflow.new }
 
   if ENV['RACK_ENV'] == 'production'
     c.register(:event_store, memoize: true) { SoT::SqlEventStore.new(ENV['DATABASE_URL']) }

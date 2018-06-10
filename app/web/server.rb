@@ -15,6 +15,7 @@ class WebServer < Sinatra::Base
     :register_user_workflow,
     :add_order_message_workflow,
     :submit_new_order_workflow,
+    :login_user_step1_workflow,
   ]
 
   get '/' do
@@ -24,6 +25,16 @@ class WebServer < Sinatra::Base
   get '/login/?' do
 
     slim :'login/email_form'
+  end
+
+  post '/login/?' do
+    params[:session_id] = session.id
+    login_step1 = login_user_step1_workflow.call(params)
+    if login_step1.success?
+      redirect "/login/token_check_waiting?token_id=#{login_step1.token.id}"
+    else
+      slim :'login/email_form', locals: { errors: login_step1.errors, fields: params }
+    end
   end
 
   post '/registration' do
