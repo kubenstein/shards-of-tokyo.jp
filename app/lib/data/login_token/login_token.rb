@@ -12,5 +12,10 @@ module SoT
       @invalidated = invalidated
       @created_at = created_at
     end
+
+    def invalidate!
+      @invalidated = true
+      add_event(Event.for(EVENTS::LOGIN_TOKEN_INVALIDATED, self))
+    end
   end
 end

@@ -16,6 +16,7 @@ class WebServer < Sinatra::Base
     :add_order_message_workflow,
     :submit_new_order_workflow,
     :login_user_step1_workflow,
+    :logout_user_workflow,
   ]
 
   helpers do
@@ -44,6 +45,12 @@ class WebServer < Sinatra::Base
     else
       slim :'login/email_form', locals: { errors: login_step1.errors, fields: params }
     end
+  end
+
+  get '/logout/?' do
+    params[:session_id] = session.id
+    logout_user_workflow.call(params)
+    redirect '/'
   end
 
   post '/registration' do
