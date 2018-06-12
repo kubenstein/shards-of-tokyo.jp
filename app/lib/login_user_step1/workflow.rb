@@ -31,7 +31,7 @@ module SoT
       private
 
       def ganerate_login_token(user, session_id)
-        login_token = login_token_repository.new_login_token(user.id, session_id)
+        login_token = login_token_repository.new_login_token(user, session_id)
         login_token_repository.create(login_token)
       end
 

@@ -3,11 +3,11 @@ module SoT
     include Import[:state]
     include ResourceSavable
 
-    def new_login_token(user_id, session_id)
+    def new_login_token(user, session_id)
       lt_attr = {
         id: GenerateId.new.call(length: 20),
         session_id: session_id,
-        user_id: user_id,
+        user: user,
         invalidated: false,
         confirmed: false,
         created_at: Time.now,
@@ -24,6 +24,9 @@ module SoT
     def find_by(search_opts)
       attrs = state.get_resources(:login_tokens, search_opts)[0]
       return nil unless attrs
+
+      user_attrs = state.get_resources(:users, id: attrs[:user_id])[0]
+      attrs[:user] = User.new(user_attrs)
       LoginToken.new(attrs)
     end
 
