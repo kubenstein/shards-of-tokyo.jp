@@ -20,5 +20,5 @@
           = message.body
           small.time = message.created_at.strftime('%H:%M %d-%m-%Y')
 
-    .message-form-wrapper
-      == slim :'orders/_message_form', locals: { order: selected_order, errors: message_form_error }
+      .message-form-wrapper
+        == slim :'orders/_message_form', locals: { order: selected_order, errors: message_form_error }
