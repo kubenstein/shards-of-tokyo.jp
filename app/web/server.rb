@@ -16,6 +16,7 @@ class WebServer < Sinatra::Base
     :add_order_message_workflow,
     :submit_new_order_workflow,
     :login_user_step1_workflow,
+    :login_user_step2_workflow,
     :logout_user_workflow,
   ]
 
@@ -44,6 +45,15 @@ class WebServer < Sinatra::Base
       redirect "/login/token_check_waiting?token_id=#{login_step1.token.id}"
     else
       slim :'login/email_form', locals: { errors: login_step1.errors, fields: params }
+    end
+  end
+
+  get '/login/accept_link_from_email/?' do
+    login_confirmation = login_user_step2_workflow.call(params)
+    if login_confirmation.success?
+      slim :'login/accept_link_from_email'
+    else
+      slim :'login/accept_link_from_email', locals: { errors: login_confirmation.errors }
     end
   end
 

@@ -16,5 +16,19 @@ module SoT
         lt.add_event(Event.for(EVENTS::LOGIN_TOKEN_CREATED, lt))
       }
     end
+
+    def find(id)
+      find_by(id: id)
+    end
+
+    def find_by(search_opts)
+      attrs = state.get_resources(:login_tokens, search_opts)[0]
+      return nil unless attrs
+      LoginToken.new(attrs)
+    end
+
+    def find_valid(id)
+      find_by(id: id, confirmed: false, invalidated: false)
+    end
   end
 end

@@ -1,0 +1,12 @@
+- errors ||= []
+
+.content
+  - if errors.empty?
+    p.text
+      strong.title Thank you for login in!
+      | Requested device will be automatically logged in.
+
+  - else
+    .errors
+      - errors.each do |err|
+        = err == :token_not_found ? "login token could not be found.." : ''

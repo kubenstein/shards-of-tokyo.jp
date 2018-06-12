@@ -11,6 +11,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:add_order_message_workflow, memoize: true) { SoT::AddOrderMessage::Workflow.new }
   c.register(:submit_new_order_workflow, memoize: true) { SoT::SubmitNewOrder::Workflow.new }
   c.register(:login_user_step1_workflow, memoize: true) { SoT::LoginUserStep1::Workflow.new }
+  c.register(:login_user_step2_workflow, memoize: true) { SoT::LoginUserStep2::Workflow.new }
   c.register(:logout_user_workflow, memoize: true) { SoT::LogoutUser::Workflow.new }
 
   if ENV['RACK_ENV'] == 'production'
