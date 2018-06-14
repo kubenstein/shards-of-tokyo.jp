@@ -47,6 +47,14 @@ module SoT
       )
     end
 
+    def send_email_with_login_token_to_user(token, user)
+      send(
+        to: user.email,
+        subject: '[Shards of Tokyo] login link',
+        body: "Hello!\n\nBy clicking link below you will be automatically log in on device you asked for login\n\n http://shards-of-tokyo.jp/login/accept_link_from_email?token_id=#{token.id} \n\nCheers,\n\nSoT"
+      )
+    end
+
     private
 
     def send(to:, subject:, body:)

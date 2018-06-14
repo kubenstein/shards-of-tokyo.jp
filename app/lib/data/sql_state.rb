@@ -41,6 +41,7 @@ module SoT
       @connection[:users].delete
       @connection[:messages].delete
       @connection[:orders].delete
+      @connection[:login_tokens].delete
       self
     end
 
@@ -68,6 +69,15 @@ module SoT
       connection.create_table(:orders) do
         String :id, primary_key: true
         String :user_id
+        Time :created_at
+      end
+
+      connection.create_table(:login_tokens) do
+        String :id, primary_key: true
+        String :user_id
+        String :session_id
+        Bool :invalidated
+        Bool :confirmed
         Time :created_at
       end
 

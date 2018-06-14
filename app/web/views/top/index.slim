@@ -1,3 +1,6 @@
 .top
   .menu
-    a href='#' My account
+    - if current_user
+      a href='/logout/' Logout
+    - else
+      a href='/login/' My account
