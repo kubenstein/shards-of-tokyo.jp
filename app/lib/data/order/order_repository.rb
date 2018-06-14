@@ -6,7 +6,7 @@ module SoT
     def new_order(user:)
       order_attr = { id: GenerateId.new.call, user: user, created_at: Time.now }
       Order.new(order_attr).tap { |order|
-        order.add_event(Event.for(EVENTS::ORDER_CREATED, order))
+        order.add_event(Event.for(Event::ORDER_CREATED, order))
       }
     end
 

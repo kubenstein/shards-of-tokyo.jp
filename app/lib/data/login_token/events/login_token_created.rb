@@ -1,4 +1,6 @@
 module SoT
+  Event::LOGIN_TOKEN_CREATED = 'login_token_created'
+
   class LoginTokenCreatedEventHandler
     def call(event, state)
       login_token = event.payload

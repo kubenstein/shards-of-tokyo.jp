@@ -1,4 +1,6 @@
 module SoT
+  Event::USER_CREATED = 'user_created'
+  
   class UserCreatedEventHandler
     def call(event, state)
       user = event.payload
