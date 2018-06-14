@@ -1,4 +1,6 @@
 module SoT
+  Event::LOGIN_TOKEN_INVALIDATED = 'login_token_invalidated'
+  
   class LoginTokenInvalidatedEventHandler
     def call(event, state)
       login_token = event.payload

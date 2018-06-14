@@ -6,7 +6,7 @@ module SoT
     def new_user(email:)
       user_attr = { id: GenerateId.new.call, email: email }
       User.new(user_attr).tap { |user|
-        user.add_event(Event.for(EVENTS::USER_CREATED, user))
+        user.add_event(Event.for(Event::USER_CREATED, user))
       }
     end
 

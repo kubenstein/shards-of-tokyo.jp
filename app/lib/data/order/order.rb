@@ -22,7 +22,7 @@ module SoT
       }
       Message.new(message_attrs).tap do |message|
         @_messages << message
-        add_event(Event.for(EVENTS::MESSAGE_CREATED, message))
+        add_event(Event.for(Event::MESSAGE_CREATED, message))
       end
     end
 
