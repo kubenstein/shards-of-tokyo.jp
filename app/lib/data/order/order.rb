@@ -2,11 +2,13 @@ module SoT
   class Order
     include Eventable
 
-    attr_reader :id, :user, :created_at, :messages
+    attr_reader :id, :user, :price, :paid_at, :created_at, :messages
 
-    def initialize(id:, user:, created_at:, messages: [], **_)
+    def initialize(id:, user:, price:, paid_at:, created_at:, messages: [], **_)
       @id = id
       @user_id = user.id
+      @price = price
+      @paid_at = paid_at
       @created_at = created_at
       @_user = user
       @_messages = messages
@@ -32,6 +34,10 @@ module SoT
 
     def user
       @_user
+    end
+
+    def price_set?
+      !price.nil?
     end
 
     def request_text
