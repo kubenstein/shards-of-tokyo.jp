@@ -40,6 +40,11 @@ module SoT
       !price.nil?
     end
 
+    def set_price(price)
+      @price = price
+      add_event(Event.for(Event::ORDER_PRICE_CHANGED, self))
+    end
+
     def request_text
       messages[0].body
     end
