@@ -20,6 +20,18 @@
     }
   }
 
+  .order-price {
+    background: $mona_lisa;
+    margin-bottom: 40px;
+    text-align: center;
+    width: 190px;
+    padding: 10px;
+
+    .btn-pay {
+      margin-top: 10px;
+    }
+  }
+
   .messages {
     width: 780px;
 

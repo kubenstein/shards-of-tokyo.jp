@@ -3,6 +3,14 @@
     strong.title = user.email
     | About about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about
 
+  - if selected_order.price_set?
+    .order-price
+      | amount to pay:
+      br
+      = selected_order.price.to_i
+      | &nbsp;JPY
+      a.btn.btn-pay href="" pay
+
   .order-list
     - orders.each do |order|
         a.order-item> href="/orders/#{order.id}" class=(order.id == selected_order.id ? 'active' : '') title=order.request_text
