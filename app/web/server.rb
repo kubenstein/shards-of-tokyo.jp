@@ -116,7 +116,7 @@ class WebServer < Sinatra::Base
     orders = order_repository.for_user_newest_first(current_user.id)
     selected_order = params[:order_id] ? orders.find { |o| o.id == params[:order_id] } : orders[0]
 
-    slim :'orders/index', locals: {
+    slim :'orders/show', locals: {
       user: current_user,
       orders: orders,
       selected_order: selected_order,
