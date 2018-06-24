@@ -22,7 +22,7 @@ module SoT
 
       def order_belongs_to_user?(order_id, user)
         return false if order_id.to_s.empty? || user.to_s.empty?
-        order_repository.find(order_id).user.id == user.id
+        order_repository.exists?(id: order_id, user_id: user.id)
       end
     end
   end

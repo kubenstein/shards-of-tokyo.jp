@@ -25,7 +25,7 @@ module SoT
       private
 
       def user_exists?(email)
-        !!user_repository.find_by(email: email)
+        user_repository.exists?(email: email)
       end
     end
   end

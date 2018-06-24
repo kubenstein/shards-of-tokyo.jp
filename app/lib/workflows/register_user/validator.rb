@@ -21,7 +21,7 @@ module SoT
       private
 
       def email_taken?(email)
-        !!user_repository.find_by(email: email)
+        user_repository.exists?(email: email)
       end
     end
   end
