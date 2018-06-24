@@ -10,6 +10,10 @@ module SoT
       }
     end
 
+    def exists?(search_opts)
+      !!state.get_resources(:users, search_opts)[0]
+    end
+
     def find(id)
       find_by(id: id)
     end

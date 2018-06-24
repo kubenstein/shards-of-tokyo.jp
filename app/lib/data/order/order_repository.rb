@@ -10,6 +10,10 @@ module SoT
       }
     end
 
+    def exists?(search_opts)
+      !!state.get_resources(:orders, search_opts)[0]
+    end
+
     def find(id)
       order_attr = state.get_resources(:orders, id: id)[0]
       messages_attr = state.get_resources(:messages, { order_id: id }, [:created_at, :asc])
