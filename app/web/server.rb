@@ -20,6 +20,7 @@ class WebServer < Sinatra::Base
     :login_user_step2_workflow,
     :login_user_step3_workflow,
     :logout_user_workflow,
+    :pay_for_order_workflow,
   ]
 
   helpers do
@@ -111,7 +112,20 @@ class WebServer < Sinatra::Base
     slim :'orders/_new_form'
   end
 
-  get '/orders/?:order_id?' do
+  post '/orders/:order_id/pay' do
+    return redirect '/login/' unless current_user
+
+    params[:user] = current_user
+    params[:stripe_token] = params[:stripeToken]
+    results = pay_for_order_workflow.call(params)
+    if results.success?
+      redirect "/orders/#{results.order_id}/pay/success"
+    else
+      slim :'orders/payment_failed', locals: { order_id: params[:order_id], errors: results.errors }
+    end
+  end
+
+  get '/orders/?:order_id/?' do
     return redirect '/login/' unless current_user
 
     orders = order_repository.for_user_newest_first(current_user.id)
