@@ -57,6 +57,7 @@ module SoT
       connection.create_table(:users) do
         String :id, primary_key: true
         String :email
+        String :stripe_customer_id
       end
 
       connection.create_table(:messages) do

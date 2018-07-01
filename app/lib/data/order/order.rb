@@ -44,6 +44,10 @@ module SoT
       add_event(Event.for(Event::ORDER_PRICE_CHANGED, self))
     end
 
+    def amount_left_to_be_paid
+      (price || 0) - payments.select(&:successful?).reduce(0) { |total, payment| total + payment.amount }
+    end
+
     def add_successful_payment(payment_id:, amount:, currency:)
       payment_attrs = {
         id: GenerateId.new.call,

@@ -3,6 +3,10 @@ require 'require_all'
 require './app/lib/auto_inject'
 
 APP_DEPENDENCIES = Dry::Container.new.tap do |c|
+  c.register(:stripe_api_keys, memoize: true) {{
+    secret_key: ENV['STRIPE_API_SECRET_KEY'] || 'sk_test_z2aoTikjCm0urBhNoMEzhtZr',
+    public_key: ENV['STRIPE_API_PUBLIC_KEY'] || 'pk_test_RbiERyephGoRFvc2q1nPrlKe',
+  }}
   c.register(:session_secret, memoize: true) { ENV['SESSION_SECRET'] || 'session_secret' }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
   c.register(:order_repository, memoize: true) { SoT::OrderRepository.new }
