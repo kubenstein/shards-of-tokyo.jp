@@ -38,6 +38,10 @@ module SoT
       !price.nil?
     end
 
+    def paid?
+      price_set? && amount_left_to_be_paid == 0
+    end
+
     def set_price(price, currency)
       @price = price
       @currency = currency

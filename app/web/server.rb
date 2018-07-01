@@ -10,6 +10,7 @@ class WebServer < Sinatra::Base
   set :session_secret, APP_DEPENDENCIES[:session_secret]
 
   include Import[
+    :stripe_api_keys,
     :user_repository,
     :order_repository,
     :register_user_workflow,
@@ -120,7 +121,8 @@ class WebServer < Sinatra::Base
       user: current_user,
       orders: orders,
       selected_order: selected_order,
-      message_form_error: (!!params[:message_form_error])
+      message_form_error: (!!params[:message_form_error]),
+      stripe_public_token: stripe_api_keys[:public_key]
     }
   end
 
