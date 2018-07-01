@@ -1,0 +1,10 @@
+.content.payment-failed
+  p.text
+    strong.title Unfortunately there were errors during processing your payment.
+    | If you think this is system error please send a message for this order so I can double check.
+    br
+    | error message:
+    span.error-message = "「 #{errors.join(';')} 」"
+    br
+    br
+    a<> href="/orders/#{order_id}" Go back to the order
