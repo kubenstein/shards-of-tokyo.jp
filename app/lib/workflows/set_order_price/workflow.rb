@@ -8,10 +8,11 @@ module SoT
       def call(params)
         price = params[:price]
         order_id = params[:order_id]
+        currency = params[:currency] || 'JPY'
 
         validation_results = Validator.new.call(params)
         if validation_results.valid?
-          order = set_order_price(order_id, price)
+          order = set_order_price(order_id, price, currency)
 
           Results.new(order, [])
         else
@@ -27,9 +28,9 @@ module SoT
 
       private
 
-      def set_order_price(order_id, price)
+      def set_order_price(order_id, price, currency)
         order = order_repository.find(order_id)
-        order.set_price(price)
+        order.set_price(price, currency)
         order_repository.save(order)
       end
     end

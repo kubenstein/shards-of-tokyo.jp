@@ -69,7 +69,8 @@ module SoT
       connection.create_table(:orders) do
         String :id, primary_key: true
         String :user_id
-        BigDecimal :price
+        Bignum :price
+        String :currency
         Time :paid_at
         Time :created_at
       end

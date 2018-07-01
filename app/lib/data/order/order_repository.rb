@@ -4,7 +4,7 @@ module SoT
     include ResourceSavable
 
     def new_order(user:)
-      order_attr = { id: GenerateId.new.call, user: user, created_at: Time.now, price: nil, paid_at: nil }
+      order_attr = { id: GenerateId.new.call, user: user, created_at: Time.now, price: nil, currency: nil, paid_at: nil }
       Order.new(order_attr).tap { |order|
         order.add_event(Event.for(Event::ORDER_CREATED, order))
       }

@@ -2,12 +2,13 @@ module SoT
   class Order
     include Eventable
 
-    attr_reader :id, :user, :price, :paid_at, :created_at, :messages
+    attr_reader :id, :user, :price, :currency, :paid_at, :created_at, :messages, :payments
 
-    def initialize(id:, user:, price:, paid_at:, created_at:, messages: [], **_)
+    def initialize(id:, user:, price:, currency:, paid_at:, created_at:, messages: [], payments: [], **_)
       @id = id
       @user_id = user.id
       @price = price
+      @currency = currency
       @paid_at = paid_at
       @created_at = created_at
       @_user = user
@@ -40,8 +41,9 @@ module SoT
       !price.nil?
     end
 
-    def set_price(price)
+    def set_price(price, currency)
       @price = price
+      @currency = currency
       add_event(Event.for(Event::ORDER_PRICE_CHANGED, self))
     end
 
