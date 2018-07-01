@@ -42,6 +42,7 @@ module SoT
       @connection[:messages].delete
       @connection[:orders].delete
       @connection[:login_tokens].delete
+      @connection[:payments].delete
       self
     end
 
@@ -81,6 +82,16 @@ module SoT
         String :session_id
         Bool :invalidated
         Bool :confirmed
+        Time :created_at
+      end
+
+      connection.create_table(:payments) do
+        String :id, primary_key: true
+        String :order_id
+        String :payment_id
+        Bignum :amount
+        String :currency
+        String :error
         Time :created_at
       end
 

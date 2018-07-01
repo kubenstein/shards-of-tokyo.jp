@@ -13,7 +13,12 @@ module SoT
       @created_at = created_at
       @_user = user
       @_messages = messages
+      @_payments = payments
     end
+
+    def messages; @_messages end
+    def user; @_user end
+    def payments; @_payments end
 
     def add_message(text:, from_user:)
       message_attrs = {
@@ -29,14 +34,6 @@ module SoT
       end
     end
 
-    def messages
-      @_messages
-    end
-
-    def user
-      @_user
-    end
-
     def price_set?
       !price.nil?
     end
@@ -45,6 +42,37 @@ module SoT
       @price = price
       @currency = currency
       add_event(Event.for(Event::ORDER_PRICE_CHANGED, self))
+    end
+
+    def add_successful_payment(payment_id:, amount:, currency:)
+      payment_attrs = {
+        id: GenerateId.new.call,
+        order: self,
+        payment_id: payment_id,
+        amount: amount,
+        currency: currency,
+        created_at: Time.now,
+      }
+      Payment.new(payment_attrs).tap do |payment|
+        @_payments << payment
+        add_event(Event.for(Event::PAYMENT_CREATED, payment))
+      end
+    end
+
+    def add_failed_payment(payment_id:, amount:, currency:, error_message:)
+      payment_attrs = {
+        id: GenerateId.new.call,
+        order: self,
+        payment_id: payment_id,
+        amount: amount,
+        currency: currency,
+        error: error_message,
+        created_at: Time.now,
+      }
+      Payment.new(payment_attrs).tap do |payment|
+        @_payments << payment
+        add_event(Event.for(Event::PAYMENT_CREATED, payment))
+      end
     end
 
     def request_text
