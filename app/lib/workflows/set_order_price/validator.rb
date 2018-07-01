@@ -24,7 +24,7 @@ module SoT
       private
 
       def order_exists?(order_id)
-        !!order_repository.find(order_id)
+        order_repository.exists?(id: order_id)
       end
     end
   end
