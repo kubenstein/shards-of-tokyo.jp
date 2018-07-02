@@ -73,7 +73,6 @@ module SoT
         String :user_id
         Bignum :price
         String :currency
-        Time :paid_at
         Time :created_at
       end
 
