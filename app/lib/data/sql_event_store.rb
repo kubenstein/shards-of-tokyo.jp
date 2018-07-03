@@ -3,8 +3,10 @@ require 'json'
 
 module SoT
   class SqlEventStore
+    prepend Import[:logger]
+
     def initialize(connection_uri)
-      @connection = Sequel.connect(connection_uri)
+      @connection = Sequel.connect(connection_uri, logger: logger)
       @subscribers = []
     end
 
