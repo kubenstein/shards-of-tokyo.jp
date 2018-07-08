@@ -1,10 +1,15 @@
 module SoT
-  Event::LOGIN_TOKEN_INVALIDATED = 'login_token_invalidated'
-  
-  class LoginTokenInvalidatedEventHandler
-    def call(event, state)
-      login_token = event.payload
-      state.update_resource(:login_tokens, login_token[:id], invalidated: true)
+  module LoginTokenInvalidatedEvent
+    NAME = 'login_token_invalidated'
+
+    def self.build(login_token)
+      payload = { id: login_token.id }
+      Event.new(name: NAME, payload: payload)
+    end
+
+    def self.handle(event, state)
+      login_token_id = event.payload.id
+      state.update_resource(:login_tokens, login_token_id, invalidated: true)
     end
   end
 end

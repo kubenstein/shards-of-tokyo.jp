@@ -1,10 +1,18 @@
 module SoT
-  Event::ORDER_PRICE_CHANGED = 'order_price_changed'
+  module OrderPriceChangedEvent
+    NAME = 'order_price_changed'
 
-  class OrderPriceChangedEventHandler
-    def call(event, state)
-      order = event.payload
-      state.update_resource(:orders, order[:id], { price: order[:price], currency: order[:currency] } )
+    def self.build(order)
+      payload = { id: order.id, price: order.price, currency: order.currency }
+      Event.new(name: NAME, payload: payload)
+    end
+
+    def self.handle(event, state)
+      order_attrs = event.payload
+      state.update_resource(:orders,
+        order_attrs[:id],
+        { price: order_attrs[:price], currency: order_attrs[:currency] }
+      )
     end
   end
 end
