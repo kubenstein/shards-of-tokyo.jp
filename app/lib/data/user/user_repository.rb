@@ -4,7 +4,7 @@ module SoT
     include ResourceSavable
 
     def new_user(email:)
-      user_attr = { id: GenerateId.new.call, email: email }
+      user_attr = { id: GenerateId.new.call, email: email, stripe_customer_id: nil }
       User.new(user_attr).tap { |user|
         user.add_event(Event.for(Event::USER_CREATED, user))
       }
