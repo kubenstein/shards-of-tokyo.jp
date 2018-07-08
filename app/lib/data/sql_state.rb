@@ -42,6 +42,7 @@ module SoT
       @connection[:messages].delete
       @connection[:orders].delete
       @connection[:login_tokens].delete
+      @connection[:payments].delete
       self
     end
 
@@ -56,6 +57,7 @@ module SoT
       connection.create_table(:users) do
         String :id, primary_key: true
         String :email
+        String :stripe_customer_id
       end
 
       connection.create_table(:messages) do
@@ -69,6 +71,8 @@ module SoT
       connection.create_table(:orders) do
         String :id, primary_key: true
         String :user_id
+        Bignum :price
+        String :currency
         Time :created_at
       end
 
@@ -78,6 +82,16 @@ module SoT
         String :session_id
         Bool :invalidated
         Bool :confirmed
+        Time :created_at
+      end
+
+      connection.create_table(:payments) do
+        String :id, primary_key: true
+        String :order_id
+        String :payment_id
+        Bignum :amount
+        String :currency
+        String :error
         Time :created_at
       end
 

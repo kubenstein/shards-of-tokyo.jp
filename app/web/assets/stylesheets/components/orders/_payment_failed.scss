@@ -1,0 +1,10 @@
+.payment-failed {
+  .error-message {
+    display: block;
+    margin: 5px 0;
+    padding: 5px;
+    color: $cinnabar;
+    background-color: $wild_sand;
+    border-radius: 5px;
+  }
+}

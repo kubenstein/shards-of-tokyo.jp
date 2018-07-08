@@ -55,6 +55,25 @@ module SoT
       )
     end
 
+    def send_email_about_payment_to_user(order)
+      payment = order.payments.last
+      send(
+        to: order.user.email,
+        subject: "[Shards of Tokyo] order #{order.id} payment!",
+        body: "Hello!\n\nThis email is a confirmation of your payment at Shards of Tokyo.\nPayment details:\norder: ${order.id}\namount: #{payment.amount}#{payment.currency}\n\nI will take care of the delivery process and will inform you about any updates.\nThank you so much!\nSoT"
+      )
+    end
+
+    def send_email_about_payment_to_me(order)
+      user = order.user
+      payment = order.payments.last
+      send(
+        to: 'niewczas.jakub@gmail.com',
+        subject: '[Shards of Tokyo] new payment!',
+        body: "from user: #{user.email}\n\norder id: #{order.id}\n\npayment: #{payment.payment_id}\n#{payment.amount}#{payment.currency}\n"
+      )
+    end
+
     private
 
     def send(to:, subject:, body:)

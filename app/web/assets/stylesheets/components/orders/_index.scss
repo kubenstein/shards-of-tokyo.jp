@@ -1,5 +1,6 @@
 @import './message_form';
 @import './order_form';
+@import './payment_failed';
 
 .orders {
   .order-list {
@@ -17,6 +18,41 @@
       font-style: italic;
       text-decoration: underline;
 
+    }
+  }
+
+  .order-price {
+    background: $mona_lisa;
+    margin-bottom: 40px;
+    text-align: center;
+    width: 190px;
+    padding: 10px;
+
+    .btn-pay {
+      margin-top: 10px;
+    }
+  }
+
+  .payment-form {
+    margin-top: 10px;
+
+    .stripe-button-el {
+      @extend .btn;
+      width: 100%;
+      padding: 0 !important;
+      background-image: none !important;
+
+      &,
+      &:not(:disabled):active,
+      &:not(:disabled):active span {
+        background: $cinnabar !important;
+      }
+
+      span {
+        background: none;
+        border: none;
+        text-shadow: none;
+      }
     }
   }
 

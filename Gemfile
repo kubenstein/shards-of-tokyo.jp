@@ -9,6 +9,7 @@ gem 'pony'
 gem 'slim'
 gem 'dry-container'
 gem 'sequel'
+gem 'stripe'
 
 gem 'sprockets'
 gem 'sprockets-sass'

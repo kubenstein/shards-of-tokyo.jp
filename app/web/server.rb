@@ -10,6 +10,7 @@ class WebServer < Sinatra::Base
   set :session_secret, APP_DEPENDENCIES[:session_secret]
 
   include Import[
+    :stripe_api_keys,
     :user_repository,
     :order_repository,
     :register_user_workflow,
@@ -19,6 +20,7 @@ class WebServer < Sinatra::Base
     :login_user_step2_workflow,
     :login_user_step3_workflow,
     :logout_user_workflow,
+    :pay_for_order_workflow,
   ]
 
   helpers do
@@ -110,17 +112,36 @@ class WebServer < Sinatra::Base
     slim :'orders/_new_form'
   end
 
-  get '/orders/?:order_id?' do
+  post '/orders/:order_id/pay' do
+    return redirect '/login/' unless current_user
+
+    params[:user] = current_user
+    params[:stripe_token] = params[:stripeToken]
+    results = pay_for_order_workflow.call(params)
+    if results.success?
+      redirect "/orders/#{results.order_id}/pay/success"
+    else
+      slim :'orders/payment_failed', locals: { order_id: params[:order_id], errors: results.errors }
+    end
+  end
+
+  get '/orders/:order_id/pay/success' do
+    return redirect '/login/' unless current_user
+    slim :'orders/payment_success', locals: { order_id: params[:order_id] }
+  end
+
+  get '/orders/?:order_id/?' do
     return redirect '/login/' unless current_user
 
     orders = order_repository.for_user_newest_first(current_user.id)
     selected_order = params[:order_id] ? orders.find { |o| o.id == params[:order_id] } : orders[0]
 
-    slim :'orders/index', locals: {
+    slim :'orders/show', locals: {
       user: current_user,
       orders: orders,
       selected_order: selected_order,
-      message_form_error: (!!params[:message_form_error])
+      message_form_error: (!!params[:message_form_error]),
+      stripe_public_token: stripe_api_keys[:public_key]
     }
   end
 
