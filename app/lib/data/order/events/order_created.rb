@@ -5,7 +5,7 @@ module SoT
 
     def self.build(order)
       payload = Serialize.new.call(order)
-      Event.new(name: NAME, version: VERSION, payload: payload)
+      Event.build(name: NAME, version: VERSION, payload: payload)
     end
 
     def self.handle(event, state)

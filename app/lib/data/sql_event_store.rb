@@ -13,14 +13,8 @@ module SoT
     end
 
     def add_event(event)
-      @connection[:events].insert(
-        id: event.id,
-        name: event.name,
-        version: event.version,
-        requester_id: event.requester_id,
-        payload: event.payload.to_json,
-        created_at: Time.now
-      )
+      event_attrs = Serialize.new.call(event)
+      @connection[:events].insert(event_attrs)
       @subscribers.each { |es| es.add_event(event) }
     end
 
@@ -28,13 +22,8 @@ module SoT
       from_event_id = (@connection[:events].first(id: event_id) || { _id: 0 })[:_id]
 
       @connection[:events].where { _id > from_event_id }.map { |data|
-        Event.new(
-          id: data[:id],
-          name: data[:name],
-          version: data[:version],
-          requester_id: data[:requester_id],
-          payload: JSON.parse(data[:payload], symbolize_names: true)
-        )
+        data[:payload] = JSON.parse(data[:payload], symbolize_names: true)
+        Event.new(data)
       }
     end
 

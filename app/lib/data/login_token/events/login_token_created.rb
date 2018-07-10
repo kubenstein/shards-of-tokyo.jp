@@ -5,7 +5,7 @@ module SoT
 
     def self.build(login_token)
       payload = Serialize.new.call(login_token)
-      Event.new(name: NAME, version: VERSION, payload: payload)
+      Event.build(name: NAME, version: VERSION, payload: payload)
     end
 
     def self.handle(event, state)
