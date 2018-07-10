@@ -7,6 +7,7 @@ module SoT
 
     def initialize(connection_uri)
       @connection = Sequel.connect(connection_uri, logger: logger)
+      @connection.sql_log_level = :debug
       @subscribers = []
     end
 

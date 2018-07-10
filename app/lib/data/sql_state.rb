@@ -6,6 +6,8 @@ module SoT
 
     def initialize(connection_uri, event_store, database_version: '')
       @connection = Sequel.connect(connection_uri, logger: logger)
+      @connection.sql_log_level = :debug
+
       @event_store = event_store
       @database_version = database_version
 
