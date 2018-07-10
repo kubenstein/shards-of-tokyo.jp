@@ -1,10 +1,11 @@
 module SoT
   module LoginTokenCreatedEvent
     NAME = 'login_token_created'
+    VERSION = 1
 
     def self.build(login_token)
       payload = Serialize.new.call(login_token)
-      Event.new(name: NAME, payload: payload)
+      Event.new(name: NAME, version: VERSION, payload: payload)
     end
 
     def self.handle(event, state)

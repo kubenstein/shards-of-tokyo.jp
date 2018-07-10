@@ -1,10 +1,11 @@
 module SoT
   module MessageCreatedEvent
     NAME = 'message_created'
+    VERSION = 1
 
     def self.build(message)
       payload = Serialize.new.call(message)
-      Event.new(name: NAME, payload: payload)
+      Event.new(name: NAME, version: VERSION, payload: payload)
     end
 
     def self.handle(event, state)

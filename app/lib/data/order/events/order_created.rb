@@ -1,10 +1,11 @@
 module SoT
   module OrderCreatedEvent
     NAME = 'order_created'
+    VERSION = 1
 
     def self.build(order)
       payload = Serialize.new.call(order)
-      Event.new(name: NAME, payload: payload)
+      Event.new(name: NAME, version: VERSION, payload: payload)
     end
 
     def self.handle(event, state)

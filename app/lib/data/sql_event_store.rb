@@ -16,6 +16,7 @@ module SoT
       @connection[:events].insert(
         id: event.id,
         name: event.name,
+        version: event.version,
         requester_id: event.requester_id,
         payload: event.payload.to_json,
         created_at: Time.now
@@ -25,11 +26,12 @@ module SoT
 
     def fetch_events_from(event_id)
       from_event_id = (@connection[:events].first(id: event_id) || { _id: 0 })[:_id]
-      
+
       @connection[:events].where { _id > from_event_id }.map { |data|
         Event.new(
           id: data[:id],
           name: data[:name],
+          version: data[:version],
           requester_id: data[:requester_id],
           payload: JSON.parse(data[:payload], symbolize_names: true)
         )
@@ -48,6 +50,7 @@ module SoT
         primary_key :_id
         String :id, index: true
         String :name
+        String :version
         String :requester_id
         Text :payload
         Time :created_at
