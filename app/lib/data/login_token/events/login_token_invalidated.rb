@@ -1,11 +1,11 @@
 module SoT
   module LoginTokenInvalidatedEvent
     NAME = 'login_token_invalidated'
-    VERSION = 1
+    HANDLER_VERSION = 1
 
     def self.build(login_token)
       payload = { id: login_token.id }
-      Event.build(name: NAME, version: VERSION, payload: payload)
+      Event.build(name: NAME, handler_version: HANDLER_VERSION, payload: payload)
     end
 
     def self.handle(event, state)
