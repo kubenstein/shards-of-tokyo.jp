@@ -10,7 +10,8 @@ module SoT
       event_module_name = ['SoT::', event.name.split('_').map(&:capitalize).join, 'Event'].join
       if Object.const_defined?(event_module_name)
         event_module = Object.const_get(event_module_name)
-        event_module.handle(event, self)
+        event_handler_method_name = "handle_v#{event.handler_version}"
+        event_module.send(event_handler_method_name, event, self)
       end
       save_last_event_id(event)
     end
