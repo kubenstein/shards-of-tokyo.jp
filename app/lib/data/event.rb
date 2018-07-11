@@ -11,12 +11,12 @@ module SoT
       @created_at = created_at
     end
 
-    def self.build(name:, handler_version:, payload:)
+    def self.build(name:, handler_version:, payload:, requester_id: 'system@shards-of-tokyo.jp')
       new(
         id: GenerateId.new.call,
         name: name,
         handler_version: handler_version,
-        requester_id: 'system@shards-of-tokyo.jp',
+        requester_id: requester_id,
         payload: payload,
         created_at: Time.now,
       )
