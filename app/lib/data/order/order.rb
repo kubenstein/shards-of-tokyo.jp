@@ -41,10 +41,10 @@ module SoT
       price_set? && amount_left_to_be_paid == 0
     end
 
-    def set_price(price, currency)
+    def set_price(price, currency, requester_id: nil)
       @price = price
       @currency = currency
-      add_event(OrderPriceChangedEvent.build(self))
+      add_event(OrderPriceChangedEvent.build(self, requester_id: requester_id))
     end
 
     def amount_left_to_be_paid

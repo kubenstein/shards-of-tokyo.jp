@@ -11,7 +11,7 @@ module SoT
       @created_at = created_at
     end
 
-    def self.build(name:, handler_version:, payload:, requester_id: 'system@shards-of-tokyo.jp')
+    def self.build(name:, handler_version:, payload:, requester_id: 'system')
       new(
         id: GenerateId.new.call,
         name: name,

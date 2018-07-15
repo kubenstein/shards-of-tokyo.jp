@@ -3,9 +3,9 @@ module SoT
     NAME = 'message_created'
     HANDLER_VERSION = 1
 
-    def self.build(message, requester_id: nil)
+    def self.build(message)
       payload = Serialize.new.call(message)
-      Event.build(name: NAME, handler_version: HANDLER_VERSION, payload: payload, requester_id: requester_id)
+      Event.build(name: NAME, handler_version: HANDLER_VERSION, payload: payload, requester_id: message.user.id)
     end
 
     def self.handle_v1(event, state)

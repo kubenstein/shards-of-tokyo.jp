@@ -3,9 +3,9 @@ module SoT
     NAME = 'login_token_invalidated'
     HANDLER_VERSION = 1
 
-    def self.build(login_token, requester_id: nil)
+    def self.build(login_token)
       payload = { id: login_token.id }
-      Event.build(name: NAME, handler_version: HANDLER_VERSION, payload: payload, requester_id: requester_id)
+      Event.build(name: NAME, handler_version: HANDLER_VERSION, payload: payload, requester_id: login_token.user.id)
     end
 
     def self.handle_v1(event, state)

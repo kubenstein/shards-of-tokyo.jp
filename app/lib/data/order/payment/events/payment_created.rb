@@ -3,9 +3,9 @@ module SoT
     NAME = 'payment_created'
     HANDLER_VERSION = 1
 
-    def self.build(payment, requester_id: nil)
+    def self.build(payment)
       payload = Serialize.new.call(payment)
-      Event.build(name: NAME, handler_version: HANDLER_VERSION, payload: payload, requester_id: requester_id)
+      Event.build(name: NAME, handler_version: HANDLER_VERSION, payload: payload, requester_id: payment.user.id)
     end
 
     def self.handle_v1(event, state)
