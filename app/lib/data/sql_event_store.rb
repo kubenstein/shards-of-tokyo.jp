@@ -33,6 +33,11 @@ module SoT
       self
     end
 
+    def remove_subscriber(subscriber)
+      @subscribers.delete(subscriber)
+      self
+    end
+
     def self.configure(connection_uri)
       connection = Sequel.connect(connection_uri)
       connection.create_table(:events) do

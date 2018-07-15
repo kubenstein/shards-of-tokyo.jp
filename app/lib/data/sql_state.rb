@@ -2,8 +2,10 @@ require 'sequel'
 
 module SoT
   class SqlState
-    def initialize(connection_uri)
+    def initialize(connection_uri, event_store)
       @connection = Sequel.connect(connection_uri)
+      @event_store = event_store
+      connect_to_event_store
     end
 
     def add_event(event)
@@ -33,12 +35,16 @@ module SoT
       @connection[:system].first(key: 'last_event_id')[:value]
     end
 
-    def clear_state!
-      @connection[:users].delete
-      @connection[:messages].delete
-      @connection[:orders].delete
-      @connection[:login_tokens].delete
-      @connection[:payments].delete
+    def reinitialize!
+      disconnect_from_event_store
+      @connection.drop_table(:users)
+      @connection.drop_table(:messages)
+      @connection.drop_table(:orders)
+      @connection.drop_table(:login_tokens)
+      @connection.drop_table(:payments)
+      @connection.drop_table(:system)
+      self.class.configure(@connection.uri)
+      connect_to_event_store
       self
     end
 
@@ -46,6 +52,14 @@ module SoT
 
     def save_last_event_id(event)
       @connection[:system].where(key: 'last_event_id').update(value: event.id)
+    end
+
+    def connect_to_event_store
+      @event_store.add_subscriber(self, fetch_events_from: last_event_id)
+    end
+
+    def disconnect_from_event_store
+      @event_store.remove_subscriber(self)
     end
 
     def self.configure(connection_uri)
