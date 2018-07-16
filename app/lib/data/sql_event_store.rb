@@ -38,9 +38,12 @@ module SoT
       self
     end
 
-    def self.configure(connection_uri)
-      connection = Sequel.connect(connection_uri)
-      connection.create_table(:events) do
+    def configured?
+      @connection.table_exists?(:events)
+    end
+
+    def configure
+      @connection.create_table(:events) do
         primary_key :_id
         String :id, index: true
         String :name

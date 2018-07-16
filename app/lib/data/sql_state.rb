@@ -6,7 +6,16 @@ module SoT
       @connection = Sequel.connect(connection_uri)
       @event_store = event_store
       @database_version = database_version
-      connect_to_event_store
+
+      connect_to_event_store if configured?
+    end
+
+    def connect_to_event_store
+      @event_store.add_subscriber(self, fetch_events_from: last_event_id)
+    end
+
+    def disconnect_from_event_store
+      @event_store.remove_subscriber(self)
     end
 
     def add_event(event)
@@ -36,40 +45,27 @@ module SoT
       table(:system).first(key: 'last_event_id')[:value]
     end
 
-    private
-
-    def save_last_event_id(event)
-      table(:system).where(key: 'last_event_id').update(value: event.id)
+    def remove_old_dbs
+      @connection.tables
+        .select { |table_name| !table_name.to_s.start_with?("#{@database_version}_") }
+        .each { |table_name|
+          puts "dropping table #{table_name}"
+          @connection.drop_table(table_name)
+        }
     end
 
-    def connect_to_event_store
-      @event_store.add_subscriber(self, fetch_events_from: last_event_id)
+    def configured?
+      @connection.table_exists?("#{@database_version}_system")
     end
 
-    def disconnect_from_event_store
-      @event_store.remove_subscriber(self)
-    end
-
-    def table(name)
-      @connection[:"#{@database_version}_#{name}"]
-    end
-
-    def self.remove_old_dbs!(connection_uri, current_database_version: '')
-      connection = Sequel.connect(connection_uri)
-      connection.tables
-        .select { |table_name| !table_name.to_s.start_with?("#{current_database_version}_") }
-        .each { |table_name| connection.drop_table(table_name) }
-    end
-
-    def self.configure(connection_uri, database_version: '')
-      connection = Sequel.connect(connection_uri)
-      connection.create_table("#{database_version}_users") do
+    def configure
+      @connection.create_table("#{@database_version}_users") do
         String :id, primary_key: true
         String :email
         String :stripe_customer_id
       end
 
-      connection.create_table("#{database_version}_messages") do
+      @connection.create_table("#{@database_version}_messages") do
         String :id, primary_key: true
         String :order_id
         String :user_id
@@ -77,7 +73,7 @@ module SoT
         Time :created_at
       end
 
-      connection.create_table("#{database_version}_orders") do
+      @connection.create_table("#{@database_version}_orders") do
         String :id, primary_key: true
         String :user_id
         Bignum :price
@@ -85,7 +81,7 @@ module SoT
         Time :created_at
       end
 
-      connection.create_table("#{database_version}_login_tokens") do
+      @connection.create_table("#{@database_version}_login_tokens") do
         String :id, primary_key: true
         String :user_id
         String :session_id
@@ -94,7 +90,7 @@ module SoT
         Time :created_at
       end
 
-      connection.create_table("#{database_version}_payments") do
+      @connection.create_table("#{@database_version}_payments") do
         String :id, primary_key: true
         String :order_id
         String :payment_id
@@ -104,11 +100,21 @@ module SoT
         Time :created_at
       end
 
-      connection.create_table("#{database_version}_system") do
+      @connection.create_table("#{@database_version}_system") do
         String :key, primary_key: true
         String :value
       end
-      connection[:"#{database_version}_system"].insert(key: 'last_event_id', value: nil)
+      @connection[:"#{@database_version}_system"].insert(key: 'last_event_id', value: nil)
+    end
+
+    private
+
+    def save_last_event_id(event)
+      table(:system).where(key: 'last_event_id').update(value: event.id)
+    end
+
+    def table(name)
+      @connection[:"#{@database_version}_#{name}"]
     end
   end
 end

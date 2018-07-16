@@ -20,10 +20,16 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:logout_user_workflow, memoize: true) { SoT::LogoutUser::Workflow.new }
   c.register(:set_order_price_workflow, memoize: true) { SoT::SetOrderPrice::Workflow.new }
   c.register(:pay_for_order_workflow, memoize: true) { SoT::PayForOrder::Workflow.new }
+  c.register(:event_store, memoize: true) { SoT::SqlEventStore.new(ENV['CLEARDB_DATABASE_URL'] || 'sqlite://./app/db/events.db') }
+  c.register(:state, memoize: true) {
+    SoT::SqlState.new(
+      ENV['DATABASE_URL'] || 'sqlite://./app/db/state.db',
+      c[:event_store],
+      database_version: ENV['HEROKU_RELEASE_VERSION'] || 'v0',
+    )
+  }
 
   if ENV['RACK_ENV'] == 'production'
-    c.register(:event_store, memoize: true) { SoT::SqlEventStore.new(ENV['DATABASE_URL']) }
-    c.register(:state, memoize: true) { SoT::SqlState.new(ENV['DATABASE_URL'], c[:event_store], database_version: ENV['HEROKU_RELEASE_VERSION']) }
     c.register(:mailer, memoize: true) {
       SoT::Mailer.new(smtp_options: {
         domain: 'shards-of-tokyo.jp',
@@ -36,8 +42,6 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
       })
     }
   else
-    c.register(:event_store, memoize: true) { SoT::SqlEventStore.new('sqlite://./app/db/events.db') }
-    c.register(:state, memoize: true) { SoT::SqlState.new('sqlite://./app/db/state.db', c[:event_store], database_version: 'dev') }
     c.register(:mailer, memoize: true) { SoT::Mailer.new }
   end
 end
