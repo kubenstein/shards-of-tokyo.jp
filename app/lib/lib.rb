@@ -23,7 +23,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
 
   if ENV['RACK_ENV'] == 'production'
     c.register(:event_store, memoize: true) { SoT::SqlEventStore.new(ENV['DATABASE_URL']) }
-    c.register(:state, memoize: true) { SoT::SqlState.new(ENV['DATABASE_URL'], c[:event_store]) }
+    c.register(:state, memoize: true) { SoT::SqlState.new(ENV['DATABASE_URL'], c[:event_store], database_version: ENV['HEROKU_RELEASE_VERSION']) }
     c.register(:mailer, memoize: true) {
       SoT::Mailer.new(smtp_options: {
         domain: 'shards-of-tokyo.jp',
@@ -37,7 +37,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
     }
   else
     c.register(:event_store, memoize: true) { SoT::SqlEventStore.new('sqlite://./app/db/events.db') }
-    c.register(:state, memoize: true) { SoT::SqlState.new('sqlite://./app/db/state.db', c[:event_store]) }
+    c.register(:state, memoize: true) { SoT::SqlState.new('sqlite://./app/db/state.db', c[:event_store], database_version: 'dev') }
     c.register(:mailer, memoize: true) { SoT::Mailer.new }
   end
 end

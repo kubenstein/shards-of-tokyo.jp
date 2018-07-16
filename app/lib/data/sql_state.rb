@@ -2,9 +2,10 @@ require 'sequel'
 
 module SoT
   class SqlState
-    def initialize(connection_uri, event_store)
+    def initialize(connection_uri, event_store, database_version: '')
       @connection = Sequel.connect(connection_uri)
       @event_store = event_store
+      @database_version = database_version
       connect_to_event_store
     end
 
@@ -14,25 +15,25 @@ module SoT
     end
 
     def get_resources(type, search_opts = {}, order_by = [:id, :asc])
-      results = @connection[type].where(search_opts)
+      results = table(type).where(search_opts)
       results = (order_by[1] == :asc) ? results.order(order_by[0]) : results.reverse(order_by[0])
       results.all
     end
 
     def add_resource(type, data)
-      @connection[type].insert(data)
+      table(type).insert(data)
     end
 
     def remove_resource(type, search_opts)
-      @connection[type].where(search_opts).delete
+      table(type).where(search_opts).delete
     end
 
     def update_resource(type, id, data)
-      @connection[type].where(id: id).update(data)
+      table(type).where(id: id).update(data)
     end
 
     def last_event_id
-      @connection[:system].first(key: 'last_event_id')[:value]
+      table(:system).first(key: 'last_event_id')[:value]
     end
 
     def reinitialize!
@@ -51,7 +52,7 @@ module SoT
     private
 
     def save_last_event_id(event)
-      @connection[:system].where(key: 'last_event_id').update(value: event.id)
+      table(:system).where(key: 'last_event_id').update(value: event.id)
     end
 
     def connect_to_event_store
@@ -62,15 +63,19 @@ module SoT
       @event_store.remove_subscriber(self)
     end
 
-    def self.configure(connection_uri)
+    def table(name)
+      @connection[:"#{@database_version}_#{name}"]
+    end
+
+    def self.configure(connection_uri, database_version: '')
       connection = Sequel.connect(connection_uri)
-      connection.create_table(:users) do
+      connection.create_table("#{database_version}_users") do
         String :id, primary_key: true
         String :email
         String :stripe_customer_id
       end
 
-      connection.create_table(:messages) do
+      connection.create_table("#{database_version}_messages") do
         String :id, primary_key: true
         String :order_id
         String :user_id
@@ -78,7 +83,7 @@ module SoT
         Time :created_at
       end
 
-      connection.create_table(:orders) do
+      connection.create_table("#{database_version}_orders") do
         String :id, primary_key: true
         String :user_id
         Bignum :price
@@ -86,7 +91,7 @@ module SoT
         Time :created_at
       end
 
-      connection.create_table(:login_tokens) do
+      connection.create_table("#{database_version}_login_tokens") do
         String :id, primary_key: true
         String :user_id
         String :session_id
@@ -95,7 +100,7 @@ module SoT
         Time :created_at
       end
 
-      connection.create_table(:payments) do
+      connection.create_table("#{database_version}_payments") do
         String :id, primary_key: true
         String :order_id
         String :payment_id
@@ -105,11 +110,11 @@ module SoT
         Time :created_at
       end
 
-      connection.create_table(:system) do
+      connection.create_table("#{database_version}_system") do
         String :key, primary_key: true
         String :value
       end
-      connection[:system].insert(key: 'last_event_id', value: nil)
+      connection[:"#{database_version}_system"].insert(key: 'last_event_id', value: nil)
     end
   end
 end
