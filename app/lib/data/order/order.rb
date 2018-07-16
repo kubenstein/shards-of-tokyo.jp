@@ -29,7 +29,7 @@ module SoT
       }
       Message.new(message_attrs).tap do |message|
         @_messages << message
-        add_event(Event.for(Event::MESSAGE_CREATED, message))
+        add_event(MessageCreatedEvent.build(message))
       end
     end
 
@@ -41,10 +41,10 @@ module SoT
       price_set? && amount_left_to_be_paid == 0
     end
 
-    def set_price(price, currency)
+    def set_price(price, currency, requester_id: nil)
       @price = price
       @currency = currency
-      add_event(Event.for(Event::ORDER_PRICE_CHANGED, self))
+      add_event(OrderPriceChangedEvent.build(self, requester_id: requester_id))
     end
 
     def amount_left_to_be_paid
@@ -62,7 +62,7 @@ module SoT
       }
       Payment.new(payment_attrs).tap do |payment|
         @_payments << payment
-        add_event(Event.for(Event::PAYMENT_CREATED, payment))
+        add_event(PaymentCreatedEvent.build(payment))
       end
     end
 
@@ -78,7 +78,7 @@ module SoT
       }
       Payment.new(payment_attrs).tap do |payment|
         @_payments << payment
-        add_event(Event.for(Event::PAYMENT_CREATED, payment))
+        add_event(PaymentCreatedEvent.build(payment))
       end
     end
 

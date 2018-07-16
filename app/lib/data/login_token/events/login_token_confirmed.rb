@@ -1,10 +1,15 @@
 module SoT
-  Event::LOGIN_TOKEN_CONFIRMED = 'login_token_confirmed'
+  module LoginTokenConfirmedEvent
+    NAME = 'login_token_confirmed'
 
-  class LoginTokenConfirmedEventHandler
-    def call(event, state)
-      login_token = event.payload
-      state.update_resource(:login_tokens, login_token[:id], confirmed: true)
+    def self.build(login_token)
+      payload = { id: login_token.id }
+      Event.build(name: NAME, payload: payload, requester_id: login_token.user.id)
+    end
+
+    def self.handle(event, state)
+      login_token_id = event.payload.id
+      state.update_resource(:login_tokens, login_token_id, confirmed: true)
     end
   end
 end

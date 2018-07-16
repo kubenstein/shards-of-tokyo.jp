@@ -16,12 +16,12 @@ module SoT
 
     def invalidate!
       @invalidated = true
-      add_event(Event.for(Event::LOGIN_TOKEN_INVALIDATED, self))
+      add_event(LoginTokenInvalidatedEvent.build(self))
     end
 
     def confirm!
       @confirmed = true
-      add_event(Event.for(Event::LOGIN_TOKEN_CONFIRMED, self))
+      add_event(LoginTokenConfirmedEvent.build(self))
     end
 
     def confirmed?

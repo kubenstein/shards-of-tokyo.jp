@@ -7,11 +7,7 @@ module SoT
     end
 
     def add_event(event)
-      handler_name = ['SoT::', event.name.split('_').map(&:capitalize).join, 'EventHandler'].join
-      if Object.const_defined?(handler_name)
-        handler_class = Object.const_get(handler_name)
-        handler_class.new.call(event, self)
-      end
+      ApplyEvent.new.call(event, self)
       save_last_event_id(event)
     end
 

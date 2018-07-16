@@ -8,7 +8,9 @@ module SoT
       def call(params)
         price = params[:price]
         order_id = params[:order_id]
+        requester = params[:requester]
 
+        return Results.new([:requester_not_found]) unless requester
         return Results.new([:price_negative]) if price < 0
         return Results.new([:order_not_found]) unless order_exists?(order_id)
 

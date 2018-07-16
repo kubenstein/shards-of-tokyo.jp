@@ -1,16 +1,23 @@
 module SoT
   class Event
-    attr_reader :id, :name, :requester_id, :payload
+    attr_reader :id, :name, :requester_id, :payload, :created_at
 
-    def initialize(id: nil, name:, requester_id:, payload:)
-      @id = id || GenerateId.new.call
+    def initialize(id:, name:, requester_id:, payload:, created_at:, **_)
+      @id = id
       @name = name
       @requester_id = requester_id
       @payload = payload
+      @created_at = created_at
     end
 
-    def self.for(event_name, obj, requester_id = 'system@shards-of-tokyo.jp')
-      new(name: event_name, requester_id: requester_id, payload: Serialize.new.call(obj))
+    def self.build(name:, payload:, requester_id: 'system')
+      new(
+        id: GenerateId.new.call,
+        name: name,
+        requester_id: requester_id,
+        payload: payload,
+        created_at: Time.now,
+      )
     end
   end
 end

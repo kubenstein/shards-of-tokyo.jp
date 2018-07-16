@@ -1,8 +1,13 @@
 module SoT
-  Event::USER_CREATED = 'user_created'
-  
-  class UserCreatedEventHandler
-    def call(event, state)
+  module UserCreatedEvent
+    NAME = 'user_created'
+
+    def self.build(user)
+      payload = Serialize.new.call(user)
+      Event.build(name: NAME, payload: payload)
+    end
+
+    def self.handle(event, state)
       user = event.payload
       state.add_resource(:users, user)
     end

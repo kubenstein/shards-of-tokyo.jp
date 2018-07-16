@@ -13,7 +13,7 @@ module SoT
         created_at: Time.now,
       }
       LoginToken.new(lt_attr).tap { |lt|
-        lt.add_event(Event.for(Event::LOGIN_TOKEN_CREATED, lt))
+        lt.add_event(LoginTokenCreatedEvent.build(lt))
       }
     end
 
