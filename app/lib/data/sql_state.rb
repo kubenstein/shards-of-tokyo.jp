@@ -36,19 +36,6 @@ module SoT
       table(:system).first(key: 'last_event_id')[:value]
     end
 
-    def reinitialize!
-      disconnect_from_event_store
-      @connection.drop_table(:users)
-      @connection.drop_table(:messages)
-      @connection.drop_table(:orders)
-      @connection.drop_table(:login_tokens)
-      @connection.drop_table(:payments)
-      @connection.drop_table(:system)
-      self.class.configure(@connection.uri)
-      connect_to_event_store
-      self
-    end
-
     private
 
     def save_last_event_id(event)
@@ -65,6 +52,13 @@ module SoT
 
     def table(name)
       @connection[:"#{@database_version}_#{name}"]
+    end
+
+    def self.remove_old_dbs!(connection_uri, current_database_version: '')
+      connection = Sequel.connect(connection_uri)
+      connection.tables
+        .select { |table_name| !table_name.to_s.start_with?("#{current_database_version}_") }
+        .each { |table_name| connection.drop_table(table_name) }
     end
 
     def self.configure(connection_uri, database_version: '')
