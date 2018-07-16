@@ -39,7 +39,6 @@ module SoT
         primary_key :_id
         String :id, index: true
         String :name
-        String :handler_version
         String :requester_id
         Text :payload
         Time :created_at

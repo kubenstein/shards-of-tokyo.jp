@@ -1,14 +1,13 @@
 module SoT
   module UserCreatedEvent
     NAME = 'user_created'
-    HANDLER_VERSION = 1
 
     def self.build(user)
       payload = Serialize.new.call(user)
-      Event.build(name: NAME, handler_version: HANDLER_VERSION, payload: payload)
+      Event.build(name: NAME, payload: payload)
     end
 
-    def self.handle_v1(event, state)
+    def self.handle(event, state)
       user = event.payload
       state.add_resource(:users, user)
     end
