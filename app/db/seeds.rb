@@ -1,8 +1,5 @@
 require './app/lib/lib'
 
-# initialize state
-APP_DEPENDENCIES[:state]
-
 user_repo = APP_DEPENDENCIES[:user_repository]
 order_repo = APP_DEPENDENCIES[:order_repository]
 

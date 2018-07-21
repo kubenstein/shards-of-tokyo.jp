@@ -1,5 +1,9 @@
 #!/bin/bash
 rm app/db/*.db
-ruby -r './app/lib/lib' -e "SoT::SqlEventStore.configure('sqlite://./app/db/events.db')"
-ruby -r './app/lib/lib' -e "SoT::SqlState.configure('sqlite://./app/db/state.db')"
+
+HEROKU_RELEASE_VERSION=dev \
+CLEARDB_DATABASE_URL='sqlite://./app/db/events.db' \
+DATABASE_URL='sqlite://./app/db/state.db' \
+ruby ./app/tasks/deploy_release_phase.rb
+
 ruby ./app/db/seeds.rb

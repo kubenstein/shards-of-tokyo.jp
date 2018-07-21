@@ -26,5 +26,6 @@ end
 
 group :production do
   gem 'thin'
+  gem 'mysql'
   gem 'pg', '~>1.0.0' # gem install pg -v '~>1.0.0' -- --with-pg-config=/Applications/Postgres.app/Contents/Versions/latest/bin/pg_config
 end
