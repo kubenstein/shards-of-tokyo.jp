@@ -4,8 +4,8 @@ require './app/lib/auto_inject'
 
 APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:stripe_api_keys, memoize: true) {{
-    secret_key: ENV['STRIPE_API_SECRET_KEY'] || 'sk_test_z2aoTikjCm0urBhNoMEzhtZr',
-    public_key: ENV['STRIPE_API_PUBLIC_KEY'] || 'pk_test_RbiERyephGoRFvc2q1nPrlKe',
+    secret_key: ENV['STRIPE_API_SECRET_KEY'],
+    public_key: ENV['STRIPE_API_PUBLIC_KEY']
   }}
   c.register(:session_secret, memoize: true) { ENV['SESSION_SECRET'] || 'session_secret' }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
@@ -20,13 +20,9 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:logout_user_workflow, memoize: true) { SoT::LogoutUser::Workflow.new }
   c.register(:set_order_price_workflow, memoize: true) { SoT::SetOrderPrice::Workflow.new }
   c.register(:pay_for_order_workflow, memoize: true) { SoT::PayForOrder::Workflow.new }
-  c.register(:event_store, memoize: true) { SoT::SqlEventStore.new(ENV['CLEARDB_DATABASE_URL'] || 'sqlite://./app/db/events.db') }
+  c.register(:event_store, memoize: true) { SoT::SqlEventStore.new(ENV['CLEARDB_DATABASE_URL']) }
   c.register(:state, memoize: true) {
-    SoT::SqlState.new(
-      ENV['DATABASE_URL'] || 'sqlite://./app/db/state.db',
-      c[:event_store],
-      database_version: ENV['HEROKU_RELEASE_VERSION'] || 'v0',
-    )
+    SoT::SqlState.new(ENV['DATABASE_URL'], c[:event_store], database_version: ENV['HEROKU_RELEASE_VERSION'] || 'v0')
   }
 
   if ENV['RACK_ENV'] == 'production'
