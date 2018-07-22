@@ -24,11 +24,11 @@
           data-currency=selected_order.currency
         )
 
-  - if selected_order.paid?
-    .order-price
-      | Order paid!
-      br
-      | Thank you
+    - if selected_order.paid?
+      .order-price
+        | Order paid!
+        br
+        | Thank you
 
   .order-list
     - orders.each do |order|
