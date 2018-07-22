@@ -8,7 +8,7 @@ module SoT
     end
 
     def self.handle(event, state)
-      login_token_id = event.payload.id
+      login_token_id = event.payload[:id]
       state.update_resource(:login_tokens, login_token_id, invalidated: true)
     end
   end
