@@ -13,8 +13,9 @@
 
   .two-columns
     .left
-      | images
-      br
-      | images
+      .double-images
+        img src=asset_path('side-img.jpg')
+        img src=asset_path('side-img-2.jpg')
+
     .right.register
       == slim :'registration/_form'
