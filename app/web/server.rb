@@ -74,6 +74,7 @@ class WebServer < Sinatra::Base
   get '/logout/?' do
     params[:session_id] = session.id
     logout_user_workflow.call(params)
+    session[:current_user_id] = nil
     redirect '/'
   end
 
