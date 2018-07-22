@@ -30,7 +30,7 @@ class WebServer < Sinatra::Base
   end
 
   get '/' do
-    slim :'home_page/index', layout: :home_page_layout
+    slim :'home_page/index'
   end
 
   get '/login/?' do
