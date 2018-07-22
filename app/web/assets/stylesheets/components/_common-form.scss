@@ -1,6 +1,6 @@
-.message-form {
+.common-form {
   margin: 0 auto;
-  width: 800px;
+  max-width: 800px;
 
   .errors {
     margin-top: 10px;
@@ -28,7 +28,7 @@
   }
 
   textarea {
-    height: 100px;
+    height: 140px;
     width: 100%;
     padding: 5px;
     border: 1px solid $secondary;

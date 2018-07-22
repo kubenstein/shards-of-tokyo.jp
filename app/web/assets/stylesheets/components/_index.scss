@@ -1,17 +1,8 @@
-@import './footer/index';
+@import './buttons';
+@import './content';
+@import './highlighted-title';
+@import './footer';
+@import './common-form';
 @import './registration/index';
 @import './orders/index';
 @import './top/index';
-
-.btn {
-  display: block;
-  padding: 8px;
-  background: $cinnabar;
-  color: $white;
-  text-align: center;
-  text-decoration: none;
-  font-size: 12px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: $btn_box_shadow;
-}

@@ -36,7 +36,7 @@ class WebServer < Sinatra::Base
   get '/login/?' do
     return redirect '/orders/' if current_user
 
-    slim :'login/email_form'
+    slim :'login/index'
   end
 
   post '/login/?' do
@@ -47,7 +47,7 @@ class WebServer < Sinatra::Base
     if login_step1.success?
       redirect '/login/token_check_waiting'
     else
-      slim :'login/email_form', locals: { errors: login_step1.errors, fields: params }
+      slim :'login/form', locals: { errors: login_step1.errors, fields: params }
     end
   end
 

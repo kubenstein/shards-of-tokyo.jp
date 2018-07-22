@@ -11,6 +11,10 @@
     strong.title Price
     | Price
 
-  - unless current_user
-    .register
+  .two-columns
+    .left
+      | images
+      br
+      | images
+    .right.register
       == slim :'registration/_form'

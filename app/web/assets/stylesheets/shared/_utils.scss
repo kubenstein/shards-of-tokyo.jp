@@ -1,0 +1,21 @@
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.clearfix {
+  @include clearfix();
+}
+
+.centered-container {
+  margin-top: 140px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 600px !important;
+}

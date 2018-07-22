@@ -1,18 +1,16 @@
 .top {
-  min-height: 84px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   .logo {
-    width: 235px;
-    height: 84px;
-
-    h1 {
-      padding-top: 27px;
-      font-size: 17px;
-    }
-
-    h2 {
-      padding-top: 2px;
-      font-size: 6.5px;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 330px;
+    height: 75px;
+    text-indent: -9999px;
+    background: asset-url('logo.png') no-repeat 0 0;
+    background-size: contain;
   }
 }

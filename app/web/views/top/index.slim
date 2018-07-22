@@ -1,6 +1,9 @@
 .top
+  a.logo href='/' Shards of Tokyo
   .menu
+    a href='/orders' Orders
+    a href='/about' About
     - if current_user
       a href='/logout/' Logout
     - else
-      a href='/login/' My account
+      a href='/login/' Login

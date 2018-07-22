@@ -1,0 +1,24 @@
+.highlighted-title {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  text-align: center;
+  color: $main;
+  font-size: 14px;
+
+  &:before {
+    content: " ";
+    flex-grow: 1;
+    height: 1px;
+    margin-right: 10px;
+    background-color: $main;
+  }
+
+  &:after {
+    content: " ";
+    flex-grow: 1;
+    height: 1px;
+    margin-left: 10px;
+    background-color: $main;
+  }
+}
