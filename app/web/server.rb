@@ -131,7 +131,7 @@ class WebServer < Sinatra::Base
     slim :'orders/payment_success', locals: { order_id: params[:order_id] }
   end
 
-  get '/orders/?:order_id/?' do
+  get '/orders/?:order_id?/?' do
     return redirect '/login/' unless current_user
 
     orders = order_repository.for_user_newest_first(current_user.id)
