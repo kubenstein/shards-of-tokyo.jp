@@ -1,7 +1,9 @@
 - errors ||= []
 - fields ||= {}
 
-form.order-form method="post" action="/orders/"
+form.common-form method="post" action="/orders/"
+  span.highlighted-title New Order
+
   .errors
     - errors.each do |err|
       = err == :empty_text ? "Text can't be empty.." : ''

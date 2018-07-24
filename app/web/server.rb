@@ -103,7 +103,7 @@ class WebServer < Sinatra::Base
     if results.success?
       redirect "/orders/#{results.order_id}"
     else
-      slim :'orders/_new_form', locals: { errors: results.errors, fields: params }
+      slim :'orders/_form', locals: { errors: results.errors, fields: params }
     end
   end
 

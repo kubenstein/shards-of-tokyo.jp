@@ -17,5 +17,8 @@
         img src=asset_path('side-img.jpg')
         img src=asset_path('side-img-2.jpg')
 
-    .right.register
-      == slim :'registration/_form'
+    .right
+      - if current_user
+        == slim :'orders/_form'
+      - else
+        == slim :'registration/_form'
