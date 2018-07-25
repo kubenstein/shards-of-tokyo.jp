@@ -17,6 +17,15 @@ module SoT
       }
     end
 
+    def last
+      attrs = state.get_resources(:login_tokens, {}, [:id, :desc], 1)[0]
+      return nil unless attrs
+
+      user_attrs = state.get_resources(:users, id: attrs[:user_id])[0]
+      attrs[:user] = User.new(user_attrs)
+      LoginToken.new(attrs)
+    end
+
     def find(id)
       find_by(id: id)
     end
