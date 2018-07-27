@@ -8,7 +8,6 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
     public_key: ENV['STRIPE_API_PUBLIC_KEY']
   }}
   c.register(:session_secret, memoize: true) { ENV['SESSION_SECRET'] || 'session_secret' }
-  c.register(:logger, memoize: true) { Logger.new(STDOUT) }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
   c.register(:order_repository, memoize: true) { SoT::OrderRepository.new }
   c.register(:login_token_repository, memoize: true) { SoT::LoginTokenRepository.new }
@@ -27,6 +26,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   }
 
   if ENV['RACK_ENV'] == 'production'
+    c.register(:logger, memoize: true) { Logger.new(STDOUT).tap { |logger| logger.level = Logger::INFO } }
     c.register(:mailer, memoize: true) {
       SoT::Mailer.new(smtp_options: {
         domain: 'shards-of-tokyo.jp',
@@ -39,6 +39,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
       })
     }
   else
+    c.register(:logger, memoize: true) { Logger.new(STDOUT) }
     c.register(:mailer, memoize: true) { SoT::Mailer.new }
   end
 end
