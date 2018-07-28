@@ -20,4 +20,7 @@ form.common-form method="post" action="/registration"
   textarea#info name="info" placeholder="optional additional info"
     = fields['info']
 
-  button.btn.btn-submit Create my account
+  button.btn.btn-submit Create account
+  span.additional
+    | or
+    a< href="/login" Log in

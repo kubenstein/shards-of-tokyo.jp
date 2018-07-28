@@ -78,6 +78,10 @@ class WebServer < Sinatra::Base
     redirect '/'
   end
 
+  get '/registration' do
+    slim :'registration/_form'
+  end
+
   post '/registration' do
     return redirect '/orders/' if current_user
 
