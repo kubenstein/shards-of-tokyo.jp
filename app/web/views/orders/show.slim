@@ -4,9 +4,7 @@
   .order-list
     a.btn> href="/orders/new" Place new order
     - orders.each do |order|
-        a.order-item> href="/orders/#{order.id}" class=(order.id == selected_order.id ? 'active' : '') title=order.request_text
-          | Order&nbsp;
-          = order.created_at.strftime('%d-%m-%Y')
+      == slim :'orders/_order_list_item', locals: { order: order, selected_order_id: selected_order.id }
   .order
     - if show_payment_box
       .order-price

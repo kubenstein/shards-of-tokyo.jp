@@ -5,8 +5,6 @@
   .order-list
     a.btn> href="/orders/new" Place new order
     - orders.each do |order|
-        a.order-item> href="/orders/#{order.id}" title=order.request_text
-          | Order&nbsp;
-          = order.created_at.strftime('%d-%m-%Y')
+      == slim :'orders/_order_list_item', locals: { order: order }
 
   == slim :'orders/_form', { errors: errors, fields: fields }
