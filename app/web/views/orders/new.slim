@@ -1,0 +1,12 @@
+- errors ||= nil
+- fields ||= nil
+
+.orders
+  .order-list
+    a.btn> href="/orders/new" Place new order
+    - orders.each do |order|
+        a.order-item> href="/orders/#{order.id}" title=order.request_text
+          | Order&nbsp;
+          = order.created_at.strftime('%d-%m-%Y')
+
+  == slim :'orders/_form', { errors: errors, fields: fields }
