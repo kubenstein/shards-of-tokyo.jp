@@ -1,0 +1,27 @@
+.hero {
+  position: relative;
+  padding-top: 60%;
+  margin-bottom: 20px;
+  background: asset-url('hero/hero1.jpg') no-repeat 0 0;
+  background-size: contain;
+
+  &::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    box-shadow: inset 0px 3px 3px 0px rgba(0,0,0,0.1);
+  }
+
+  &::after {
+    content: " ";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    box-shadow: inset 0px -3px 3px 0px rgba(0,0,0,0.1);
+  }
+}
