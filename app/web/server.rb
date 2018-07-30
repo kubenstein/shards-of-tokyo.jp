@@ -47,7 +47,7 @@ class WebServer < Sinatra::Base
     if login_step1.success?
       redirect '/login/token_check_waiting'
     else
-      slim :'login/form', locals: { errors: login_step1.errors, fields: params }
+      slim :'login/index', locals: { errors: login_step1.errors, fields: params }
     end
   end
 
