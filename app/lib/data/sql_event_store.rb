@@ -17,6 +17,7 @@ module SoT
 
     def add_event(event)
       event_attrs = Serialize.new.call(event)
+      logger.info(event_attrs) if logger.level == Logger::DEBUG
       @connection[:events].insert(event_attrs)
       @subscribers.each { |es| es.add_event(event) }
     end
