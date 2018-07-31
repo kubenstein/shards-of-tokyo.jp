@@ -8,10 +8,11 @@ class AutoInject
     default_deps = prepare_deps(dep_specs)
 
     Module.new do
-      define_method(:initialize) do |args={}|
-        deps_arg = (args.respond_to?(:[]) && args[:deps]) || {}
+      define_method(:initialize) do |*args|
+        options = args.last
+        deps_arg = (options.is_a?(Hash) && options[:deps]) || {}
         @_deps = default_deps.merge(deps_arg)
-        super()
+        super(*args)
       end
 
       default_deps.each do |name, _|

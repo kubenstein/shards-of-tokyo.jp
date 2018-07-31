@@ -2,6 +2,8 @@ require 'pony'
 
 module SoT
   class Mailer
+    prepend Import[:logger]
+
     def initialize(smtp_options: nil)
       @via = smtp_options ? :smtp : :test
       @via_options = smtp_options || {}
@@ -84,7 +86,8 @@ module SoT
         body: body,
         via: @via,
         via_options: @via_options
-      )
+      ).tap { |mail| logger.debug(mail.to_s) }
+      logger.info("Email sent: '#{subject}' to '#{to}'")
     end
   end
 end

@@ -3,8 +3,11 @@ require 'json'
 
 module SoT
   class SqlEventStore
+    prepend Import[:logger]
+
     def initialize(connection_uri)
-      @connection = Sequel.connect(connection_uri)
+      @connection = Sequel.connect(connection_uri, logger: logger)
+      @connection.sql_log_level = :debug
       @subscribers = []
     end
 
@@ -14,6 +17,7 @@ module SoT
 
     def add_event(event)
       event_attrs = Serialize.new.call(event)
+      logger.info(event_attrs) if logger.level == Logger::DEBUG
       @connection[:events].insert(event_attrs)
       @subscribers.each { |es| es.add_event(event) }
     end

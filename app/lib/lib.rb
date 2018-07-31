@@ -26,6 +26,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   }
 
   if ENV['RACK_ENV'] == 'production'
+    c.register(:logger, memoize: true) { Logger.new(STDOUT).tap { |logger| logger.level = Logger::INFO } }
     c.register(:mailer, memoize: true) {
       SoT::Mailer.new(smtp_options: {
         domain: 'shards-of-tokyo.jp',
@@ -38,6 +39,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
       })
     }
   else
+    c.register(:logger, memoize: true) { Logger.new(STDOUT) }
     c.register(:mailer, memoize: true) { SoT::Mailer.new }
   end
 end
