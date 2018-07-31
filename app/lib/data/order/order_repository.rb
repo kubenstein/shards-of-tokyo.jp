@@ -17,7 +17,7 @@ module SoT
     def find(id)
       order_attr = state.get_resources(:orders, id: id)[0]
       messages_attr = state.get_resources(:messages, { order_id: order_attr[:id] }, [:created_at, :asc])
-      user_ids = messages_attr.map { |h| h[:user_id] } + [order_attr[:user_id]]
+      user_ids = (messages_attr.map { |h| h[:user_id] } + [order_attr[:user_id]]).uniq
       users_attr = state.get_resources(:users, id: user_ids)
       payments_attr = state.get_resources(:payments, order_id: order_attr[:id])
 
@@ -52,7 +52,7 @@ module SoT
       orders_attr = state.get_resources(:orders, { user_id: user_id }, [:created_at, :desc])
       order_ids = orders_attr.map { |h| h[:id] }
       messages_attr = state.get_resources(:messages, { order_id: order_ids }, [:created_at, :asc])
-      user_ids = messages_attr.map { |h| h[:user_id] } + orders_attr.map { |h| h[:user_id] }
+      user_ids = (messages_attr.map { |h| h[:user_id] } + orders_attr.map { |h| h[:user_id] }).uniq
       users_attr = state.get_resources(:users, { id: user_ids })
       payments_attr = state.get_resources(:payments, order_id: order_ids)
 
