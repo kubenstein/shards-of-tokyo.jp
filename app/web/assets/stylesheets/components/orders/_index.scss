@@ -100,9 +100,11 @@
 
   .messages {
     .message {
+      width: 80%;
       position: relative;
-      padding: 20px;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      padding: 10px;
+      font-size: 14px;
 
       .time {
         position: absolute;
@@ -119,6 +121,16 @@
         top: calc(50% - 5px);
         transform: rotateZ(45deg);
       }
+
+      &:first-child {
+        width: 100%;
+        background-color: transparent;
+        border-bottom: 1px dashed $secondary;
+
+        &::before {
+          display: none;
+        }
+      }
     }
 
     .guest {
@@ -131,7 +143,7 @@
     }
 
     .me {
-      margin-left: 20px;
+      margin-left: 20%;
       background-color: $wild_sand;
 
       &::before {
