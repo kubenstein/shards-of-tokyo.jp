@@ -1,0 +1,54 @@
+.messages {
+  .message {
+    width: 80%;
+    position: relative;
+    margin-bottom: 25px;
+    padding: 10px;
+    font-size: 14px;
+
+    .time {
+      position: absolute;
+      bottom: -15px;
+      right: 0;
+      font-size: 10px;
+    }
+
+    &::before {
+      content: " ";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: calc(50% - 5px);
+      transform: rotateZ(45deg);
+    }
+
+    &:first-child {
+      width: 100%;
+      background-color: transparent;
+      border-bottom: 1px dashed $secondary;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  .guest {
+    background-color: #ffeadf;
+
+    &::before {
+      left: -5px;
+      background-color: #ffeadf;
+    }
+  }
+
+  .me {
+    margin-left: 20%;
+    background-color: $wild_sand;
+
+    &::before {
+      right: -5px;
+      background-color: $wild_sand;
+    }
+  }
+}
