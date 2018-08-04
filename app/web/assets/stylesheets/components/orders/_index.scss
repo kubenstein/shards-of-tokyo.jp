@@ -9,8 +9,9 @@
     padding: 10px 10px 10px 10px;
     border-right: 1px solid $wild_sand;
 
-    .btn {
-      background-color: $secondary;
+    .new-order {
+      display: block;
+      color: $secondary;
       margin-bottom: 30px;
     }
   }
@@ -72,7 +73,7 @@
     align-items: center;
     margin-bottom: 40px;
     padding: 10px;
-    border-left: 1px solid $wild_sand;
+    border-left: 1px dashed $secondary;
   }
 
   .payment-form {

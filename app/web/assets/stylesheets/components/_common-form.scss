@@ -24,16 +24,16 @@
     line-height: 40px;
     width: 100%;
     padding: 0 5px;
-    border: 1px solid $secondary;
-    color: $cocoa_bean;
+    border: 1px solid rgba($main, .5);
+    color: $black;
   }
 
   textarea {
     height: 140px;
     width: 100%;
     padding: 5px;
-    border: 1px solid $secondary;
-    color: $cocoa_bean;
+    border: 1px solid rgba($main, .5);
+    color: $black;
   }
 
   .btn-submit {

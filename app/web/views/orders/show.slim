@@ -2,7 +2,7 @@
 
 .orders
   .order-list
-    a.btn> href="/orders/new" Place new order
+    a.new-order> href="/orders/new" Place new order
     - orders.each do |order|
       == slim :'orders/_order_list_item', locals: { order: order, selected_order_id: selected_order.id }
   .order

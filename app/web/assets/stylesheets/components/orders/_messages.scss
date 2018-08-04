@@ -16,10 +16,10 @@
     &::before {
       content: " ";
       position: absolute;
-      width: 10px;
-      height: 10px;
       top: calc(50% - 5px);
-      transform: rotateZ(45deg);
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-right: 5px solid;
     }
 
     &:first-child {
@@ -34,21 +34,22 @@
   }
 
   .guest {
-    background-color: #ffeadf;
+    background-color: rgba($main, .1);
 
     &::before {
       left: -5px;
-      background-color: #ffeadf;
+      border-right-color: rgba($main, .1);
     }
   }
 
   .me {
     margin-left: 20%;
-    background-color: $wild_sand;
+    background-color: rgba($secondary, .1);
 
     &::before {
       right: -5px;
-      background-color: $wild_sand;
+      transform: rotateZ(180deg);
+      border-right-color: rgba($secondary, .1);
     }
   }
 }
