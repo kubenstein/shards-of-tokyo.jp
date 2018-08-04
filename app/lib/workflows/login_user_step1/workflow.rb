@@ -14,7 +14,7 @@ module SoT
         validation_results = Validator.new.call(params)
         if validation_results.valid?
           user = user_repository.find_by(email: email)
-          token = ganerate_login_token(user, session_id)
+          token = generate_login_token(user, session_id)
           send_email_with_login_token_to_user(token, user)
           Results.new(token, [])
         else
@@ -30,7 +30,7 @@ module SoT
 
       private
 
-      def ganerate_login_token(user, session_id)
+      def generate_login_token(user, session_id)
         login_token = login_token_repository.new_login_token(user, session_id)
         login_token_repository.create(login_token)
       end
