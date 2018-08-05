@@ -1,6 +1,7 @@
 .hero {
   position: relative;
   padding-top: 60%;
+  margin-top: -10px;
   margin-bottom: 20px;
   background: asset-url('hero/hero1.jpg') no-repeat 0 0;
   background-size: contain;
@@ -11,8 +12,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 5px;
-    box-shadow: inset 0px 3px 3px 0px rgba(0,0,0,0.1);
+    padding-bottom: 2.3%;
+    background: asset-url('hero-edge.png') no-repeat 0 0;
   }
 
   &::after {
