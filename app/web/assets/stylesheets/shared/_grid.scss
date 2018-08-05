@@ -4,4 +4,9 @@
   .left, .right {
     flex-basis: 50%;
   }
+
+  .right-text {
+    @extend .right;
+    text-align: right;
+  }
 }

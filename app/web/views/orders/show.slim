@@ -35,7 +35,7 @@
 
     .messages
       - if selected_order.nil?
-        p.text.prompt 「 You haven’t placed any order yet, feel free to add one from the right hand side menu 」
+        p.section.prompt 「 You haven’t placed any order yet, feel free to add one from the right hand side menu 」
       - else
         - selected_order.messages.each do |message|
           .message class=(message.from_user? ? 'guest' : 'me')
