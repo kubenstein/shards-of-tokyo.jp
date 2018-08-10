@@ -1,6 +1,6 @@
 module SoT
   class Payment
-    attr_reader :id, :order, :amount, :currency, :created_at, :error
+    attr_reader :id, :order, :amount, :currency, :created_at, :error, :payment_id
 
     def initialize(id:, order:, payment_id:, amount:, currency:, error: nil, created_at:, **_)
       @id = id

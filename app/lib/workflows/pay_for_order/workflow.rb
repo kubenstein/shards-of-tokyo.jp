@@ -5,6 +5,7 @@ module SoT
     class Workflow
       include Import[
         :order_repository,
+        :user_repository,
         :mailer,
       ]
 
