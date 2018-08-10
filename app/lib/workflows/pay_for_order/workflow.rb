@@ -16,7 +16,7 @@ module SoT
         validation_results = Validator.new.call(params)
         if validation_results.valid?
           order = order_repository.find(order_id)
-          results = pay(order: order, user: user, stripe_token: stripe_token)
+          results = pay(order: order, stripe_token: stripe_token)
           if results.success?
             send_email_to_user(order)
           end
