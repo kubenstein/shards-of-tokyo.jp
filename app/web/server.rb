@@ -30,13 +30,13 @@ class WebServer < Sinatra::Base
   end
 
   get '/' do
-    slim :'home_page/index', layout: :home_page_layout
+    slim :'home_page/index'
   end
 
   get '/login/?' do
     return redirect '/orders/' if current_user
 
-    slim :'login/email_form'
+    slim :'login/index'
   end
 
   post '/login/?' do
@@ -47,7 +47,7 @@ class WebServer < Sinatra::Base
     if login_step1.success?
       redirect '/login/token_check_waiting'
     else
-      slim :'login/email_form', locals: { errors: login_step1.errors, fields: params }
+      slim :'login/index', locals: { errors: login_step1.errors, fields: params }
     end
   end
 
@@ -78,6 +78,10 @@ class WebServer < Sinatra::Base
     redirect '/'
   end
 
+  get '/registration' do
+    slim :'registration/_form'
+  end
+
   post '/registration' do
     return redirect '/orders/' if current_user
 
@@ -103,14 +107,16 @@ class WebServer < Sinatra::Base
     if results.success?
       redirect "/orders/#{results.order_id}"
     else
-      slim :'orders/_new_form', locals: { errors: results.errors, fields: params }
+      orders = order_repository.for_user_newest_first(current_user.id)
+      slim :'orders/new', locals: { orders: orders, errors: results.errors, fields: params }
     end
   end
 
   get '/orders/new' do
     return redirect '/login/' unless current_user
 
-    slim :'orders/_new_form'
+    orders = order_repository.for_user_newest_first(current_user.id)
+    slim :'orders/new', locals: { orders: orders }
   end
 
   post '/orders/:order_id/pay' do

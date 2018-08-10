@@ -1,3 +1,3 @@
-//= require 'data-hero-a'
-//= require 'mosaique'
+//= require './vendor/jquery'
+//= require 'hero-slideshow'
 //= require 'login-check-waiting'

@@ -1,16 +1,47 @@
+.hero.hero-slideshow
+  .hero-img.img1
+  .hero-img.img2
+  .hero-img.img3
 .content
-  p.text
+  p.section
     strong.title About
     | About about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about about
 
-  p.text
+  p.section
     strong.title How it Works
     | How it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works v how it works how it works how it works how it works
 
-  p.text
+  .section.two-columns
+    .left
+      img src=asset_path('how-it-works.jpg')
+    .right-text
+      | How it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works v how it works how it works how it works how it works
+
+  .section.two-columns
+    .left
+      | How it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works v how it works how it works how it works how it works
+    .right-text
+      img src=asset_path('how-it-works.jpg')
+
+  .section.two-columns
+    .left
+      img src=asset_path('how-it-works.jpg')
+    .right-text
+      | How it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works how it works v how it works how it works how it works how it works
+
+
+  p.section
     strong.title Price
     | Price
 
-  - unless current_user
-    .register
-      == slim :'registration/_form'
+  .two-columns
+    .left
+      .double-images
+        img src=asset_path('side-img.jpg')
+        img src=asset_path('side-img-2.jpg')
+
+    .right
+      - if current_user
+        == slim :'orders/_form'
+      - else
+        == slim :'registration/_form'

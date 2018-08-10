@@ -1,0 +1,28 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
+  color: $black;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  flex-grow: 1;
+  margin: 0 auto;
+  width: 1250px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input, button, textarea {
+  outline: none;
+}
+
+a {
+  color: $main;
+}

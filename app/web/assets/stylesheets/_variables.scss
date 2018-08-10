@@ -1,8 +1,13 @@
-$cocoa_bean: #542223;
-$mona_lisa: #FFB794;
-$cinnabar: #E43F32;
-$wild_sand: #F5F4F4;
+// colors
+$dodger_blue: #5952fd; // violet
+$cerise: #e432d3; // pink
+$wild_sand: #F5F4F4; // grey
+$black: #3f3f40;
 $white: white;
-$black: black;
+$true_black: black;
 
+$main: $dodger_blue;
+$secondary: $cerise;
+
+// utils
 $btn_box_shadow: 1px 1px 2px 0px #a7a7a7;

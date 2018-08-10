@@ -1,8 +1,8 @@
 - errors ||= []
 - fields ||= {}
 
-form.registration-form method="post" action="/login"
-  span.form-title Login
+form.common-form.centered-container method="post" action="/login"
+  span.highlighted-title Login
 
   .errors
     - errors.each do |err|
@@ -16,3 +16,6 @@ form.registration-form method="post" action="/login"
   input#email type="email" name="email" placeholder="email" value=fields['email']
 
   button.btn.btn-submit Login
+  span.additional
+    | or
+    a< href="/registration" Sign up

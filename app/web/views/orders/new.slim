@@ -1,0 +1,10 @@
+- errors ||= nil
+- fields ||= nil
+
+.orders
+  .order-list
+    a.new-order> href="/orders/new" Place new order
+    - orders.each do |order|
+      == slim :'orders/_order_list_item', locals: { order: order }
+
+  == slim :'orders/_form', { errors: errors, fields: fields }
