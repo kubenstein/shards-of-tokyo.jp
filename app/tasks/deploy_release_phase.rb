@@ -6,5 +6,7 @@ unless event_store.configured?
 end
 
 state = APP_DEPENDENCIES[:state]
-state.configure
-state.connect_to_event_store
+unless state.configured?
+  state.configure
+  state.connect_to_event_store
+end
