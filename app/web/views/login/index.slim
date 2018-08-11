@@ -4,20 +4,20 @@
 - fields ||= {}
 
 form.common-form.centered-container method="post" action="/login"
-  span.highlighted-title= i18n.t('title-login')
+  span.highlighted-title= t('title-login')
 
   .errors
     - errors.each do |err|
-      = err == :empty_session_id ? i18n.t('error-session-id') : ''
-      = err == :email_not_found ? i18n.t('error-email-not-found') : ''
-      = err == :empty_email ? i18n.t('error-email-empty') : ''
+      = err == :empty_session_id ? t('error-session-id') : ''
+      = err == :email_not_found ? t('error-email-not-found') : ''
+      = err == :empty_email ? t('error-email-empty') : ''
 
   label.label for="email"
-    = i18n.t('label-email')
-    small.label-desc = i18n.t('label-email-desc')
-  input#email type="email" name="email" placeholder=i18n.t('label-email') value=fields['email']
+    = t('label-email')
+    small.label-desc = t('label-email-desc')
+  input#email type="email" name="email" placeholder=t('label-email') value=fields['email']
 
-  button.btn.btn-submit= i18n.t('btn-login')
+  button.btn.btn-submit= t('btn-login')
   span.additional
-    = i18n.t('btn-additional-or')
-    a< href="/registration" = i18n.t('btn-create-account')
+    = t('btn-additional-or')
+    a< href="/registration" = t('btn-create-account')

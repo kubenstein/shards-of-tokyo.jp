@@ -32,6 +32,10 @@ class WebServer < Sinatra::Base
     def i18n
       @_i18n ||= I18nHelper.new
     end
+    
+    def t(key)
+      i18n.t(key)
+    end
   end
 
   get '/' do

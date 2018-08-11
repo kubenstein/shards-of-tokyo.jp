@@ -4,7 +4,7 @@
   a.logo href='/' Shards of Tokyo
   .menu
     - if current_user
-      a href='/orders/' = i18n.t('link-orders')
-      a href='/logout/' = i18n.t('link-logout')
+      a href='/orders/' = t('link-orders')
+      a href='/logout/' = t('link-logout')
     - else
-      a href='/login/' = i18n.t('link-login-signup')
+      a href='/login/' = t('link-login-signup')

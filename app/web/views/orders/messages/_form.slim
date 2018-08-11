@@ -6,11 +6,11 @@
 form.common-form method="post" action="/messages"
   .errors
     - if errors
-      = i18n.t('error-cant-send')
+      = t('error-cant-send')
 
   label.label for="text"
-  textarea#text name="text" placeholder= i18n.t('placeholder')
+  textarea#text name="text" placeholder= t('placeholder')
     = fields['text']
 
   input type="hidden" name="order_id" value=order.id
-  button.btn.btn-submit= i18n.t('btn-send')
+  button.btn.btn-submit= t('btn-send')

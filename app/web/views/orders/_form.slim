@@ -4,16 +4,16 @@
 - fields ||= {}
 
 form.common-form method="post" action="/orders/"
-  span.highlighted-title= i18n.t('title-new-order')
+  span.highlighted-title= t('title-new-order')
 
   .errors
     - errors.each do |err|
-      = err == :empty_text ? i18n.t('error-text-empty') : ''
+      = err == :empty_text ? t('error-text-empty') : ''
 
   label.label for="text"
-    = i18n.t('label-text')
-    small.label-desc= i18n.t('label-text-desc')
-  textarea#text name="text" placeholder=i18n.t('label-text-placeholder')
+    = t('label-text')
+    small.label-desc= t('label-text-desc')
+  textarea#text name="text" placeholder=t('label-text-placeholder')
     = fields['text']
 
-  button.btn.btn-submit= i18n.t('btn-submit-order')
+  button.btn.btn-submit= t('btn-submit-order')

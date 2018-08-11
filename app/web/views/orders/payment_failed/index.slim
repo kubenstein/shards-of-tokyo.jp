@@ -2,13 +2,13 @@
 
 .content.payment-failed
   p.section
-    strong.title= i18n.t('title')
-    = i18n.t('desc')
+    strong.title= t('title')
+    = t('desc')
     br
     br
     br
-    = i18n.t('label-errors')
+    = t('label-errors')
     span.error-message = "「 #{errors.join(';')} 」"
     br
     br
-    a<> href="/orders/#{order_id}" = i18n.t('btn-go-to-order')
+    a<> href="/orders/#{order_id}" = t('btn-go-to-order')

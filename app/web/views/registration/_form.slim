@@ -3,25 +3,25 @@
 - fields ||= {}
 
 form.common-form method="post" action="/registration"
-  span.highlighted-title= i18n.t('title-create-account')
+  span.highlighted-title= t('title-create-account')
 
   .errors
     - errors.each do |err|
-      = err == :email_taken ? i18n.t('error-email-taken') : ''
-      = err == :email_invalid ? i18n.t('error-email-invalid') : ''
+      = err == :email_taken ? t('error-email-taken') : ''
+      = err == :email_invalid ? t('error-email-invalid') : ''
 
   label.label for="email"
-    = i18n.t('label-email')
-    small.label-desc= i18n.t('label-email-desc')
-  input#email type="email" name="email" placeholder=i18n.t('label-email') value=fields['email']
+    = t('label-email')
+    small.label-desc= t('label-email-desc')
+  input#email type="email" name="email" placeholder=t('label-email') value=fields['email']
 
   label.label for="info"
-    = i18n.t('label-initial-request')
-    small.label-desc= i18n.t('label-initial-request-desc')
-  textarea#info name="info" placeholder=i18n.t('label-initial-request-placeholder')
+    = t('label-initial-request')
+    small.label-desc= t('label-initial-request-desc')
+  textarea#info name="info" placeholder=t('label-initial-request-placeholder')
     = fields['info']
 
-  button.btn.btn-submit= i18n.t('btn-create-account')
+  button.btn.btn-submit= t('btn-create-account')
   span.additional
-    = i18n.t('btn-additional-or')
-    a< href="/login"= i18n.t('btn-login')
+    = t('btn-additional-or')
+    a< href="/login"= t('btn-login')

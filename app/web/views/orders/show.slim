@@ -3,13 +3,13 @@
 
 .orders
   .order-list
-    a.new-order> href="/orders/new"= i18n.t('btn-new-order')
+    a.new-order> href="/orders/new"= t('btn-new-order')
     - orders.each do |order|
       == slim :'orders/_order_list_item', locals: { order: order, selected_order_id: selected_order.id }
   .order
     - if show_payment_box
       .order-price
-        = i18n.t('label-order-price')
+        = t('label-order-price')
         br
         = selected_order.amount_left_to_be_paid
         | &nbsp;
@@ -21,19 +21,19 @@
             data-amount=selected_order.amount_left_to_be_paid
             data-email=current_user.email
             data-name="Shards of Tokyo"
-            data-description="#{i18n.t('text-order-stripe-desc')} #{selected_order.id}"
+            data-description="#{t('text-order-stripe-desc')} #{selected_order.id}"
             data-locale="auto"
-            data-label= i18n.t('btn-proceed-payment')
+            data-label= t('btn-proceed-payment')
             data-allow-remember-me="false"
             data-currency=selected_order.currency
           )
 
       - if selected_order.paid?
-        .order-price= i18n.t('text-order-paid')
+        .order-price= t('text-order-paid')
 
     .messages
       - if selected_order.nil?
-        p.section.prompt= i18n.t('text-no-orders-yet')
+        p.section.prompt= t('text-no-orders-yet')
       - else
         - selected_order.messages.each do |message|
           .message class=(message.from_user? ? 'guest' : 'me')
