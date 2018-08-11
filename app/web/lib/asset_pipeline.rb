@@ -1,12 +1,14 @@
 require 'sprockets-helpers'
 require 'sass'
 
-module AssetPipeline extend self
+module AssetPipeline
+  module_function
+
   def registered(app)
     app.set :assets, assets = Sprockets::Environment.new(app.settings.root)
     app.set :public_folder, -> { File.join(root, 'public') }
     app.set :assets_path, -> { File.join(public_folder, 'assets') }
-    app.set :assets_precompile, %w(application.js application.css *.png *.jpg *.svg *.eot *.ttf *.woff)
+    app.set :assets_precompile, %w[application.js application.css *.png *.jpg *.svg *.eot *.ttf *.woff]
 
     assets.append_path('assets/fonts')
     assets.append_path('assets/javascripts')
@@ -30,9 +32,7 @@ module AssetPipeline extend self
       config.environment = assets
       config.prefix      = '/assets'
 
-      if app.development?
-        config.debug       = true
-      end
+      config.debug       = true if app.development?
 
       if app.production?
         config.digest      = true

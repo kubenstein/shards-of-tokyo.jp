@@ -10,7 +10,7 @@ module SoT
       @stripe_customer_id = stripe_customer_id
     end
 
-    def set_stripe_customer_id(customer_id)
+    def stripe_customer_id=(customer_id)
       @stripe_customer_id = customer_id
       add_event(UserStripeCustomerIdUpdatedEvent.build(self))
     end

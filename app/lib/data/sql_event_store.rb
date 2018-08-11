@@ -33,7 +33,9 @@ module SoT
 
     def add_subscriber(subscriber, fetch_events_from:)
       @subscribers << subscriber
-      fetch_events_from(fetch_events_from).each { |event| subscriber.add_event(event) }
+      fetch_events_from(fetch_events_from).each do |event|
+        subscriber.add_event(event)
+      end
       self
     end
 

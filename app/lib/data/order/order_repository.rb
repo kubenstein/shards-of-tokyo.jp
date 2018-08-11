@@ -53,7 +53,7 @@ module SoT
       order_ids = orders_attr.map { |h| h[:id] }
       messages_attr = state.get_resources(:messages, { order_id: order_ids }, [:created_at, :asc])
       user_ids = (messages_attr.map { |h| h[:user_id] } + orders_attr.map { |h| h[:user_id] }).uniq
-      users_attr = state.get_resources(:users, { id: user_ids })
+      users_attr = state.get_resources(:users, id: user_ids)
       payments_attr = state.get_resources(:payments, order_id: order_ids)
 
       # users
@@ -66,20 +66,20 @@ module SoT
 
         # messages
         messages = messages_attr.each
-          .select { |message_attr| message_attr[:order_id] == order.id }
-          .map { |message_attr|
-            message_attr[:user] = users.find { |u| u.id == message_attr[:user_id] }
-            message_attr[:order] = order
-            Message.new(message_attr)
-          }
+                                .select { |message_attr| message_attr[:order_id] == order.id }
+                                .map { |message_attr|
+          message_attr[:user] = users.find { |u| u.id == message_attr[:user_id] }
+          message_attr[:order] = order
+          Message.new(message_attr)
+        }
 
-          # messages
-          payments = payments_attr.each
-            .select { |payment_attr| payment_attr[:order_id] == order.id }
-            .map { |payment_attr|
-              payment_attr[:order] = order
-              Payment.new(payment_attr)
-            }
+        # payments
+        payments = payments_attr.each
+                                .select { |payment_attr| payment_attr[:order_id] == order.id }
+                                .map { |payment_attr|
+          payment_attr[:order] = order
+          Payment.new(payment_attr)
+        }
 
         # adding messages and payments to order
         order.instance_variable_set(:@_messages, messages)

@@ -1,10 +1,14 @@
+# Not sure yet how to have attr_reader with all fields as a form of documentation
+# while still using @_field internally
+# rubocop:disable Lint/DuplicateMethods
+
 module SoT
   class LoginToken
     include Eventable
 
     attr_reader :id, :session_id, :user, :invalidated, :confirmed, :created_at
 
-    def initialize(id:, session_id:, user:, invalidated:, confirmed:, created_at:, **_)
+    def initialize(id:, session_id:, user:, invalidated:, confirmed:, created_at:, **_) # rubocop:disable Metrics/ParameterLists
       @id = id
       @session_id = session_id
       @user_id = user.id

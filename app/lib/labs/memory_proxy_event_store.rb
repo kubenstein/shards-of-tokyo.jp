@@ -12,13 +12,15 @@ module SoT
       @subscribers.each { |es| es.add_event(event) }
     end
 
-    def fetch_events_from(event_id)
+    def fetch_events_from(_event_id)
       []
     end
 
     def add_subscriber(subscriber, fetch_events_from:)
       @subscribers << subscriber
-      fetch_events_from(fetch_events_from).each { |event| subscriber.add_event(event) }
+      fetch_events_from(fetch_events_from).each do |event|
+        subscriber.add_event(event)
+      end
       self
     end
   end

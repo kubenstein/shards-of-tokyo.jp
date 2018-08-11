@@ -1,10 +1,14 @@
+# Not sure yet how to have attr_reader with all fields as a form of documentation
+# while still using @_field internally
+# rubocop:disable Lint/DuplicateMethods
+
 module SoT
   class Order
     include Eventable
 
     attr_reader :id, :user, :price, :currency, :created_at, :messages, :payments
 
-    def initialize(id:, user:, price:, currency:, created_at:, messages: [], payments: [], **_)
+    def initialize(id:, user:, price:, currency:, created_at:, messages: [], payments: [], **_) # rubocop:disable Metrics/ParameterLists
       @id = id
       @user_id = user.id
       @price = price
@@ -15,9 +19,17 @@ module SoT
       @_payments = payments
     end
 
-    def messages; @_messages end
-    def user; @_user end
-    def payments; @_payments end
+    def messages
+      @_messages
+    end
+
+    def user
+      @_user
+    end
+
+    def payments
+      @_payments
+    end
 
     def add_message(text:, from_user:)
       message_attrs = {
@@ -25,7 +37,7 @@ module SoT
         order: self,
         user: from_user,
         body: text,
-        created_at: Time.now
+        created_at: Time.now,
       }
       Message.new(message_attrs).tap do |message|
         @_messages << message
