@@ -24,7 +24,7 @@ module SoT
           send_email_to_me(order)
           results
         else
-          Results.new(order_id, validation_results.errors)
+          Results.new(order.id, validation_results.errors)
         end
       end
 
@@ -52,6 +52,13 @@ module SoT
             amount: payment_result.amount,
             currency: payment_result.currency,
           )
+
+          user = order.user
+          unless user.stripe_customer_id
+            user.set_stripe_customer_id(payment_result.customer_id)
+            user_repository.save(user)
+          end
+          
           results = Results.new(order.id, [])
         else
           order.add_failed_payment(
@@ -60,14 +67,9 @@ module SoT
             currency: order.currency,
             error_message: payment_result.error_message,
           )
-          results = Results.new(order_id, [payment_result.error_message])
+          results = Results.new(order.id, [payment_result.error_message])
         end
 
-        user = order.user
-        unless user.stripe_customer_id
-          user.set_stripe_customer_id(payment_result.customer_id)
-          user_repository.save(user)
-        end
         order_repository.save(order)
         results
       end
