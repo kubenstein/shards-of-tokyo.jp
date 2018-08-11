@@ -2,8 +2,6 @@ require 'sinatra/base'
 require 'slim'
 require './app/lib/lib'
 require './app/web/lib/asset_pipeline'
-require './app/web/lib/i18n_helper'
-
 
 class WebServer < Sinatra::Base
   register AssetPipeline
@@ -11,6 +9,7 @@ class WebServer < Sinatra::Base
   set :session_secret, APP_DEPENDENCIES[:session_secret]
 
   include Import[
+    :i18n,
     :stripe_api_keys,
     :user_repository,
     :order_repository,
@@ -29,12 +28,8 @@ class WebServer < Sinatra::Base
       @_current_user ||= user_repository.find_logged_in(session_id: session.id)
     end
 
-    def i18n
-      @_i18n ||= I18nHelper.new
-    end
-    
-    def t(key)
-      i18n.t(key)
+    def t(key, vars = {})
+      i18n.t(key, vars)
     end
   end
 
