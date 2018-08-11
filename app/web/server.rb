@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'slim'
 require './app/lib/lib'
 require './app/web/lib/asset_pipeline'
+require './app/web/lib/i18n_helper'
 
 
 class WebServer < Sinatra::Base
@@ -26,6 +27,10 @@ class WebServer < Sinatra::Base
   helpers do
     def current_user
       @_current_user ||= user_repository.find_logged_in(session_id: session.id)
+    end
+
+    def i18n
+      @_i18n ||= I18nHelper.new
     end
   end
 
@@ -128,13 +133,13 @@ class WebServer < Sinatra::Base
     if results.success?
       redirect "/orders/#{results.order_id}/pay/success"
     else
-      slim :'orders/payment_failed', locals: { order_id: params[:order_id], errors: results.errors }
+      slim :'orders/payment_failed/index', locals: { order_id: params[:order_id], errors: results.errors }
     end
   end
 
   get '/orders/:order_id/pay/success' do
     return redirect '/login/' unless current_user
-    slim :'orders/payment_success', locals: { order_id: params[:order_id] }
+    slim :'orders/payment_success/index', locals: { order_id: params[:order_id] }
   end
 
   get '/orders/?:order_id?/?' do

@@ -1,0 +1,20 @@
+en:
+  login:
+    title-login: Login
+    error-session-id: something went wrong, please try again..
+    error-email-not-found: email could not be found..
+    error-email-empty: email can't be empty..
+    label-email: Email
+    label-email-desc: Our system is passwordless, each time you want to login, a login link will be sent to provided email.
+    btn-create-account: Create Account
+    btn-additional-or: or
+    btn-login: Log in
+
+  login-waiting:
+    title: Waiting for confirming login...
+    desc: "The email with login confirmation link has been sent at:"
+
+  login-accept-token:
+    title: Thank you for login in!
+    desc: Requested device will be automatically logged in.
+    error-token-not-found: login token could not be found..

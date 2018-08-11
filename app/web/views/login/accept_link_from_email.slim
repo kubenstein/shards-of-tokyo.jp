@@ -1,12 +1,13 @@
+- i18n.scope('login-accept-token')
 - errors ||= []
 
 .content.centered-container
   - if errors.empty?
     p.section
-      strong.title Thank you for login in!
-      | Requested device will be automatically logged in.
+      strong.title= i18n.t('title')
+      = i18n.t('desc')
 
   - else
     .errors
       - errors.each do |err|
-        = err == :token_not_found ? "login token could not be found.." : ''
+        = err == :token_not_found ? i18n.t('error-token-not-found') : ''

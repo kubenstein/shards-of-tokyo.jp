@@ -1,0 +1,6 @@
+en:
+  orders-payment-failed:
+    title: Unfortunately there were errors during processing your payment.
+    desc: If you think this is system error please send a message for this order so I can double check.
+    label-errors: "Error Mesages:"
+    btn-go-to-order: Go back to the order

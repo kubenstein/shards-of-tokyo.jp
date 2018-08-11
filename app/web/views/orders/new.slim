@@ -1,9 +1,11 @@
+- i18n.scope(:orders)
+
 - errors ||= nil
 - fields ||= nil
 
 .orders
   .order-list
-    a.new-order> href="/orders/new" Place new order
+    a.new-order> href="/orders/new"= i18n.t('btn-new-order')
     - orders.each do |order|
       == slim :'orders/_order_list_item', locals: { order: order }
 

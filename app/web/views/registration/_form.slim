@@ -1,26 +1,27 @@
+- i18n.scope(:registration)
 - errors ||= []
 - fields ||= {}
 
 form.common-form method="post" action="/registration"
-  span.highlighted-title Create account
+  span.highlighted-title= i18n.t('title-create-account')
 
   .errors
     - errors.each do |err|
-      = err == :email_taken ? "email already taken.." : ''
-      = err == :email_invalid ? "email format is invalid.." : ''
+      = err == :email_taken ? i18n.t('error-email-taken') : ''
+      = err == :email_invalid ? i18n.t('error-email-invalid') : ''
 
   label.label for="email"
-    | Email
-    small.label-desc Our system is passwordless, each time you want to login a login link will be sent to provided email. All comunication will be done via that email address.
-  input#email type="email" name="email" placeholder="email" value=fields['email']
+    = i18n.t('label-email')
+    small.label-desc= i18n.t('label-email-desc')
+  input#email type="email" name="email" placeholder=i18n.t('label-email') value=fields['email']
 
   label.label for="info"
-    | Additional Info (optional)
-    small.label-desc If you have any initial questions or requests please feel free to write. You can message at any time, later on, from the account messages page.
-  textarea#info name="info" placeholder="optional additional info"
+    = i18n.t('label-initial-request')
+    small.label-desc= i18n.t('label-initial-request-desc')
+  textarea#info name="info" placeholder=i18n.t('label-initial-request-placeholder')
     = fields['info']
 
-  button.btn.btn-submit Create account
+  button.btn.btn-submit= i18n.t('btn-create-account')
   span.additional
-    | or
-    a< href="/login" Log in
+    = i18n.t('btn-additional-or')
+    a< href="/login"= i18n.t('btn-login')
