@@ -25,7 +25,7 @@ class WebServer < Sinatra::Base
 
   helpers do
     def current_user
-      @_current_user ||= user_repository.find_logged_in(session_id: session.id)
+      @current_user ||= user_repository.find_logged_in(session_id: session.id)
     end
 
     def t(key, vars = {})
@@ -69,9 +69,7 @@ class WebServer < Sinatra::Base
 
     params[:session_id] = session.id
     login_token_confirmed = login_user_step3_workflow.call(params)
-    if login_token_confirmed.success?
-      redirect '/orders/'
-    end
+    redirect '/orders/' if login_token_confirmed.success?
     slim :'login/token_check_waiting', locals: { email: login_token_confirmed.user_email }
   end
 
@@ -151,8 +149,8 @@ class WebServer < Sinatra::Base
       user: current_user,
       orders: orders,
       selected_order: selected_order,
-      message_form_error: (!!params[:message_form_error]),
-      stripe_public_token: stripe_api_keys[:public_key]
+      message_form_error: !!params[:message_form_error],
+      stripe_public_token: stripe_api_keys[:public_key],
     }
   end
 

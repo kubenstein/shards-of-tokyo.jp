@@ -24,7 +24,7 @@ module SoT
       send(
         to: 'niewczas.jakub@gmail.com',
         subject: '[Shards of Tokyo] new user!',
-        body: "new user: #{user.email}!"
+        body: "new user: #{user.email}!",
       )
     end
 
@@ -40,7 +40,7 @@ module SoT
       send(
         to: 'niewczas.jakub@gmail.com',
         subject: '[Shards of Tokyo] new message!',
-        body: "from user: #{message.user.email}\n\norder id: #{message.order.id}\n\nmessage: #{message.body}"
+        body: "from user: #{message.user.email}\n\norder id: #{message.order.id}\n\nmessage: #{message.body}",
       )
     end
 
@@ -48,7 +48,7 @@ module SoT
       send(
         to: 'niewczas.jakub@gmail.com',
         subject: '[Shards of Tokyo] new order!',
-        body: "from user: #{order.user.email}\n\norder id: #{order.id}\n\nmessage: #{order.request_text}"
+        body: "from user: #{order.user.email}\n\norder id: #{order.id}\n\nmessage: #{order.request_text}",
       )
     end
 
@@ -75,21 +75,22 @@ module SoT
       send(
         to: 'niewczas.jakub@gmail.com',
         subject: '[Shards of Tokyo] new payment!',
-        body: "from user: #{user.email}\n\norder id: #{order.id}\n\npayment: #{payment.payment_id}\n#{payment.amount}#{payment.currency}\n"
+        body: "from user: #{user.email}\n\norder id: #{order.id}\n\npayment: #{payment.payment_id}\n#{payment.amount}#{payment.currency}\n",
       )
     end
 
     private
 
     def send(to:, subject:, body:)
-      Pony.mail(
+      mail = Pony.mail(
         from: 'mailer@shards-of-tokyo.jp',
         to: to,
         subject: subject,
         body: body,
         via: @via,
-        via_options: @via_options
-      ).tap { |mail| logger.debug(mail.to_s) }
+        via_options: @via_options,
+      )
+      logger.debug(mail.to_s)
       logger.info("Email sent: '#{subject}' to '#{to}'")
     end
   end

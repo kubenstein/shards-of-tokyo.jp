@@ -2,7 +2,7 @@ module SoT
   class Event
     attr_reader :id, :name, :requester_id, :payload, :created_at
 
-    def initialize(id:, name:, requester_id:, payload:, created_at:, **_)
+    def initialize(id:, name:, requester_id:, payload:, created_at:, **_) # rubocop:disable Metrics/ParameterLists
       @id = id
       @name = name
       @requester_id = requester_id

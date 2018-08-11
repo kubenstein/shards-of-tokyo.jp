@@ -1,12 +1,16 @@
+# rubocop:disable Style/BlockDelimiters, Metrics/BlockLength
+
 require 'dry-container'
 require 'require_all'
 require './app/lib/auto_inject'
 
 APP_DEPENDENCIES = Dry::Container.new.tap do |c|
-  c.register(:stripe_api_keys, memoize: true) {{
-    secret_key: ENV['STRIPE_API_SECRET_KEY'],
-    public_key: ENV['STRIPE_API_PUBLIC_KEY']
-  }}
+  c.register(:stripe_api_keys, memoize: true) do
+    {
+      secret_key: ENV['STRIPE_API_SECRET_KEY'],
+      public_key: ENV['STRIPE_API_PUBLIC_KEY'],
+    }
+  end
   c.register(:session_secret, memoize: true) { ENV['SESSION_SECRET'] || 'session_secret' }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
   c.register(:order_repository, memoize: true) { SoT::OrderRepository.new }
@@ -30,14 +34,14 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
     c.register(:logger, memoize: true) { Logger.new(STDOUT).tap { |logger| logger.level = Logger::INFO } }
     c.register(:mailer, memoize: true) {
       SoT::Mailer.new(smtp_options: {
-        domain: 'shards-of-tokyo.jp',
-        address: 'smtp.sendgrid.net',
-        port: 587,
-        enable_starttls_auto: true,
-        user_name: ENV['SENDGRID_USERNAME'],
-        password: ENV['SENDGRID_PASSWORD'],
-        authentication: :plain,
-      })
+                        domain: 'shards-of-tokyo.jp',
+                        address: 'smtp.sendgrid.net',
+                        port: 587,
+                        enable_starttls_auto: true,
+                        user_name: ENV['SENDGRID_USERNAME'],
+                        password: ENV['SENDGRID_PASSWORD'],
+                        authentication: :plain,
+                      })
     }
   else
     c.register(:logger, memoize: true) { Logger.new(STDOUT) }

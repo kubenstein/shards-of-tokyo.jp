@@ -29,7 +29,7 @@ module SoT
 
     def get_resources(type, search_opts = {}, order_by = [:id, :asc], limit = nil)
       results = table(type).where(search_opts)
-      results = (order_by[1] == :asc) ? results.order(order_by[0]) : results.reverse(order_by[0])
+      results = order_by[1] == :asc ? results.order(order_by[0]) : results.reverse(order_by[0])
       results = results.limit(limit) if limit
       results.all
     end
@@ -52,18 +52,18 @@ module SoT
 
     def remove_old_dbs
       @connection.tables
-        .select { |table_name| !table_name.to_s.start_with?("#{@database_version}_") }
-        .each { |table_name|
-          puts "dropping table #{table_name}"
-          @connection.drop_table(table_name)
-        }
+                 .reject { |table_name| table_name.to_s.start_with?("#{@database_version}_") }
+                 .each { |table_name|
+        puts "dropping table #{table_name}"
+        @connection.drop_table(table_name)
+      }
     end
 
     def configured?
       @connection.table_exists?("#{@database_version}_system")
     end
 
-    def configure
+    def configure # rubocop:disable Metrics/MethodLength
       @connection.create_table("#{@database_version}_users") do
         String :id, primary_key: true
         String :email

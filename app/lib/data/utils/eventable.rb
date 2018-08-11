@@ -9,7 +9,7 @@ module SoT
     end
 
     def events
-      (@_uncommited_events ||= [])
+      (@_uncommited_events ||= []) # rubocop:disable Naming/MemoizedInstanceVariableName
     end
 
     def reset_events

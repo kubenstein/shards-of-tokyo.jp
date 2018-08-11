@@ -32,7 +32,7 @@ module SoT
 
       def create_user(email)
         user_repository.create(
-          user_repository.new_user(email: email)
+          user_repository.new_user(email: email),
         )
       end
 

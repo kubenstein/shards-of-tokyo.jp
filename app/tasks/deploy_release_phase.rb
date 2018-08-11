@@ -1,9 +1,7 @@
 require './app/lib/lib'
 
 event_store = APP_DEPENDENCIES[:event_store]
-unless event_store.configured?
-  event_store.configure
-end
+event_store.configure unless event_store.configured?
 
 state = APP_DEPENDENCIES[:state]
 unless state.configured?

@@ -10,7 +10,7 @@ module SoT
       ]
 
       def call(params)
-        user = params[:user]
+        user = params[:user] # rubocop:disable Lint/UselessAssignment
         order_id = params[:order_id]
         stripe_token = params[:stripe_token]
 
@@ -18,9 +18,7 @@ module SoT
         if validation_results.valid?
           order = order_repository.find(order_id)
           results = pay(order: order, stripe_token: stripe_token)
-          if results.success?
-            send_email_to_user(order)
-          end
+          send_email_to_user(order) if results.success?
           send_email_to_me(order)
           results
         else
@@ -55,11 +53,9 @@ module SoT
 
           user = order.user
           unless user.stripe_customer_id
-            user.set_stripe_customer_id(payment_result.customer_id)
+            user.stripe_customer_id = payment_result.customer_id
             user_repository.save(user)
           end
-          
-          results = Results.new(order.id, [])
         else
           order.add_failed_payment(
             payment_id: payment_result.payment_id,
@@ -67,11 +63,9 @@ module SoT
             currency: order.currency,
             error_message: payment_result.error_message,
           )
-          results = Results.new(order.id, [payment_result.error_message])
         end
-
         order_repository.save(order)
-        results
+        Results.new(order.id, [payment_result.error_message])
       end
 
       def send_email_to_user(order)

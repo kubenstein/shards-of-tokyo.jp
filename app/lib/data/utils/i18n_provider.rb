@@ -2,14 +2,12 @@ require 'i18n'
 
 module SoT
   class I18nProvider
+    attr_writer :scope
+
     def initialize
       I18n.load_path = Dir[File.join('app', '**', '*.yml')]
       I18n.available_locales = [:en]
       @scope = nil
-    end
-
-    def scope(scope)
-      @scope = scope
     end
 
     def t(key, vars = {})

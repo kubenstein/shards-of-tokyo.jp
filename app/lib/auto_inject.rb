@@ -35,9 +35,9 @@ class AutoInject
     if raw_spec.is_a?(Hash)
       key = raw_spec.keys[0]
       value = raw_spec[key]
-      {alias: key, name: value}
+      { alias: key, name: value }
     else
-      {alias: raw_spec, name: raw_spec}
+      { alias: raw_spec, name: raw_spec }
     end
   end
 end
