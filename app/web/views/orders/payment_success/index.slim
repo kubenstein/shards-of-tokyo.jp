@@ -1,0 +1,9 @@
+- i18n.scope("orders-payment-success")
+
+.content
+  p.section
+    strong.title= t('title')
+    = t('desc')
+    br
+    br
+    a<> href="/orders/#{order_id}"= t('btn-go-to-order')

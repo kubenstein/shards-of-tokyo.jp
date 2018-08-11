@@ -1,0 +1,18 @@
+en:
+  registration:
+    title-create-account: Create an Account
+    error-email-taken: Email already taken..
+    error-email-invalid: Email format is invalid..
+    label-email: Email
+    label-email-desc: Our system is passwordless, each time you want to login, a login link will be sent to provided email. All comunication will be done via that email address.
+    label-initial-request: Additional Info (optional)
+    label-initial-request-placeholder: optional additional info
+    label-initial-request-desc: If you have any initial questions or requests please feel free to write. You can message at any time, later on, from the account messages page.
+    btn-create-account: Create Account
+    btn-additional-or: or
+    btn-login: Log in
+
+  successful-registration:
+    title-thank-you: Thank you for signing up!
+    text-desc: Next time you want to login, an email with a special login link will be send to
+    HTML-text-next: You can go now to <a href="/orders">Main Page</a> and tell me what are you particularly interested in, from all those amazing Japanese stuff out there!

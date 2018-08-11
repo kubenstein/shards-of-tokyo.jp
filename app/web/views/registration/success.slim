@@ -1,10 +1,10 @@
+- i18n.scope('successful-registration')
+
 .content
   p.section
-    strong.title Thank you for signing up!
-    | Next time you want to login, an email with a special login link will be send to:
+    strong.title= t('title-thank-you')
+    = t('text-desc')
     span.hightlighted-text = "「 #{user.email} 」"
 
     p.section
-      | You can go now to
-      a<> href="/orders" Main page
-      | and tell me what are you particularly interested in, from all those amazing Japanese stuff out there!
+      == t('HTML-text-next')

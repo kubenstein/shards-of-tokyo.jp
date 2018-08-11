@@ -1,8 +1,10 @@
+- i18n.scope(:orders)
+
 - selected_order_id ||= nil
 - messages = order.messages
 span.order-item
   a.link href="/orders/#{order.id}" class=(order.id == selected_order_id ? 'active' : '')
-    | Order&nbsp;
+    => t('label-order')
     = order.created_at.strftime('%d-%m-%Y')
   p.message-preview
     = messages[0].body

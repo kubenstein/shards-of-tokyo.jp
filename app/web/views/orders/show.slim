@@ -1,14 +1,15 @@
+- i18n.scope(:orders)
 - show_payment_box = !selected_order.nil? && selected_order.price_set? && !selected_order.paid?
 
 .orders
   .order-list
-    a.new-order> href="/orders/new" Place new order
+    a.new-order> href="/orders/new"= t('btn-new-order')
     - orders.each do |order|
       == slim :'orders/_order_list_item', locals: { order: order, selected_order_id: selected_order.id }
   .order
     - if show_payment_box
       .order-price
-        | Order price:
+        = t('label-order-price')
         br
         = selected_order.amount_left_to_be_paid
         | &nbsp;
@@ -20,26 +21,23 @@
             data-amount=selected_order.amount_left_to_be_paid
             data-email=current_user.email
             data-name="Shards of Tokyo"
-            data-description="Payment for order #{selected_order.id}"
+            data-description="#{t('text-order-stripe-desc')} #{selected_order.id}"
             data-locale="auto"
-            data-label="Proceed with Payment"
+            data-label= t('btn-proceed-payment')
             data-allow-remember-me="false"
             data-currency=selected_order.currency
           )
 
       - if selected_order.paid?
-        .order-price
-          | Order paid!
-          br
-          | Thank you
+        .order-price= t('text-order-paid')
 
     .messages
       - if selected_order.nil?
-        p.section.prompt 「 You haven’t placed any order yet, feel free to add one from the right hand side menu 」
+        p.section.prompt= t('text-no-orders-yet')
       - else
         - selected_order.messages.each do |message|
           .message class=(message.from_user? ? 'guest' : 'me')
             = message.body
             small.time = message.created_at.strftime('%H:%M %d-%m-%Y')
 
-        == slim :'orders/_message_form', locals: { order: selected_order, errors: message_form_error }
+        == slim :'orders/messages/_form', locals: { order: selected_order, errors: message_form_error }

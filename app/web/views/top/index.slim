@@ -1,8 +1,10 @@
+- i18n.scope(:top)
+
 .top
   a.logo href='/' Shards of Tokyo
   .menu
     - if current_user
-      a href='/orders/' Orders
-      a href='/logout/' Logout
+      a href='/orders/' = t('link-orders')
+      a href='/logout/' = t('link-logout')
     - else
-      a href='/login/' Login / Sign up
+      a href='/login/' = t('link-login-signup')

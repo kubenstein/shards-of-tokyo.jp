@@ -13,6 +13,8 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.9.21)
     hike (1.2.3)
+    i18n (1.1.0)
+      concurrent-ruby (~> 1.0)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
     mini_mime (1.0.0)
@@ -70,6 +72,7 @@ PLATFORMS
 
 DEPENDENCIES
   dry-container
+  i18n
   mysql
   pg (~> 1.0.0)
   pony

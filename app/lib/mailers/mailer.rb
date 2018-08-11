@@ -2,7 +2,10 @@ require 'pony'
 
 module SoT
   class Mailer
-    prepend Import[:logger]
+    prepend Import[
+      :i18n,
+      :logger,
+    ]
 
     def initialize(smtp_options: nil)
       @via = smtp_options ? :smtp : :test
@@ -12,8 +15,8 @@ module SoT
     def send_registration_email_to_new_user(user)
       send(
         to: user.email,
-        subject: 'Welcome to Shards of Tokyo',
-        body: "Hello!\n\nThank you for creating an account at Shards of Tokyo, I really appreciate this and welcome you personally.\n\nShards of Tokyo is made for positive people fascinated by Japan and Japanese culture. I want to share a shard of my own happiness with other people by helping importing all kind of stuff. As I love receiving physical, touchable, tastable, readable, joyable, memorable gifts myself please feel free to contact me whenever there is anything you wish to receive specially for you, directly from Japan!\n\nYou can go to http://shards-of-tokyo.jp/orders at anytime to place a new request or to check those that are already ongoing.\n\nAll notifications will be sent on that email address.\n\nStay tuned,\n\nSoT"
+        subject: i18n.t('registration_email_to_new_user.subject', scope: :mailers),
+        body: i18n.t('registration_email_to_new_user.body', scope: :mailers),
       )
     end
 
@@ -28,8 +31,8 @@ module SoT
     def send_email_about_new_message_to_user(message)
       send(
         to: message.user.email,
-        subject: '[Shards of Tokyo] new message!',
-        body: "message: #{message.body}"
+        subject: i18n.t('email_about_new_message_to_user.subject', scope: :mailers),
+        body: i18n.t('email_about_new_message_to_user.body', message: message, scope: :mailers),
       )
     end
 
@@ -52,8 +55,8 @@ module SoT
     def send_email_with_login_token_to_user(token, user)
       send(
         to: user.email,
-        subject: '[Shards of Tokyo] login link',
-        body: "Hello!\n\nBy clicking link below you will be automatically log in on device you asked for login\n\n http://shards-of-tokyo.jp/login/accept_link_from_email?token_id=#{token.id} \n\nCheers,\n\nSoT"
+        subject: i18n.t('email_with_login_token_to_user.subject', scope: :mailers),
+        body: i18n.t('email_with_login_token_to_user.body', login_token: token, scope: :mailers),
       )
     end
 
@@ -61,8 +64,8 @@ module SoT
       payment = order.payments.last
       send(
         to: order.user.email,
-        subject: "[Shards of Tokyo] order #{order.id} payment!",
-        body: "Hello!\n\nThis email is a confirmation of your payment at Shards of Tokyo.\nPayment details:\norder: ${order.id}\namount: #{payment.amount}#{payment.currency}\n\nI will take care of the delivery process and will inform you about any updates.\nThank you so much!\nSoT"
+        subject: i18n.t('email_about_payment_to_user.subject', order: order, scope: :mailers),
+        body: i18n.t('email_about_payment_to_user.body', order: order, payment: payment, scope: :mailers),
       )
     end
 

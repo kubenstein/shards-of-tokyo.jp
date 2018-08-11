@@ -10,6 +10,7 @@ gem 'slim'
 gem 'dry-container'
 gem 'sequel'
 gem 'stripe'
+gem 'i18n'
 
 gem 'sprockets'
 gem 'sprockets-sass'

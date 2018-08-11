@@ -1,14 +1,16 @@
+- i18n.scope('orders-messages')
+
 - errors ||= nil
 - fields ||= {}
 
 form.common-form method="post" action="/messages"
   .errors
     - if errors
-      | message could not be sent
+      = t('error-cant-send')
 
   label.label for="text"
-  textarea#text name="text" placeholder="message..."
+  textarea#text name="text" placeholder= t('placeholder')
     = fields['text']
 
   input type="hidden" name="order_id" value=order.id
-  button.btn.btn-submit Send message
+  button.btn.btn-submit= t('btn-send')
