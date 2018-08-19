@@ -1,3 +1,7 @@
 //= require './vendor/jquery'
+//= require './vendor/threeJs/three'
+//= require './vendor/threeJs/helpers/OBJLoader'
+//= require './vendor/threeJs/helpers/OrbitControls'
+//= require 'hero-3d-shard'
 //= require 'hero-slideshow'
 //= require 'login-check-waiting'
