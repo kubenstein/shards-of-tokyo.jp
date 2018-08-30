@@ -28,8 +28,8 @@
 		controls.enableZoom = true;
 		controls.enablePan = false;
 		controls.autoRotate = true;
-		controls.minDistance = 10;
-		controls.maxDistance = 250;
+		controls.minDistance = 15;
+		controls.maxDistance = 150;
 		controls.minPolarAngle = Math.PI / 4;
 		controls.maxPolarAngle = Math.PI / 1.5;
 
