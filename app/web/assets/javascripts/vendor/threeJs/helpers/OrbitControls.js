@@ -13,12 +13,12 @@
 //    Zoom - middle mouse, or mousewheel / touch: two-finger spread or squish
 //    Pan - right mouse, or left mouse + ctrl/metaKey, or arrow keys / touch: two-finger move
 
-THREE.OrbitControls = function ( object, domElement ) {
+THREE.OrbitControls = function ( object, $rotatableZone, $zoomableZone ) {
 
 	this.object = object;
 
-	this.domElement = ( domElement !== undefined ) ? domElement : document;
-
+	this.$rotatableZone = ( $rotatableZone !== undefined ) ? $rotatableZone : document;
+	this.$zoomableZone = ( $zoomableZone !== undefined ) ? $zoomableZone : document;
 	// Set to false to disable this control
 	this.enabled = true;
 
@@ -223,13 +223,12 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	this.dispose = function () {
 
-		scope.domElement.removeEventListener( 'contextmenu', onContextMenu, false );
-		scope.domElement.removeEventListener( 'mousedown', onMouseDown, false );
-		scope.domElement.removeEventListener( 'wheel', onMouseWheel, false );
+		scope.$rotatableZone.removeEventListener( 'mousedown', onMouseDown, false );
+		scope.$zoomableZone.removeEventListener( 'wheel', onMouseWheel, false );
 
-		scope.domElement.removeEventListener( 'touchstart', onTouchStart, false );
-		scope.domElement.removeEventListener( 'touchend', onTouchEnd, false );
-		scope.domElement.removeEventListener( 'touchmove', onTouchMove, false );
+		scope.$rotatableZone.removeEventListener( 'touchstart', onTouchStart, false );
+		scope.$rotatableZone.removeEventListener( 'touchend', onTouchEnd, false );
+		scope.$rotatableZone.removeEventListener( 'touchmove', onTouchMove, false );
 
 		document.removeEventListener( 'mousemove', onMouseMove, false );
 		document.removeEventListener( 'mouseup', onMouseUp, false );
@@ -347,7 +346,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		return function pan( deltaX, deltaY ) {
 
-			var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+			var element = scope.$rotatableZone === document ? scope.$rotatableZone.body : scope.$rotatableZone;
 
 			if ( scope.object.isPerspectiveCamera ) {
 
@@ -459,7 +458,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		rotateDelta.subVectors( rotateEnd, rotateStart ).multiplyScalar( scope.rotateSpeed );
 
-		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+		var element = scope.$rotatableZone === document ? scope.$rotatableZone.body : scope.$rotatableZone;
 
 		rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientHeight ); // yes, height
 
@@ -607,7 +606,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		rotateDelta.subVectors( rotateEnd, rotateStart ).multiplyScalar( scope.rotateSpeed );
 
-		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+		var element = scope.$rotatableZone === document ? scope.$rotatableZone.body : scope.$rotatableZone;
 
 		rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientHeight ); // yes, height
 
@@ -905,14 +904,12 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	//
 
-	scope.domElement.addEventListener( 'contextmenu', onContextMenu, false );
+	scope.$rotatableZone.addEventListener( 'mousedown', onMouseDown, false );
+	scope.$zoomableZone.addEventListener( 'wheel', onMouseWheel, false );
 
-	scope.domElement.addEventListener( 'mousedown', onMouseDown, false );
-	scope.domElement.addEventListener( 'wheel', onMouseWheel, false );
-
-	scope.domElement.addEventListener( 'touchstart', onTouchStart, false );
-	scope.domElement.addEventListener( 'touchend', onTouchEnd, false );
-	scope.domElement.addEventListener( 'touchmove', onTouchMove, false );
+	scope.$rotatableZone.addEventListener( 'touchstart', onTouchStart, false );
+	scope.$rotatableZone.addEventListener( 'touchend', onTouchEnd, false );
+	scope.$rotatableZone.addEventListener( 'touchmove', onTouchMove, false );
 
 	window.addEventListener( 'keydown', onKeyDown, false );
 
