@@ -18,11 +18,13 @@
 		scene = new THREE.Scene();
 
 		// camera
-		camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 5000);
+		camera = new THREE.PerspectiveCamera(50, $shard3dContainer.clientWidth / $shard3dContainer.clientHeight, 1, 5000);
 		camera.position.set(80, 0, 0);
 
 		// controls
-		controls = new THREE.OrbitControls(camera);
+    var $rotatableZone = $('#shard-3d-container')[0];
+    var $zoomableZone = $('#shard-3d-container .zoomable-zone')[0];
+		controls = new THREE.OrbitControls(camera, $rotatableZone, $zoomableZone);
 		controls.enableZoom = true;
 		controls.enablePan = false;
 		controls.autoRotate = true;
@@ -76,7 +78,7 @@
 		// renderer
 		renderer = new THREE.WebGLRenderer({ alpha: true });
 		renderer.setPixelRatio(window.devicePixelRatio);
-		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setSize($shard3dContainer.clientWidth, $shard3dContainer.clientHeight);
 		$shard3dContainer.appendChild(renderer.domElement);
 
 		window.addEventListener('resize', onWindowResize, false);
@@ -93,9 +95,9 @@
 	}
 
 	function onWindowResize() {
-		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.aspect = $shard3dContainer.clientWidth / $shard3dContainer.clientHeight;
 		camera.updateProjectionMatrix();
-		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setSize($shard3dContainer.clientWidth, $shard3dContainer.clientHeight);
 	}
 
 	init();
