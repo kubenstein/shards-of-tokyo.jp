@@ -26,6 +26,29 @@
   }
 }
 
+.hero-3d-shard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9;
+}
+
+#shard-3d-container {
+  .zoomable-zone {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+    height: 60%;
+    margin: auto;
+    z-index: 10;
+  }
+}
+
 .hero-slideshow {
   position: relative;
   padding-top: 60%;
@@ -36,7 +59,7 @@
     left: 0;
     right: 0;
     background: no-repeat 0 0;
-    background-size: contain;
+    background-size: cover;
   }
 
   .img1 { background-image: asset-url('hero/hero1.jpg'); }

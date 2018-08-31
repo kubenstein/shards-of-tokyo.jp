@@ -14,4 +14,3 @@ coverage
 coverage/**/*
 
 app/db/*.db*
-app/web/public/assets/
