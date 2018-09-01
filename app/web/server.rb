@@ -6,6 +6,8 @@ require './app/web/lib/asset_pipeline'
 class WebServer < Sinatra::Base
   register AssetPipeline
   enable :sessions
+  set :raise_errors, true
+  set :show_exceptions, false
   set :session_secret, APP_DEPENDENCIES[:session_secret]
 
   include Import[

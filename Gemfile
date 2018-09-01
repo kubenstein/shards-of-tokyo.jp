@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
+gem 'bugsnag'
 gem 'dry-container'
 gem 'i18n'
 gem 'pony'
