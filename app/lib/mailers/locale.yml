@@ -6,12 +6,12 @@ en:
 
     email_about_new_message_to_user:
       subject: "[Shards of Tokyo] new message!"
-      body: "message: %{message.body}"
+      body: "message: %{message_body}"
 
     email_with_login_token_to_user:
       subject: "[Shards of Tokyo] login link"
-      body: "Hello!\n\nBy clicking link below you will be automatically log in on device you asked for login\n\nhttp://shards-of-tokyo.jp/login/accept_link_from_email?token_id=%{token.id} \n\nCheers,\nSoT"
+      body: "Hello!\n\nBy clicking link below you will be automatically log in on device you asked for login\n\nhttp://shards-of-tokyo.jp/login/accept_link_from_email?token_id=%{login_token_id} \n\nCheers,\nSoT"
 
     email_about_payment_to_user:
-      subject: "[Shards of Tokyo] order %{order.id} payment!"
-      body: "Hello!\n\nThis email is a confirmation of your payment at Shards of Tokyo.\nPayment details:\norder: %{order.id}\namount: %{payment.amount}%{payment.currency}\n\nI will take care of the delivery process and will inform you about any updates.\nThank you so much!\nSoT"
+      subject: "[Shards of Tokyo] order %{order_id} payment!"
+      body: "Hello!\n\nThis email is a confirmation of your payment at Shards of Tokyo.\nPayment details:\norder: %{order_id}\namount: %{payment_amount}%{payment_currency}\n\nI will take care of the delivery process and will inform you about any updates.\nThank you so much!\nSoT"

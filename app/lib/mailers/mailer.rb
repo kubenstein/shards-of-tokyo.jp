@@ -32,7 +32,7 @@ module SoT
       send(
         to: message.user.email,
         subject: i18n.t('email_about_new_message_to_user.subject', scope: :mailers),
-        body: i18n.t('email_about_new_message_to_user.body', message: message, scope: :mailers),
+        body: i18n.t('email_about_new_message_to_user.body', message_body: message.body, scope: :mailers),
       )
     end
 
@@ -56,7 +56,7 @@ module SoT
       send(
         to: user.email,
         subject: i18n.t('email_with_login_token_to_user.subject', scope: :mailers),
-        body: i18n.t('email_with_login_token_to_user.body', login_token: token, scope: :mailers),
+        body: i18n.t('email_with_login_token_to_user.body', login_token_id: token.id, scope: :mailers),
       )
     end
 
@@ -64,8 +64,13 @@ module SoT
       payment = order.payments.last
       send(
         to: order.user.email,
-        subject: i18n.t('email_about_payment_to_user.subject', order: order, scope: :mailers),
-        body: i18n.t('email_about_payment_to_user.body', order: order, payment: payment, scope: :mailers),
+        subject: i18n.t('email_about_payment_to_user.subject', order_id: order.id, scope: :mailers),
+        body: i18n.t('email_about_payment_to_user.body',
+          order_id: order.id,
+          payment_amount: payment.amount,
+          payment_currency: payment.currency,
+          scope: :mailers
+        ),
       )
     end
 
