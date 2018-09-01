@@ -5,7 +5,11 @@ module SoT
         :user_repository
       ]
 
-      def call(email)
+      def call(params)
+        email = params[:email]
+        session_id = params[:session_id]
+
+        return Results.new([:empty_session_id]) if session_id.to_s.empty?
         return Results.new([:email_invalid]) unless email.include?('@')
         return Results.new([:email_taken]) if email_taken?(email)
 

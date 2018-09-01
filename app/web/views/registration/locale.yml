@@ -14,5 +14,5 @@ en:
 
   successful-registration:
     title-thank-you: Thank you for signing up!
-    text-desc: Next time you want to login, an email with a special login link will be send to
-    HTML-text-next: You can go now to <a href="/orders">Main Page</a> and tell me what are you particularly interested in, from all those amazing Japanese stuff out there!
+    text-desc: Each time you want to login, an email with a special login link will be send to
+    text-next: The email with one-time login password should be already in your inbox. Please check it, log in and tell me what are you particularly interested in, from all those amazing Japanese stuff out there!

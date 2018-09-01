@@ -12,11 +12,11 @@ module SoT
       @via_options = smtp_options || {}
     end
 
-    def send_registration_email_to_new_user(user)
+    def send_registration_email_to_new_user(user, login_token)
       send(
         to: user.email,
         subject: i18n.t('registration_email_to_new_user.subject', scope: :mailers),
-        body: i18n.t('registration_email_to_new_user.body', scope: :mailers),
+        body: i18n.t('registration_email_to_new_user.body', login_token_id: login_token.id, scope: :mailers),
       )
     end
 
