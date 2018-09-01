@@ -20,9 +20,10 @@ module SoT
       private
 
       def invalidate_token(session_id)
-        token = login_token_repository.find_by(session_id: session_id)
-        token.invalidate!
-        login_token_repository.save(token)
+        login_token_repository.find_all_by(session_id: session_id).each do |token|
+          token.invalidate!
+          login_token_repository.save(token)
+        end
       end
     end
   end
