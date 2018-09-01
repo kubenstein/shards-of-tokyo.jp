@@ -30,13 +30,23 @@ module SoT
       find_by(id: id)
     end
 
-    def find_by(search_opts)
-      attrs = state.get_resources(:login_tokens, search_opts)[0]
-      return nil unless attrs
+    def find_all_by(search_opts)
+      tokens_attrs = state.get_resources(:login_tokens, search_opts)
+      user_ids = tokens_attrs.map { |lta| lta[:user_id] }
+      users_attrs = state.get_resources(:users, id: user_ids)
 
-      user_attrs = state.get_resources(:users, id: attrs[:user_id])[0]
-      attrs[:user] = User.new(user_attrs)
-      LoginToken.new(attrs)
+      # users
+      users = users_attrs.map { |user_attrs| User.new(user_attrs) }
+
+      # tokens
+      tokens_attrs.map do |token_attrs|
+        token_attrs[:user] = users.find { |u| u.id == token_attrs[:user_id] }
+        LoginToken.new(token_attrs)
+      end
+    end
+
+    def find_by(search_opts)
+      find_all_by(search_opts)[0]
     end
 
     def find_valid(id)
