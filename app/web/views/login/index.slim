@@ -4,20 +4,20 @@
 - fields ||= {}
 
 form.common-form.centered-container method="post" action="/login"
-  span.highlighted-title= t('title-login')
+  span.highlighted-title= t('title_login')
 
   .errors
     - errors.each do |err|
-      = err == :empty_session_id ? t('error-session-id') : ''
-      = err == :email_not_found ? t('error-email-not-found') : ''
-      = err == :empty_email ? t('error-email-empty') : ''
+      = err == :empty_session_id ? t('error_session_id') : ''
+      = err == :email_not_found ? t('error_email_not_found') : ''
+      = err == :empty_email ? t('error_email_empty') : ''
 
   label.label for="email"
-    = t('label-email')
-    small.label-desc = t('label-email-desc')
-  input#email type="email" name="email" placeholder=t('label-email') value=fields['email']
+    = t('label_email')
+    small.label-desc = t('label_email-desc')
+  input#email type="email" name="email" placeholder=t('label_email') value=fields['email']
 
-  button.btn.btn-submit= t('btn-login')
+  button.btn.btn-submit= t('btn_login')
   span.additional
-    = t('btn-additional-or')
-    a< href="/registration" = t('btn-create-account')
+    = t('btn_additional_or')
+    a< href="/registration" = t('btn_create_account')

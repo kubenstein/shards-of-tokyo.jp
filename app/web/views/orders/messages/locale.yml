@@ -1,5 +1,5 @@
 en:
-  orders-messages:
+  orders_messages:
     placeholder: message...
-    error-cant-send: Message could not be sent
-    btn-send: Send message
+    error_cant_send: Message could not be sent
+    btn_send: Send message
