@@ -4,7 +4,7 @@
 - messages = order.messages
 span.order-item
   a.link href="/orders/#{order.id}" class=(order.id == selected_order_id ? 'active' : '')
-    => t('label-order')
+    => t('label_order')
     = order.created_at.strftime('%d-%m-%Y')
   p.message-preview
     = messages[0].body

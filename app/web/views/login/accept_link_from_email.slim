@@ -1,4 +1,4 @@
-- i18n.scope = 'login-accept-token'
+- i18n.scope = 'login_accept_token'
 - errors ||= []
 
 .content.centered-container
@@ -10,4 +10,4 @@
   - else
     .errors
       - errors.each do |err|
-        = err == :token_not_found ? t('error-token-not-found') : ''
+        = err == :token_not_found ? t('error_token_not_found') : ''
