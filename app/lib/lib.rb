@@ -1,5 +1,6 @@
 # rubocop:disable Style/BlockDelimiters, Metrics/BlockLength
 
+require 'bugsnag'
 require 'dry-container'
 require 'require_all'
 require './app/lib/auto_inject'
@@ -11,6 +12,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
       public_key: ENV['STRIPE_API_PUBLIC_KEY'],
     }
   end
+  c.register(:bugsnag_api_key, memoize: true) { ENV['BUGSNAG_API_KEY'] }
   c.register(:session_secret, memoize: true) { ENV['SESSION_SECRET'] || 'session_secret' }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
   c.register(:order_repository, memoize: true) { SoT::OrderRepository.new }
@@ -50,5 +52,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
 end
 
 Import = AutoInject.new(APP_DEPENDENCIES)
+
+Bugsnag.configure { |config| config.api_key = APP_DEPENDENCIES[:bugsnag_api_key] }
 
 require_all './app/lib'
