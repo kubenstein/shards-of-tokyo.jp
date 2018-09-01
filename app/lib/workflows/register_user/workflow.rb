@@ -16,7 +16,7 @@ module SoT
         validation_results = Validator.new.call(params)
         if validation_results.valid?
           user = create_user(email)
-          create_initial_message(user, info) if info
+          create_initial_message(user, info) unless info.to_s.empty?
           login_token = create_login_token_for_user(user, session_id)
           send_email_to_user(user, login_token)
           send_email_to_me(user)
