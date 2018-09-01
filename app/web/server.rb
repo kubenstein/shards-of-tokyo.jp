@@ -87,6 +87,7 @@ class WebServer < Sinatra::Base
   post '/registration' do
     return redirect '/orders/' if current_user
 
+    params[:session_id] = session.id
     registration_results = register_user_workflow.call(params)
     if registration_results.success?
       session[:current_user_id] = registration_results.user_id

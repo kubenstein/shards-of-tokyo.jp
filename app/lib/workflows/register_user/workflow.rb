@@ -4,17 +4,21 @@ module SoT
       include Import[
         :user_repository,
         :order_repository,
+        :login_token_repository,
         :mailer
       ]
 
       def call(params)
         email = params[:email]
         info = params[:info]
-        validation_results = Validator.new.call(email)
+        session_id = params[:session_id]
+
+        validation_results = Validator.new.call(params)
         if validation_results.valid?
           user = create_user(email)
           create_initial_message(user, info) if info
-          send_email_to(user)
+          login_token = create_login_token_for_user(user, session_id)
+          send_email_to_user(user, login_token)
           send_email_to_me(user)
           Results.new(user.id, [])
         else
@@ -42,8 +46,14 @@ module SoT
         order_repository.create(order)
       end
 
-      def send_email_to(user)
-        mailer.send_registration_email_to_new_user(user)
+      def create_login_token_for_user(user, session_id)
+        login_token_repository.new_login_token(user, session_id).tap do |login_token|
+          login_token_repository.create(login_token)
+        end
+      end
+
+      def send_email_to_user(user, login_token)
+        mailer.send_registration_email_to_new_user(user, login_token)
       end
 
       def send_email_to_me(user)
