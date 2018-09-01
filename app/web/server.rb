@@ -58,7 +58,11 @@ class WebServer < Sinatra::Base
   get '/login/accept_link_from_email/?' do
     login_confirmation = login_user_step2_workflow.call(params)
     if login_confirmation.success?
-      slim :'login/accept_link_from_email'
+      if login_confirmation.session_id == session.id
+        redirect '/orders/'
+      else
+        slim :'login/accept_link_from_email'
+      end
     else
       slim :'login/accept_link_from_email', locals: { errors: login_confirmation.errors }
     end
