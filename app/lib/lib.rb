@@ -27,7 +27,9 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:set_order_price_workflow, memoize: true) { SoT::SetOrderPrice::Workflow.new }
   c.register(:pay_for_order_workflow, memoize: true) { SoT::PayForOrder::Workflow.new }
   c.register(:i18n, memoize: true) { SoT::I18nProvider.new }
-  c.register(:event_store, memoize: true) { SoT::SqlEventStore.new(ENV['CLEARDB_DATABASE_URL']) }
+  c.register(:event_store, memoize: true) {
+    SoT::SqlEventStore.new(ENV['EVENTS_DATABASE_URL'] || ENV['JAWSDB_MARIA_URL'])
+  }
   c.register(:state, memoize: true) {
     SoT::SqlState.new(ENV['DATABASE_URL'], c[:event_store], database_version: ENV['HEROKU_RELEASE_VERSION'] || 'v0')
   }
