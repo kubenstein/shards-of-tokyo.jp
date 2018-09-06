@@ -4,8 +4,8 @@ en:
     label_order: Order
     label_order-price: "Order price:"
     label_text: New Order
-    label_text_desc: "Write down what are you interested in:"
-    label_text-placeholder: order...
+    label_text_desc: "If you have a particular Japanese item you would love to receive please describe it here. I will try to find and buy it for you. I know myself very well how amazing Japanese items can be!"
+    label_text-placeholder: I wsh I can have...
     error_text_empty: Text can't be empty
     btn_new_order: Place new Order
     btn_submit_order: Submit Order
