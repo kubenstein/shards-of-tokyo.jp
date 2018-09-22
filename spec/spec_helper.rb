@@ -1,3 +1,5 @@
+# rubocop:disable Style/BlockDelimiters
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -14,10 +16,22 @@ require 'require_all'
 require './app/lib/auto_inject'
 
 APP_DEPENDENCIES = Dry::Container.new.tap do |c|
+  c.register(:logger, memoize: true) { Logger.new(IO::NULL) }
+  c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
+  c.register(:login_token_repository, memoize: true) { SoT::LoginTokenRepository.new }
+  c.register(:event_store, memoize: true) {
+    SoT::SqlEventStore.new('sqlite:/').tap(&:configure)
+  }
+  c.register(:state, memoize: true) {
+    SoT::SqlState.new('sqlite:/', c[:event_store]).tap(&:configure).tap(&:connect_to_event_store)
+  }
 end
 
 Import = AutoInject.new(APP_DEPENDENCIES)
 
 require_all(
-  Dir.glob('./app/lib/**/*.rb').reject { |fname| fname.include?('lib.rb') || fname.include?('spec.rb') },
+  Dir.glob('./app/lib/**/*.rb').reject { |fname|
+    fname.include?('lib.rb') || # dont load original lib with dep definitions
+    fname.include?('spec.rb')
+  },
 )
