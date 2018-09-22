@@ -18,7 +18,7 @@ module SoT
     end
 
     def last
-      attrs = state.get_resources(:login_tokens, {}, [:id, :desc], 1)[0]
+      attrs = state.get_resources(:login_tokens, {}, [:created_at, :desc], 1)[0]
       return nil unless attrs
 
       user_attrs = state.get_resources(:users, id: attrs[:user_id])[0]
