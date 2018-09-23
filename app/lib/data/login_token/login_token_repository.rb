@@ -26,6 +26,10 @@ module SoT
       LoginToken.new(attrs)
     end
 
+    def all
+      find_all_by({})
+    end
+
     def find(id)
       find_by(id: id)
     end
