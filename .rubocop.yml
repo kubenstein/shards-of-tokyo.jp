@@ -35,6 +35,12 @@ Metrics/LineLength:
   Max: 120
   IgnoredPatterns: ['(\A|\s)#']
 
+Metrics/BlockLength:
+  Description: 'Limit block lines 25'
+  Enabled: true
+  Exclude:
+    - '**/*_spec.rb'
+
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 30 lines of code.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#short-methods'
