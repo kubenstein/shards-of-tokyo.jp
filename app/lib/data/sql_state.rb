@@ -68,6 +68,7 @@ module SoT
         String :id, primary_key: true
         String :email
         String :stripe_customer_id
+        Time :created_at
       end
 
       @connection.create_table("#{@database_version}_messages") do
