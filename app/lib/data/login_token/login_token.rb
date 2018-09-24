@@ -36,6 +36,12 @@ module SoT
       user.email
     end
 
+    def ==(other)
+      other &&
+        id == other.id &&
+        session_id == other.session_id
+    end
+
     # attr_reader boilerplate
     def user
       @_user

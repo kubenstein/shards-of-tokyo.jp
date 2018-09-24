@@ -23,7 +23,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
     SoT::SqlEventStore.new('sqlite:/').tap(&:configure)
   }
   c.register(:state, memoize: true) {
-    SoT::SqlState.new('sqlite:/', c[:event_store]).tap(&:configure).tap(&:connect_to_event_store)
+    SoT::SqlState.new('sqlite:/', c[:event_store], database_version: 1).tap(&:configure).tap(&:connect_to_event_store)
   }
 end
 
@@ -35,3 +35,11 @@ require_all(
     fname.include?('spec.rb')
   },
 )
+
+# monkey patches
+
+state = APP_DEPENDENCIES[:state]
+def state.reset!
+  @database_version += 1
+  configure
+end
