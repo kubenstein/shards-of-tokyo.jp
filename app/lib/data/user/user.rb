@@ -15,5 +15,11 @@ module SoT
       @stripe_customer_id = customer_id
       add_event(UserStripeCustomerIdUpdatedEvent.build(self))
     end
+
+    def ==(other)
+      other &&
+        id == other.id &&
+        email == other.email
+    end
   end
 end
