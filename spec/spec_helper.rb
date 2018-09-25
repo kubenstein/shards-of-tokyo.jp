@@ -18,6 +18,7 @@ require './app/lib/auto_inject'
 APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   c.register(:logger, memoize: true) { Logger.new(IO::NULL) }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
+  c.register(:order_repository, memoize: true) { SoT::OrderRepository.new }
   c.register(:login_token_repository, memoize: true) { SoT::LoginTokenRepository.new }
   c.register(:event_store, memoize: true) {
     SoT::SqlEventStore.new('sqlite:/').tap(&:configure)
