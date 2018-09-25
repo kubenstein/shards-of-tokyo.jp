@@ -17,16 +17,17 @@ module SoT
       @_order = order
     end
 
+    def successful?
+      error.nil?
+    end
+
     def user
       order.user
     end
 
+    # attr_reader boilerplate
     def order
       @_order
-    end
-
-    def successful?
-      error.nil?
     end
   end
 end
