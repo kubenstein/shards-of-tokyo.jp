@@ -3,7 +3,7 @@ describe SoT::LoginToken do
   let(:user_repo) { APP_DEPENDENCIES[:user_repository] }
 
   let(:user) { user_repo.new_user(email: 'test@test.pl') }
-  subject(:login_token) { lt_repo.new_login_token(user, 'dummy_session_id') }
+  subject { lt_repo.new_login_token(user, 'dummy_session_id') }
 
   it 'can be invalidated' do
     subject.invalidate!
