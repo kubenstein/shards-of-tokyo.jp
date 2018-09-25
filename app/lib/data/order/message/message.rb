@@ -20,6 +20,7 @@ module SoT
       user.id == order.user.id
     end
 
+    # attr_reader boilerplate
     def user
       @_user
     end
