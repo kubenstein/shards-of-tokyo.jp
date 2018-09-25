@@ -9,7 +9,7 @@ module SoT
         session_id = params[:session_id]
 
         token = login_token_repository.find_by(session_id: session_id)
-        if token.confirmed?
+        if token.active?
           Results.new(nil, [])
         else
           Results.new(token.user_email, [:confirmed_token_not_found])

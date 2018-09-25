@@ -28,16 +28,23 @@ module SoT
       add_event(LoginTokenConfirmedEvent.build(self))
     end
 
-    def confirmed?
+    def active?
       confirmed && !invalidated
-    end
-
-    def user
-      @_user
     end
 
     def user_email
       user.email
+    end
+
+    def ==(other)
+      other &&
+        id == other.id &&
+        session_id == other.session_id
+    end
+
+    # attr_reader boilerplate
+    def user
+      @_user
     end
   end
 end

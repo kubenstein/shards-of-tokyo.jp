@@ -26,12 +26,16 @@ module SoT
       LoginToken.new(attrs)
     end
 
+    def all
+      find_all_by({})
+    end
+
     def find(id)
       find_by(id: id)
     end
 
     def find_all_by(search_opts)
-      tokens_attrs = state.get_resources(:login_tokens, search_opts)
+      tokens_attrs = state.get_resources(:login_tokens, search_opts, [:created_at, :asc])
       user_ids = tokens_attrs.map { |lta| lta[:user_id] }
       users_attrs = state.get_resources(:users, id: user_ids)
 

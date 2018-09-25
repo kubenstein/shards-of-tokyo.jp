@@ -27,7 +27,7 @@ module SoT
       save_last_event_id(event)
     end
 
-    def get_resources(type, search_opts = {}, order_by = [:id, :asc], limit = nil)
+    def get_resources(type, search_opts = {}, order_by = [:created_at, :asc], limit = nil)
       results = table(type).where(search_opts)
       results = order_by[1] == :asc ? results.order(order_by[0]) : results.reverse(order_by[0])
       results = results.limit(limit) if limit
@@ -68,6 +68,7 @@ module SoT
         String :id, primary_key: true
         String :email
         String :stripe_customer_id
+        Time :created_at
       end
 
       @connection.create_table("#{@database_version}_messages") do

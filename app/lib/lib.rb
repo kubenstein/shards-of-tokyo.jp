@@ -57,4 +57,6 @@ Import = AutoInject.new(APP_DEPENDENCIES)
 
 Bugsnag.configure { |config| config.api_key = APP_DEPENDENCIES[:bugsnag_api_key] }
 
-require_all './app/lib'
+require_all(
+  Dir.glob('./app/lib/**/*.rb').reject { |fname| fname.include?('spec.rb') },
+)
