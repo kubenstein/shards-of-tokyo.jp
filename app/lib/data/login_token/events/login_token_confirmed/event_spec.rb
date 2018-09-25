@@ -16,9 +16,11 @@ describe SoT::LoginTokenConfirmedEvent do
 
   it 'handles the event by marking given login token as confirmed' do
     event = subject.build(login_token)
-    subject.handle(event, state)
 
-    confirmed_login_token = lt_repo.find(login_token.id)
-    expect(confirmed_login_token.confirmed).to eq true
+    expect {
+      subject.handle(event, state)
+    }.to change {
+      state.get_resources(:login_tokens, id: login_token.id)[0][:confirmed]
+    }.from(false).to(true)
   end
 end

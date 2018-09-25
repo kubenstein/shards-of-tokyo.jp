@@ -18,6 +18,8 @@ describe SoT::LoginTokenCreatedEvent do
 
     expect {
       subject.handle(event, state)
-    }.to change { lt_repo.all.count }.by 1
+    }.to change {
+      state.get_resources(:login_tokens, id: login_token.id).count
+    }.by 1
   end
 end
