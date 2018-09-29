@@ -8,7 +8,7 @@ class WebServer < Sinatra::Base
   enable :sessions
   set :raise_errors, true
   set :show_exceptions, false
-  set :session_secret, APP_DEPENDENCIES[:session_secret]
+  set :session_secret, APP_COMPONENTS[:session_secret]
 
   include Import[
     :i18n,

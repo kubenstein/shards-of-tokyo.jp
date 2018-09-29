@@ -1,6 +1,6 @@
 describe SoT::UserCreatedEvent do
-  let(:state) { APP_DEPENDENCIES[:state] }
-  let(:user) { APP_DEPENDENCIES[:user_repository].new_user(email: 'test@test.pl') }
+  let(:state) { APP_COMPONENTS[:state] }
+  let(:user) { APP_COMPONENTS[:user_repository].new_user(email: 'test@test.pl') }
 
   it 'creates proper user created event from user object' do
     event = subject.build(user)

@@ -1,5 +1,5 @@
 describe SoT::UserRepository do
-  let(:state) { APP_DEPENDENCIES[:state] }
+  let(:state) { APP_COMPONENTS[:state] }
 
   it 'creates new user' do
     user = subject.new_user(email: 'test@test.pl')
@@ -19,7 +19,7 @@ describe SoT::UserRepository do
   end
 
   describe 'finders' do
-    let(:lt_repo) { APP_DEPENDENCIES[:login_token_repository] }
+    let(:lt_repo) { APP_COMPONENTS[:login_token_repository] }
     let(:user1) { subject.save(subject.new_user(email: 'user1@test.pl')) }
     let(:user2) { subject.save(subject.new_user(email: 'user2@test.pl')) }
     let(:user3) { subject.save(subject.new_user(email: 'niewczas.jakub@gmail.com')) }

@@ -1,7 +1,7 @@
 describe SoT::LoginTokenInvalidatedEvent do
-  let(:state) { APP_DEPENDENCIES[:state] }
-  let(:lt_repo) { APP_DEPENDENCIES[:login_token_repository] }
-  let(:user_repo) { APP_DEPENDENCIES[:user_repository] }
+  let(:state) { APP_COMPONENTS[:state] }
+  let(:lt_repo) { APP_COMPONENTS[:login_token_repository] }
+  let(:user_repo) { APP_COMPONENTS[:user_repository] }
 
   let(:user) { user_repo.save(user_repo.new_user(email: 'test@test.pl')) }
   let(:login_token) { lt_repo.save(lt_repo.new_login_token(user, 'dummy_session_id')) }

@@ -1,6 +1,6 @@
 describe SoT::Order do
-  let(:order_repo) { APP_DEPENDENCIES[:order_repository] }
-  let(:user_repo) { APP_DEPENDENCIES[:user_repository] }
+  let(:order_repo) { APP_COMPONENTS[:order_repository] }
+  let(:user_repo) { APP_COMPONENTS[:user_repository] }
 
   let(:user) { user_repo.new_user(email: 'test@test.pl') }
   subject { order_repo.new_order(user: user) }

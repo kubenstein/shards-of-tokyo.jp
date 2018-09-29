@@ -1,6 +1,6 @@
 describe SoT::UserStripeCustomerIdUpdatedEvent do
-  let(:state) { APP_DEPENDENCIES[:state] }
-  let(:repo) { APP_DEPENDENCIES[:user_repository] }
+  let(:state) { APP_COMPONENTS[:state] }
+  let(:repo) { APP_COMPONENTS[:user_repository] }
 
   let(:user) { repo.save(repo.new_user(email: 'test@test.pl')) }
 

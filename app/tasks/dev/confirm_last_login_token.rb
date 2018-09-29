@@ -1,6 +1,6 @@
 require './app/lib/lib'
 
-repo = APP_DEPENDENCIES[:login_token_repository]
+repo = APP_COMPONENTS[:login_token_repository]
 
 login_token = repo.last
 login_token.confirm!
