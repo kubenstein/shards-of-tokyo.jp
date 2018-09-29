@@ -30,9 +30,10 @@ module SoT
       private
 
       def set_order_price(order_id, price, currency, requester)
-        order = order_repository.find(order_id)
-        order.set_price(price, currency, requester_id: requester.id)
-        order_repository.save(order)
+        order_repository.find(order_id).tap do |order|
+          order.set_price(price, currency, requester_id: requester.id)
+          order_repository.save(order)
+        end
       end
     end
   end
