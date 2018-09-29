@@ -5,7 +5,7 @@ require 'dry-container'
 require 'require_all'
 require './app/lib/auto_inject'
 
-APP_DEPENDENCIES = Dry::Container.new.tap do |c|
+APP_COMPONENTS = Dry::Container.new.tap do |c|
   c.register(:stripe_api_keys, memoize: true) do
     {
       secret_key: ENV['STRIPE_API_SECRET_KEY'],
@@ -53,9 +53,9 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   end
 end
 
-Import = AutoInject.new(APP_DEPENDENCIES)
+Import = AutoInject.new(APP_COMPONENTS)
 
-Bugsnag.configure { |config| config.api_key = APP_DEPENDENCIES[:bugsnag_api_key] }
+Bugsnag.configure { |config| config.api_key = APP_COMPONENTS[:bugsnag_api_key] }
 
 require_all(
   Dir.glob('./app/lib/**/*.rb').reject { |fname| fname.include?('spec.rb') },

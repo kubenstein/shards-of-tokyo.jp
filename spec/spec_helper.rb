@@ -15,7 +15,7 @@ require 'dry-container'
 require 'require_all'
 require './app/lib/auto_inject'
 
-APP_DEPENDENCIES = Dry::Container.new.tap do |c|
+APP_COMPONENTS = Dry::Container.new.tap do |c|
   c.register(:logger, memoize: true) { Logger.new(IO::NULL) }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
   c.register(:order_repository, memoize: true) { SoT::OrderRepository.new }
@@ -28,7 +28,7 @@ APP_DEPENDENCIES = Dry::Container.new.tap do |c|
   }
 end
 
-Import = AutoInject.new(APP_DEPENDENCIES)
+Import = AutoInject.new(APP_COMPONENTS)
 
 require_all(
   Dir.glob('./app/lib/**/*.rb').reject { |fname|
@@ -39,7 +39,7 @@ require_all(
 
 # monkey patches
 
-state = APP_DEPENDENCIES[:state]
+state = APP_COMPONENTS[:state]
 def state.reset!
   @database_version += 1
   configure
