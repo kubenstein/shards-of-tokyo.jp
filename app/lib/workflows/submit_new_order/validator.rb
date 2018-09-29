@@ -2,9 +2,11 @@ module SoT
   module SubmitNewOrder
     class Validator
       def call(params)
-        return Results.new([:empty_text]) if params['text'].to_s.empty?
+        errors = []
+        errors << :empty_text if params[:text].to_s.empty?
+        errors << :user_not_found unless params[:user]
 
-        Results.new([])
+        Results.new(errors)
       end
 
       class Results < Struct.new(:errors)

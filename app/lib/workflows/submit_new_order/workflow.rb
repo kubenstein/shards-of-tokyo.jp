@@ -15,13 +15,17 @@ module SoT
         if validation_results.valid?
           order = create_order(user, text)
           send_email_to_me(order)
-          Results.new(order.id, [])
+          Results.new(order, [])
         else
           Results.new(nil, validation_results.errors)
         end
       end
 
-      class Results < Struct.new(:order_id, :errors)
+      class Results < Struct.new(:order, :errors)
+        def order_id
+          order.id
+        end
+
         def success?
           errors.empty?
         end
