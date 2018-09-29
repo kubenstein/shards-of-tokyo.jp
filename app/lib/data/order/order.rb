@@ -19,16 +19,26 @@ module SoT
       @_payments = payments
     end
 
-    def messages
-      @_messages
+    def price_set?
+      !price.nil?
     end
 
-    def user
-      @_user
+    def paid?
+      price_set? && amount_left_to_be_paid == 0
     end
 
-    def payments
-      @_payments
+    def amount_left_to_be_paid
+      (price || 0) - payments.select(&:successful?).reduce(0) { |total, payment| total + payment.amount }
+    end
+
+    def request_text
+      messages[0]&.body || ''
+    end
+
+    def set_price(price, currency, requester_id: nil)
+      @price = price
+      @currency = currency
+      add_event(OrderPriceChangedEvent.build(self, requester_id: requester_id))
     end
 
     def add_message(text:, from_user:)
@@ -43,24 +53,6 @@ module SoT
         @_messages << message
         add_event(MessageCreatedEvent.build(message))
       end
-    end
-
-    def price_set?
-      !price.nil?
-    end
-
-    def paid?
-      price_set? && amount_left_to_be_paid == 0
-    end
-
-    def set_price(price, currency, requester_id: nil)
-      @price = price
-      @currency = currency
-      add_event(OrderPriceChangedEvent.build(self, requester_id: requester_id))
-    end
-
-    def amount_left_to_be_paid
-      (price || 0) - payments.select(&:successful?).reduce(0) { |total, payment| total + payment.amount }
     end
 
     def add_successful_payment(payment_id:, amount:, currency:)
@@ -94,8 +86,17 @@ module SoT
       end
     end
 
-    def request_text
-      messages[0].body
+    # attr_reader boilerplate
+    def messages
+      @_messages
+    end
+
+    def user
+      @_user
+    end
+
+    def payments
+      @_payments
     end
   end
 end
