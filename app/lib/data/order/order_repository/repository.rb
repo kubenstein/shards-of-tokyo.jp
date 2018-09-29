@@ -4,7 +4,12 @@ module SoT
     include ResourceSavable
 
     def new_order(user:)
-      order_attr = { id: GenerateId.new.call, user: user, created_at: Time.now, price: nil, currency: nil }
+      order_attr = {
+        id: GenerateId.new.call,
+        user: user, created_at: Time.now,
+        price: nil,
+        currency: nil
+      }
       Order.new(order_attr).tap { |order|
         order.add_event(OrderCreatedEvent.build(order))
       }
@@ -16,6 +21,8 @@ module SoT
 
     def find(id)
       order_attr = state.get_resources(:orders, id: id)[0]
+      return nil unless order_attr
+
       messages_attr = state.get_resources(:messages, { order_id: order_attr[:id] }, [:created_at, :asc])
       user_ids = (messages_attr.map { |h| h[:user_id] } + [order_attr[:user_id]]).uniq
       users_attr = state.get_resources(:users, id: user_ids)

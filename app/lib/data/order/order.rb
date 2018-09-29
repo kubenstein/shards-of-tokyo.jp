@@ -86,6 +86,10 @@ module SoT
       end
     end
 
+    def ==(other)
+      id == other.id
+    end
+
     # attr_reader boilerplate
     def messages
       @_messages
