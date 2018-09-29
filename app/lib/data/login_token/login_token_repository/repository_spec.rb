@@ -1,4 +1,5 @@
 describe SoT::LoginTokenRepository do
+  let(:state) { APP_DEPENDENCIES[:state] }
   let(:user_repo) { APP_DEPENDENCIES[:user_repository] }
   let(:user) { user_repo.save(user_repo.new_user(email: 'test@test.pl')) }
 
@@ -27,7 +28,7 @@ describe SoT::LoginTokenRepository do
     let(:login_token3) { subject.save(subject.new_login_token(user, 'login_token3')) }
 
     before(:each) do
-      APP_DEPENDENCIES[:state].reset!
+      state.reset!
     end
 
     it 'returns last token' do

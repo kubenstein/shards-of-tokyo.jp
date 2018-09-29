@@ -1,4 +1,5 @@
 describe SoT::OrderRepository do
+  let(:state) { APP_DEPENDENCIES[:state] }
   let(:user_repo) { APP_DEPENDENCIES[:user_repository] }
   let(:user) { user_repo.save(user_repo.new_user(email: 'test@test.pl')) }
 
@@ -35,7 +36,7 @@ describe SoT::OrderRepository do
     let(:other_user_order) { subject.save(subject.new_order(user: other_user)) }
 
     before(:each) do
-      APP_DEPENDENCIES[:state].reset!
+      state.reset!
     end
 
     it 'finds an order' do

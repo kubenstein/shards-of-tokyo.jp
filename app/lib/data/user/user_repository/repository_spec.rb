@@ -1,4 +1,6 @@
 describe SoT::UserRepository do
+  let(:state) { APP_DEPENDENCIES[:state] }
+
   it 'creates new user' do
     user = subject.new_user(email: 'test@test.pl')
 
@@ -23,7 +25,7 @@ describe SoT::UserRepository do
     let(:user3) { subject.save(subject.new_user(email: 'niewczas.jakub@gmail.com')) }
 
     before(:each) do
-      APP_DEPENDENCIES[:state].reset!
+      state.reset!
     end
 
     it 'checkes existance' do
