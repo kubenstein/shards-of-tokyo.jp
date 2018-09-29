@@ -23,8 +23,10 @@ module SoT
     end
 
     def add_event(event)
-      ApplyEvent.new.call(event, self)
-      save_last_event_id(event)
+      @connection.transaction do
+        ApplyEvent.new.call(event, self)
+        save_last_event_id(event)
+      end
     end
 
     def get_resources(type, search_opts = {}, order_by = [:created_at, :asc], limit = nil)
