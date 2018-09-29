@@ -116,7 +116,7 @@ class WebServer < Sinatra::Base
     if results.success?
       redirect "/orders/#{results.order_id}"
     else
-      orders = order_repository.for_user_newest_first(current_user.id)
+      orders = order_repository.for_user_newest_first(user_id: current_user.id)
       slim :'orders/new', locals: { orders: orders, errors: results.errors, fields: params }
     end
   end
@@ -124,7 +124,7 @@ class WebServer < Sinatra::Base
   get '/orders/new' do
     return redirect '/login/' unless current_user
 
-    orders = order_repository.for_user_newest_first(current_user.id)
+    orders = order_repository.for_user_newest_first(user_id: current_user.id)
     slim :'orders/new', locals: { orders: orders }
   end
 
@@ -149,7 +149,7 @@ class WebServer < Sinatra::Base
   get '/orders/?:order_id?/?' do
     return redirect '/login/' unless current_user
 
-    orders = order_repository.for_user_newest_first(current_user.id)
+    orders = order_repository.for_user_newest_first(user_id: current_user.id)
     selected_order = params[:order_id] ? orders.find { |o| o.id == params[:order_id] } : orders[0]
 
     slim :'orders/show', locals: {

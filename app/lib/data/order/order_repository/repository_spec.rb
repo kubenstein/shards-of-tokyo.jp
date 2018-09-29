@@ -68,7 +68,7 @@ describe SoT::OrderRepository do
       order2.add_successful_payment(payment_id: 'payment_id1', amount: 100, currency: 'usd')
       subject.save(order2)
 
-      found_orders = subject.for_user_newest_first(user.id)
+      found_orders = subject.for_user_newest_first(user_id: user.id)
       newest_order = found_orders[0]
 
       expect(found_orders.count).to eq 2

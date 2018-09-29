@@ -55,7 +55,7 @@ module SoT
       order
     end
 
-    def for_user_newest_first(user_id)
+    def for_user_newest_first(user_id:)
       orders_attr = state.get_resources(:orders, { user_id: user_id }, [:created_at, :desc])
       order_ids = orders_attr.map { |h| h[:id] }
       messages_attr = state.get_resources(:messages, { order_id: order_ids }, [:created_at, :asc])
