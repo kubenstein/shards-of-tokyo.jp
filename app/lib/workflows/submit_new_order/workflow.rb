@@ -34,9 +34,10 @@ module SoT
       private
 
       def create_order(from_user, text)
-        order = order_repository.new_order(user: from_user)
-        order.add_message(text: text, from_user: from_user)
-        order_repository.create(order)
+        order_repository.new_order(user: from_user).tap do |order|
+          order.add_message(text: text, from_user: from_user)
+          order_repository.create(order)
+        end
       end
 
       def send_email_to_me(order)
