@@ -4,8 +4,8 @@ module SoT
   class I18nProvider
     attr_writer :scope
 
-    def initialize
-      I18n.load_path = Dir[File.join('app', '**', '*.yml')]
+    def initialize(ymls_load_path: Dir[File.join('app', '**', '*.yml')])
+      I18n.load_path = ymls_load_path
       I18n.available_locales = [:en]
       @scope = nil
     end

@@ -1,0 +1,4 @@
+en:
+  in_scope:
+    text: 'Text in scope'
+  text: 'Text not in any scope'
