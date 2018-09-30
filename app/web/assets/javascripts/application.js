@@ -5,3 +5,4 @@
 //= require './hero-3d-shard/main'
 //= require 'hero-slideshow'
 //= require 'login-check-waiting'
+//= require 'i-want-btn'

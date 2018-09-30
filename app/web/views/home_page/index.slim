@@ -22,6 +22,10 @@
       img src=asset_path('candies-plan.jpg')
     .right
       = t('candies_plan_content')
+      br
+      br
+      br
+      button.btn.iwant(data-info-placeholder=t('candies_plan_iwant_text'))= t('candies_plan_button')
 
   p.section
     strong.title= t('custom_plan_title')
@@ -41,8 +45,8 @@
   .two-columns
     .left
       .double-images
-        img src=asset_path('side-img.jpg')
-        img src=asset_path('side-img-2.jpg')
+        img.iwant src=asset_path('side-img.jpg') data-info-placeholder=t('bentobox_iwant_text')
+        img.iwant src=asset_path('side-img-2.jpg') data-info-placeholder=t('charms_iwant_text')
 
     .right
       - if current_user

@@ -15,10 +15,10 @@ form.common-form method="post" action="/registration"
     small.label-desc= t('label_email-desc')
   input#email type="email" name="email" placeholder=t('label_email') value=fields['email']
 
-  label.label for="info"
+  label.label for="text"
     = t('label_initial_request')
     small.label-desc= t('label_initial_request-desc')
-  textarea#info name="info" placeholder=t('label_initial_request-placeholder')
+  textarea#text name="info" placeholder=t('label_initial_request-placeholder')
     = fields['info']
 
   button.btn.btn-submit= t('btn_create_account')
