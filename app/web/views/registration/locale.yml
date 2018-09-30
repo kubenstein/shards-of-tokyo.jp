@@ -4,7 +4,7 @@ en:
     error_email_taken: Email already taken..
     error_email_invalid: Email format is invalid..
     label_email: Email
-    label_email-desc: Our system is password-less, each time you want to login, a login link will be sent to a registered email. All communication will be done via that email address.
+    label_email-desc: This system is password-less, each time you want to login, a login link will be sent to a registered email. All communication will be done via that email address.
     label_initial_request: Japanese item description you wish to receive (optional)
     label_initial_request-placeholder: optional japanese item description
     label_initial_request-desc: If you already know which Japanese item you would love to receive please describe it here. You can do this later on at any time.

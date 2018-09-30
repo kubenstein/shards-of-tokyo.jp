@@ -11,34 +11,32 @@
     .hero-img.hero5
 .content
   p.section
-    strong.title= t('about_title')
+    strong.title.black= t('about_title')
     = t('about_content')
 
   p.section
-    strong.title= t('howitworks_title')
+    strong.title= t('candies_plan_title')
 
   .section.two-columns
     .left
-      img src=asset_path('how-it-works.jpg')
+      img src=asset_path('candies-plan.jpg')
     .right
-      = t('section1_content')
-
-  .section.two-columns
-    .left
-      = t('section2_content')
-    .right-img
-      img src=asset_path('how-it-works.jpg')
-
-  .section.two-columns
-    .left
-      img src=asset_path('how-it-works.jpg')
-    .right
-      = t('section3_content')
-
+      = t('candies_plan_content')
 
   p.section
-    strong.title= t('price_title')
-    = t('price_content')
+    strong.title= t('custom_plan_title')
+
+  .section.two-columns
+    .left
+      img src=asset_path('custom-plan.jpg')
+    .right
+      = t('custom_plan_content')
+
+  .section.two-columns
+    .left
+      = t('custom_plan_content2')
+    .right-img
+      img src=asset_path('custom-plan.jpg')
 
   .two-columns
     .left
