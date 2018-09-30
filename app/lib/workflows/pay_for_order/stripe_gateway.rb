@@ -2,14 +2,19 @@ require 'stripe'
 
 module SoT
   class StripeGateway
-    include Import[
+    prepend Import[
       :stripe_api_keys,
     ]
+
+    def initialize(stripe_charge: Stripe::Charge, stripe_customer: Stripe::Customer)
+      @stripe_charge = stripe_charge
+      @stripe_customer = stripe_customer
+    end
 
     def call(order_id:, payer_email:, payer_stripe_customer_id: nil, stripe_token:, amount:, currency:) # rubocop:disable Metrics/ParameterLists
       customer_id = create_or_retrieve_customer_id(stripe_token, payer_email, payer_stripe_customer_id)
 
-      stripe_charge = Stripe::Charge.create({
+      stripe_charge = @stripe_charge.create({
                                               amount: amount,
                                               description: "Shards of Tokyo payment for order: #{order_id}",
                                               currency: currency,
@@ -55,7 +60,7 @@ module SoT
     def create_or_retrieve_customer_id(stripe_token, payer_email, payer_stripe_customer_id)
       return payer_stripe_customer_id if payer_stripe_customer_id
 
-      stripe_customer = Stripe::Customer.create({
+      stripe_customer = @stripe_customer.create({
                                                   email: payer_email,
                                                   source: stripe_token,
                                                 },

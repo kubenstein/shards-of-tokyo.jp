@@ -20,13 +20,17 @@ module SoT
           login_token = create_login_token_for_user(user, session_id)
           send_email_to_user(user, login_token)
           send_email_to_me(user)
-          Results.new(user.id, [])
+          Results.new(user, [])
         else
           Results.new(nil, validation_results.errors)
         end
       end
 
-      class Results < Struct.new(:user_id, :errors)
+      class Results < Struct.new(:user, :errors)
+        def user_id
+          user.id
+        end
+
         def success?
           errors.empty?
         end
