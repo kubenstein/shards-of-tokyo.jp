@@ -10,9 +10,12 @@
     .hero-img.hero4
     .hero-img.hero5
 .content
-  p.section
+  .section
     strong.title.black= t('about_title')
-    = t('about_content')
+
+    .avatar
+      img src=asset_path('avatar.jpg')
+    p = t('about_content')
 
   p.section
     strong.title= t('candies_plan_title')
