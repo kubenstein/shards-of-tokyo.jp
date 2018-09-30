@@ -21,6 +21,7 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
   c.register(:order_repository, memoize: true) { SoT::OrderRepository.new }
   c.register(:login_token_repository, memoize: true) { SoT::LoginTokenRepository.new }
   c.register(:mailer, memoize: true) { SoT::Mailer.new }
+  c.register(:i18n, memoize: true) { SoT::I18nProvider.new }
   c.register(:event_store, memoize: true) {
     SoT::SqlEventStore.new('sqlite:/').tap(&:configure)
   }
