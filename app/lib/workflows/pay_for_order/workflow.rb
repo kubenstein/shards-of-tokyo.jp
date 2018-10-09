@@ -17,12 +17,12 @@ module SoT
         validation_results = Validator.new.call(params)
         if validation_results.valid?
           order = order_repository.find(order_id)
-          results = pay(order: order, stripe_token: stripe_token)
-          send_email_to_user(order) if results.success?
+          result = pay(order: order, stripe_token: stripe_token)
+          send_email_to_user(order) if result.success?
           send_email_to_me(order)
-          results
+          result
         else
-          Results.new(order.id, validation_results.errors)
+          Results.new(order_id, validation_results.errors)
         end
       end
 
@@ -45,27 +45,40 @@ module SoT
         )
 
         if payment_result.success?
-          order.add_successful_payment(
-            payment_id: payment_result.payment_id,
-            amount: payment_result.amount,
-            currency: payment_result.currency,
-          )
-
-          user = order.user
-          unless user.stripe_customer_id
-            user.stripe_customer_id = payment_result.customer_id
-            user_repository.save(user)
-          end
+          add_successful_payment(order, payment_result)
+          save_stripe_customer_id_if_needed(order, payment_result)
+          Results.new(order.id, [])
         else
-          order.add_failed_payment(
-            payment_id: payment_result.payment_id,
-            amount: order.amount_left_to_be_paid,
-            currency: order.currency,
-            error_message: payment_result.error_message,
-          )
+          add_failed_payment(order, payment_result)
+          Results.new(order.id, [payment_result.error_message])
         end
+      end
+
+      def add_successful_payment(order, payment_result)
+        order.add_successful_payment(
+          payment_id: payment_result.payment_id,
+          amount: payment_result.amount,
+          currency: payment_result.currency,
+        )
         order_repository.save(order)
-        Results.new(order.id, [payment_result.error_message])
+      end
+
+      def add_failed_payment(order, payment_result)
+        order.add_failed_payment(
+          payment_id: payment_result.payment_id,
+          amount: order.amount_left_to_be_paid,
+          currency: order.currency,
+          error_message: payment_result.error_message,
+        )
+        order_repository.save(order)
+      end
+
+      def save_stripe_customer_id_if_needed(order, payment_result)
+        user = order.user
+        return if user.stripe_customer_id
+
+        user.stripe_customer_id = payment_result.customer_id
+        user_repository.save(user)
       end
 
       def send_email_to_user(order)
