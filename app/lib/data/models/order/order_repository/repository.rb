@@ -3,12 +3,13 @@ module SoT
     include Import[:state]
     include ResourceSavable
 
-    def new_order(user:)
+    def new_order(user:, price: nil, currency: nil)
       order_attr = {
         id: GenerateId.new.call,
-        user: user, created_at: Time.now,
-        price: nil,
-        currency: nil
+        user: user,
+        price: price,
+        currency: currency,
+        created_at: Time.now,
       }
       Order.new(order_attr).tap { |order|
         order.add_event(OrderCreatedEvent.build(order))
