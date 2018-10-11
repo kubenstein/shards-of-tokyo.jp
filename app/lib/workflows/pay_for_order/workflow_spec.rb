@@ -21,7 +21,7 @@ describe SoT::PayForOrder::Workflow do
     subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
 
     mail = Mail::TestMailer.deliveries.last
-    expect(mail.to).to eq ['niewczas.jakub@gmail.com']
+    expect(mail.to).to eq [SoT::User::ME_EMAIL]
     expect(mail.subject).to eq '[Shards of Tokyo] new payment!'
   end
 
@@ -49,7 +49,7 @@ describe SoT::PayForOrder::Workflow do
     }.by(1)
 
     mail = Mail::TestMailer.deliveries[-1]
-    expect(mail.to).to eq ['niewczas.jakub@gmail.com']
+    expect(mail.to).to eq [SoT::User::ME_EMAIL]
     expect(mail.subject).to eq '[Shards of Tokyo] new payment!'
   end
 

@@ -40,7 +40,7 @@ module SoT
     end
 
     def find_me
-      find_by(email: 'niewczas.jakub@gmail.com')
+      find_by(email: User::ME_EMAIL)
     end
   end
 end

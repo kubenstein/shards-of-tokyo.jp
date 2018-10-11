@@ -22,7 +22,7 @@ describe SoT::SubmitNewOrder::Workflow do
     }.by(1)
 
     mail = Mail::TestMailer.deliveries.last
-    expect(mail.to).to eq ['niewczas.jakub@gmail.com']
+    expect(mail.to).to eq [SoT::User::ME_EMAIL]
   end
 
   it 'returns successful result if all is good' do

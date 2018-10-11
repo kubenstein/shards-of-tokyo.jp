@@ -1,6 +1,7 @@
 module SoT
   class User
     include Eventable
+    ME_EMAIL = 'niewczas.jakub@gmail.com'
 
     attr_reader :email, :id, :stripe_customer_id, :created_at
 

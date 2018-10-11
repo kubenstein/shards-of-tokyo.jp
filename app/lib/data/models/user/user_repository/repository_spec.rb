@@ -22,7 +22,7 @@ describe SoT::UserRepository do
     let(:lt_repo) { APP_COMPONENTS[:login_token_repository] }
     let(:user1) { subject.save(subject.new_user(email: 'user1@test.pl')) }
     let(:user2) { subject.save(subject.new_user(email: 'user2@test.pl')) }
-    let(:user3) { subject.save(subject.new_user(email: 'niewczas.jakub@gmail.com')) }
+    let(:user_me) { subject.save(subject.new_user(email: SoT::User::ME_EMAIL)) }
 
     before(:each) do
       state.reset!
@@ -50,8 +50,8 @@ describe SoT::UserRepository do
     it 'can find "me" user' do
       user1
       user2
-      user3
-      expect(subject.find_me).to eq user3
+      user_me
+      expect(subject.find_me).to eq user_me
     end
 
     it 'can find logged in user' do

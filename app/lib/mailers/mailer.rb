@@ -22,7 +22,7 @@ module SoT
 
     def send_info_email_about_new_user(user)
       send(
-        to: 'niewczas.jakub@gmail.com',
+        to: User::ME_EMAIL,
         subject: '[Shards of Tokyo] new user!',
         body: "new user: #{user.email}!",
       )
@@ -38,7 +38,7 @@ module SoT
 
     def send_email_about_new_message_to_me(message)
       send(
-        to: 'niewczas.jakub@gmail.com',
+        to: User::ME_EMAIL,
         subject: '[Shards of Tokyo] new message!',
         body: "from user: #{message.user.email}\n\norder id: #{message.order.id}\n\nmessage: #{message.body}",
       )
@@ -46,7 +46,7 @@ module SoT
 
     def send_email_about_new_order_to_me(order)
       send(
-        to: 'niewczas.jakub@gmail.com',
+        to: User::ME_EMAIL,
         subject: '[Shards of Tokyo] new order!',
         body: "from user: #{order.user.email}\n\norder id: #{order.id}\n\nmessage: #{order.request_text}",
       )
@@ -77,7 +77,7 @@ module SoT
       user = order.user
       payment = order.payments.last
       send(
-        to: 'niewczas.jakub@gmail.com',
+        to: User::ME_EMAIL,
         subject: '[Shards of Tokyo] new payment!',
         body: "from user: #{user.email}\n\norder id: #{order.id}\n\npayment: #{payment.payment_id}\n#{payment.amount}#{payment.currency}\n",
       )
