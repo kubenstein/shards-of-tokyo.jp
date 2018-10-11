@@ -1,6 +1,7 @@
 module SoT
   class User
     include Eventable
+    ME_EMAIL = 'niewczas.jakub@gmail.com'
 
     attr_reader :email, :id, :stripe_customer_id, :created_at
 
@@ -14,6 +15,10 @@ module SoT
     def stripe_customer_id=(customer_id)
       @stripe_customer_id = customer_id
       add_event(UserStripeCustomerIdUpdatedEvent.build(self))
+    end
+
+    def me?
+      email == ME_EMAIL
     end
 
     def ==(other)

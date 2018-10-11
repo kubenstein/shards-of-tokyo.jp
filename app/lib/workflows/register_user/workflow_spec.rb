@@ -20,7 +20,7 @@ describe SoT::RegisterUser::Workflow do
     }.to change {
       Mail::TestMailer
         .deliveries
-        .select { |mail| mail.to.include?('niewczas.jakub@gmail.com') }
+        .select { |mail| mail.to.include?(SoT::User::ME_EMAIL) }
         .count
     }.by(1)
   end
