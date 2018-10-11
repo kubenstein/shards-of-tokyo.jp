@@ -11,13 +11,13 @@ module SoT
         user = params[:user]
         text = params[:text]
 
-        validation_results = Validator.new.call(params)
-        if validation_results.valid?
+        validation_result = Validator.new.call(params)
+        if validation_result.valid?
           order = create_order(user, text)
           send_email_to_me(order)
           Results.new(order, [])
         else
-          Results.new(nil, validation_results.errors)
+          Results.new(nil, validation_result.errors)
         end
       end
 

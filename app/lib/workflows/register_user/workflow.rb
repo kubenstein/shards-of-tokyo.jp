@@ -13,8 +13,8 @@ module SoT
         info = params[:info]
         session_id = params[:session_id]
 
-        validation_results = Validator.new.call(params)
-        if validation_results.valid?
+        validation_result = Validator.new.call(params)
+        if validation_result.valid?
           user = create_user(email)
           create_initial_message(user, info) unless info.to_s.empty?
           login_token = create_login_token_for_user(user, session_id)
@@ -22,7 +22,7 @@ module SoT
           send_email_to_me(user)
           Results.new(user, [])
         else
-          Results.new(nil, validation_results.errors)
+          Results.new(nil, validation_result.errors)
         end
       end
 

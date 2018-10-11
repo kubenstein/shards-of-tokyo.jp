@@ -11,13 +11,13 @@ module SoT
         order_id = params[:order_id]
         currency = params[:currency] || 'JPY'
 
-        validation_results = Validator.new.call(params)
-        if validation_results.valid?
+        validation_result = Validator.new.call(params)
+        if validation_result.valid?
           order = set_order_price(order_id, price, currency, requester)
 
           Results.new(order, [])
         else
-          Results.new(order, validation_results.errors)
+          Results.new(order, validation_result.errors)
         end
       end
 

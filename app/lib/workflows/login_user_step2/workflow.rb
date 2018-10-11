@@ -9,12 +9,12 @@ module SoT
       def call(params)
         token_id = params[:token_id]
 
-        validation_results = Validator.new.call(token_id)
-        if validation_results.valid?
+        validation_result = Validator.new.call(token_id)
+        if validation_result.valid?
           token = confirm_token(token_id)
           Results.new(token, [])
         else
-          Results.new(nil, validation_results.errors)
+          Results.new(nil, validation_result.errors)
         end
       end
 
