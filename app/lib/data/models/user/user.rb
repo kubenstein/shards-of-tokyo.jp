@@ -17,6 +17,10 @@ module SoT
       add_event(UserStripeCustomerIdUpdatedEvent.build(self))
     end
 
+    def me?
+      email == ME_EMAIL
+    end
+
     def ==(other)
       other &&
         id == other.id &&
