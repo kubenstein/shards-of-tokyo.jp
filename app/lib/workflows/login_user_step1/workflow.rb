@@ -11,14 +11,14 @@ module SoT
         email = params[:email]
         session_id = params[:session_id]
 
-        validation_results = Validator.new.call(params)
-        if validation_results.valid?
+        validation_result = Validator.new.call(params)
+        if validation_result.valid?
           user = user_repository.find_by(email: email)
           token = generate_login_token(user, session_id)
           send_email_with_login_token_to_user(token, user)
           Results.new(token, [])
         else
-          Results.new(nil, validation_results.errors)
+          Results.new(nil, validation_result.errors)
         end
       end
 

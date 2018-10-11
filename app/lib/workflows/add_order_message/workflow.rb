@@ -12,8 +12,8 @@ module SoT
         order_id = params[:order_id]
         text = params[:text]
 
-        validation_results = Validator.new.call(params)
-        if validation_results.valid?
+        validation_result = Validator.new.call(params)
+        if validation_result.valid?
           message = create_order_message(text: text, user: user, order_id: order_id)
           if message.from_user?
             send_email_to_me(message)
@@ -23,7 +23,7 @@ module SoT
 
           Results.new(order_id, [])
         else
-          Results.new(order_id, validation_results.errors)
+          Results.new(order_id, validation_result.errors)
         end
       end
 

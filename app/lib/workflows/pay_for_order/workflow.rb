@@ -14,15 +14,15 @@ module SoT
         order_id = params[:order_id]
         stripe_token = params[:stripe_token]
 
-        validation_results = Validator.new.call(params)
-        if validation_results.valid?
+        validation_result = Validator.new.call(params)
+        if validation_result.valid?
           order = order_repository.find(order_id)
           result = pay(order: order, stripe_token: stripe_token)
           send_email_to_user(order) if result.success?
           send_email_to_me(order)
           result
         else
-          Results.new(order_id, validation_results.errors)
+          Results.new(order_id, validation_result.errors)
         end
       end
 
