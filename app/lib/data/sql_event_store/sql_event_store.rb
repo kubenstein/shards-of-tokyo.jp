@@ -22,7 +22,7 @@ module SoT
       @subscribers.each { |es| es.add_event(event) }
     end
 
-    def fetch_events_from(event_id)
+    def fetch_events_from(event_id = nil)
       from_event_id = (@connection[:events].first(id: event_id) || { _id: 0 })[:_id]
 
       @connection[:events].where { _id > from_event_id }.map { |data|
@@ -31,7 +31,7 @@ module SoT
       }
     end
 
-    def add_subscriber(subscriber, fetch_events_from:)
+    def add_subscriber(subscriber, fetch_events_from: nil)
       @subscribers << subscriber
       fetch_events_from(fetch_events_from).each do |event|
         subscriber.add_event(event)
