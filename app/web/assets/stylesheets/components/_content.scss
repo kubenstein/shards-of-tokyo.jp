@@ -1,15 +1,21 @@
 .content {
   width: 1000px;
   margin: 0 auto 80px;
+  white-space: pre-line;
 
   .section {
     margin: 50px auto;
     width: 800px;
 
     .title {
+      color: $cerise;
       display: block;
       margin-bottom: 5px;
       font-size: 20px;
+
+      &.black {
+        color: $black !important;
+      }
     }
   }
 }

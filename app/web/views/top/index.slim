@@ -1,7 +1,9 @@
 - i18n.scope = :top
 
 .top
-  a.logo href='/' Shards of Tokyo
+  a.logo href='/'
+    h1 Shards of Tokyo
+    strong Personalized Japanese items delivery
   .menu
     - if current_user
       a href='/orders/' = t('link_orders')

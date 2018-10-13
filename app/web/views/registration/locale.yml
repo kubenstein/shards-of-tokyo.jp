@@ -4,15 +4,15 @@ en:
     error_email_taken: Email already taken..
     error_email_invalid: Email format is invalid..
     label_email: Email
-    label_email-desc: Our system is passwordless, each time you want to login, a login link will be sent to provided email. All comunication will be done via that email address.
-    label_initial_request: Additional Info (optional)
-    label_initial_request-placeholder: optional additional info
-    label_initial_request-desc: If you have any initial questions or requests please feel free to write. You can message at any time, later on, from the account messages page.
+    label_email-desc: This system is password-less, each time you want to login, a login link will be sent to a registered email. All communication will be done via that email address.
+    label_initial_request: Japanese item description you wish to receive (optional)
+    label_initial_request-placeholder: optional japanese item description
+    label_initial_request-desc: If you already know which Japanese item you would love to receive please describe it here. You can do this later on at any time.
     btn_create_account: Create Account
     btn_additional_or: or
     btn_login: Log in
 
   successful_registration:
     title_thank_you: Thank you for signing up!
-    text_desc: Each time you want to login, an email with a special login link will be send to
-    text_next: The email with one-time login password should be already in your inbox. Please check it, log in and tell me what are you particularly interested in, from all those amazing Japanese stuff out there!
+    text_desc: The email with one-time login password should be already in your inbox
+    text_next: Each time you want to login, an email with a login confirmation link will be send you. Please check your inbox, log in and tell me what particularly are you interested in, from all those amazing Japanese stuff out there!

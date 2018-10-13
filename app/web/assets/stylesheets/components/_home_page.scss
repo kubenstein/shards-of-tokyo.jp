@@ -63,7 +63,38 @@
     background-size: cover;
   }
 
-  .img1 { background-image: asset-url('hero/hero1.jpg'); }
-  .img2 { background-image: asset-url('hero/hero2.jpg'); }
-  .img3 { background-image: asset-url('hero/hero3.jpg'); }
+  .hero1 { background-image: asset-url('hero/hero1.jpg'); }
+  .hero2 { background-image: asset-url('hero/hero2.jpg'); }
+  .hero3 { background-image: asset-url('hero/hero3.jpg'); }
+  .hero4 { background-image: asset-url('hero/hero4.jpg'); }
+  .hero5 { background-image: asset-url('hero/hero5.jpg'); }
+}
+
+.avatar {
+  float: left;
+  position: relative;
+  margin-top: 3px;
+
+  &::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background: asset-url('avatar-edge.png') no-repeat 0 0;
+  }
+
+  & + p {
+    margin-left: 140px;
+  }
+}
+
+.iwant {
+  cursor: pointer;
+}
+
+.btn.iwant {
+  float: right;
 }

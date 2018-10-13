@@ -4,46 +4,52 @@
   .hero-3d-shard#shard-3d-container
     .zoomable-zone
   .hero-slideshow
-    .hero-img.img1
-    .hero-img.img2
-    .hero-img.img3
+    .hero-img.hero1
+    .hero-img.hero2
+    .hero-img.hero3
+    .hero-img.hero4
+    .hero-img.hero5
 .content
-  p.section
-    strong.title= t('about_title')
-    = t('about_content')
+  .section
+    strong.title.black= t('about_title')
+
+    .avatar
+      img src=asset_path('avatar.jpg')
+    p = t('about_content')
 
   p.section
-    strong.title= t('howitworks_title')
-    = t('howitworks_content')
+    strong.title= t('candies_plan_title')
 
   .section.two-columns
     .left
-      img src=asset_path('how-it-works.jpg')
-    .right-text
-      = t('section1_content')
-
-  .section.two-columns
-    .left
-      = t('section2_content')
-    .right-text
-      img src=asset_path('how-it-works.jpg')
-
-  .section.two-columns
-    .left
-      img src=asset_path('how-it-works.jpg')
-    .right-text
-      = t('section3_content')
-
+      img src=asset_path('candies-plan.jpg')
+    .right
+      = t('candies_plan_content')
+      br
+      br
+      br
+      button.btn.iwant(data-info-placeholder=t('candies_plan_iwant_text'))= t('candies_plan_button')
 
   p.section
-    strong.title= t('price_title')
-    = t('price_content')
+    strong.title= t('custom_plan_title')
+
+  .section.two-columns
+    .left
+      img src=asset_path('custom-plan.jpg')
+    .right
+      = t('custom_plan_content')
+
+  .section.two-columns
+    .left
+      = t('custom_plan_content2')
+    .right-img
+      img src=asset_path('custom-plan.jpg')
 
   .two-columns
     .left
       .double-images
-        img src=asset_path('side-img.jpg')
-        img src=asset_path('side-img-2.jpg')
+        img.iwant src=asset_path('side-img.jpg') data-info-placeholder=t('bentobox_iwant_text')
+        img.iwant src=asset_path('side-img-2.jpg') data-info-placeholder=t('charms_iwant_text')
 
     .right
       - if current_user
