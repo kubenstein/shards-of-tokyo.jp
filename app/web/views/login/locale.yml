@@ -4,6 +4,7 @@ en:
     error_session_id: something went wrong, please try again..
     error_email_not_found: email could not be found..
     error_email_empty: email can't be empty..
+    error_token_not_found: login token was not found..
     label_email: Email
     label_email-desc: Our system is passwordless, each time you want to login, a login link will be sent to provided email.
     btn_create_account: Create Account

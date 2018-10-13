@@ -11,6 +11,7 @@ form.common-form.centered-container method="post" action="/login"
       = err == :empty_session_id ? t('error_session_id') : ''
       = err == :email_not_found ? t('error_email_not_found') : ''
       = err == :empty_email ? t('error_email_empty') : ''
+      = err == :token_not_found ? t('error_token_not_found') : ''
 
   label.label for="email"
     = t('label_email')

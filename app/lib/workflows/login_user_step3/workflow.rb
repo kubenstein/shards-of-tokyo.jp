@@ -9,14 +9,17 @@ module SoT
         session_id = params[:session_id]
 
         token = login_token_repository.find_by(session_id: session_id)
-        if token.active?
-          Results.new(nil, [])
-        else
-          Results.new(token.user_email, [:confirmed_token_not_found])
-        end
+        return Results.new(nil, [:token_not_found]) unless token
+        return Results.new(token, [:token_not_active]) unless token.active?
+        Results.new(token, [])
       end
 
-      class Results < Struct.new(:user_email, :errors)
+      class Results < Struct.new(:token, :errors)
+        def user_email
+          return '' unless token
+          token.user_email
+        end
+
         def success?
           errors.empty?
         end

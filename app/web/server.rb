@@ -75,7 +75,9 @@ class WebServer < Sinatra::Base
 
     params[:session_id] = session.id
     login_token_confirmed = login_user_step3_workflow.call(params)
+
     redirect '/orders/' if login_token_confirmed.success?
+    slim :'login/index', locals: { errors: login_token_confirmed.errors } unless login_token_confirmed.token
     slim :'login/token_check_waiting', locals: { email: login_token_confirmed.user_email }
   end
 
