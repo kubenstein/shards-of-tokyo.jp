@@ -1,4 +1,4 @@
-describe SoT::LoginUserStep3::Workflow do
+describe SoT::LoginUserStep3CheckToken::Workflow do
   let(:lt_repo) { APP_COMPONENTS[:login_token_repository] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
   let(:user) { user_repo.save(user_repo.new_user(email: 'user@test.pl')) }

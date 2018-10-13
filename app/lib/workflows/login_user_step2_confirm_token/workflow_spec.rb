@@ -1,4 +1,4 @@
-describe SoT::LoginUserStep2::Workflow do
+describe SoT::LoginUserStep2ConfirmToken::Workflow do
   let(:state) { APP_COMPONENTS[:state] }
   let(:lt_repo) { APP_COMPONENTS[:login_token_repository] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }

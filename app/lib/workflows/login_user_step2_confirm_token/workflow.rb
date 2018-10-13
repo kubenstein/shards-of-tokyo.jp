@@ -1,5 +1,5 @@
 module SoT
-  module LoginUserStep2
+  module LoginUserStep2ConfirmToken
     class Workflow
       include Import[
         :login_token_repository,

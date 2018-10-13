@@ -18,9 +18,9 @@ class WebServer < Sinatra::Base
     :register_user_workflow,
     :add_order_message_workflow,
     :submit_new_order_workflow,
-    :login_user_step1_workflow,
-    :login_user_step2_workflow,
-    :login_user_step3_workflow,
+    :login_user_step1_send_token_workflow,
+    :login_user_step2_confirm_token_workflow,
+    :login_user_step3_check_token_workflow,
     :logout_user_workflow,
     :pay_for_order_workflow,
   ]
@@ -49,7 +49,7 @@ class WebServer < Sinatra::Base
     return redirect '/orders/' if current_user
 
     params[:session_id] = session.id
-    login_step1 = login_user_step1_workflow.call(params)
+    login_step1 = login_user_step1_send_token_workflow.call(params)
     if login_step1.success?
       redirect '/login/token_check_waiting'
     else
@@ -58,15 +58,15 @@ class WebServer < Sinatra::Base
   end
 
   get '/login/accept_link_from_email/?' do
-    login_confirmation = login_user_step2_workflow.call(params)
-    if login_confirmation.success?
-      if login_confirmation.session_id == session.id
+    login_step2 = login_user_step2_confirm_token_workflow.call(params)
+    if login_step2.success?
+      if login_step2.session_id == session.id
         redirect '/orders/'
       else
         slim :'login/accept_link_from_email'
       end
     else
-      slim :'login/accept_link_from_email', locals: { errors: login_confirmation.errors }
+      slim :'login/accept_link_from_email', locals: { errors: login_step2.errors }
     end
   end
 
@@ -74,11 +74,11 @@ class WebServer < Sinatra::Base
     return redirect '/orders/' if current_user
 
     params[:session_id] = session.id
-    login_token_confirmed = login_user_step3_workflow.call(params)
+    login_step3 = login_user_step3_check_token_workflow.call(params)
 
-    redirect '/orders/' if login_token_confirmed.success?
-    slim :'login/index', locals: { errors: login_token_confirmed.errors } unless login_token_confirmed.token
-    slim :'login/token_check_waiting', locals: { email: login_token_confirmed.user_email }
+    redirect '/orders/' if login_step3.success?
+    slim :'login/index', locals: { errors: login_step3.errors } unless login_step3.token
+    slim :'login/token_check_waiting', locals: { email: login_step3.user_email }
   end
 
   get '/logout/?' do

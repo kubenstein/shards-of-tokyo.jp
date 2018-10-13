@@ -1,4 +1,4 @@
-describe SoT::LoginUserStep1::Workflow do
+describe SoT::LoginUserStep1SendToken::Workflow do
   let(:state) { APP_COMPONENTS[:state] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
   let(:user) { user_repo.save(user_repo.new_user(email: 'user@test.pl')) }

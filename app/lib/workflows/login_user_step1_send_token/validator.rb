@@ -1,5 +1,5 @@
 module SoT
-  module LoginUserStep1
+  module LoginUserStep1SendToken
     class Validator
       include Import[
         :user_repository,

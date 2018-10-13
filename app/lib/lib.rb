@@ -20,9 +20,9 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
   c.register(:register_user_workflow, memoize: true) { SoT::RegisterUser::Workflow.new }
   c.register(:add_order_message_workflow, memoize: true) { SoT::AddOrderMessage::Workflow.new }
   c.register(:submit_new_order_workflow, memoize: true) { SoT::SubmitNewOrder::Workflow.new }
-  c.register(:login_user_step1_workflow, memoize: true) { SoT::LoginUserStep1::Workflow.new }
-  c.register(:login_user_step2_workflow, memoize: true) { SoT::LoginUserStep2::Workflow.new }
-  c.register(:login_user_step3_workflow, memoize: true) { SoT::LoginUserStep3::Workflow.new }
+  c.register(:login_user_step1_send_token_workflow, memoize: true) { SoT::LoginUserStep1SendToken::Workflow.new }
+  c.register(:login_user_step2_confirm_token_workflow, memoize: true) { SoT::LoginUserStep2ConfirmToken::Workflow.new }
+  c.register(:login_user_step3_check_token_workflow, memoize: true) { SoT::LoginUserStep3CheckToken::Workflow.new }
   c.register(:logout_user_workflow, memoize: true) { SoT::LogoutUser::Workflow.new }
   c.register(:set_order_price_workflow, memoize: true) { SoT::SetOrderPrice::Workflow.new }
   c.register(:pay_for_order_workflow, memoize: true) { SoT::PayForOrder::Workflow.new }
