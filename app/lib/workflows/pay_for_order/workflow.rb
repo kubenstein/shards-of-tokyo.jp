@@ -36,8 +36,8 @@ module SoT
 
       def pay(order:, stripe_token:)
         payment_result = StripeGateway.new.call(
-          amount: order.amount_left_to_be_paid,
-          currency: order.currency,
+          amount: order.amount_left_to_be_paid.fractional,
+          currency: order.amount_left_to_be_paid.currency.iso_code,
           order_id: order.id,
           payer_email: order.user.email,
           payer_stripe_customer_id: order.user.stripe_customer_id,
@@ -57,8 +57,7 @@ module SoT
       def add_successful_payment(order, payment_result)
         order.add_successful_payment(
           payment_id: payment_result.payment_id,
-          amount: payment_result.amount,
-          currency: payment_result.currency,
+          price: Money.new(payment_result.amount, payment_result.currency),
         )
         order_repository.save(order)
       end
@@ -66,8 +65,7 @@ module SoT
       def add_failed_payment(order, payment_result)
         order.add_failed_payment(
           payment_id: payment_result.payment_id,
-          amount: order.amount_left_to_be_paid,
-          currency: order.currency,
+          price: order.amount_left_to_be_paid,
           error_message: payment_result.error_message,
         )
         order_repository.save(order)

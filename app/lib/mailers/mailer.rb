@@ -67,8 +67,7 @@ module SoT
         subject: i18n.t('email_about_payment_to_user.subject', order_id: order.id, scope: :mailers),
         body: i18n.t('email_about_payment_to_user.body',
                      order_id: order.id,
-                     payment_amount: payment.amount,
-                     payment_currency: payment.currency,
+                     payment_amount: payment.price.format,
                      scope: :mailers),
       )
     end
@@ -79,7 +78,7 @@ module SoT
       send(
         to: User::ME_EMAIL,
         subject: '[Shards of Tokyo] new payment!',
-        body: "from user: #{user.email}\n\norder id: #{order.id}\n\npayment: #{payment.payment_id}\n#{payment.amount}#{payment.currency}\n",
+        body: "from user: #{user.email}\n\norder id: #{order.id}\n\npayment: #{payment.payment_id}\n#{payment.price.format}\n",
       )
     end
 
@@ -89,6 +88,7 @@ module SoT
       mail = Pony.mail(
         from: 'mailer@shards-of-tokyo.jp',
         to: to,
+        charset: 'UTF-8',
         subject: subject,
         body: body,
         via: @via,

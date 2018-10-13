@@ -3,7 +3,7 @@ module SoT
     NAME = 'order_price_changed'
 
     def self.build(order, requester_id: nil)
-      payload = { id: order.id, price: order.price, currency: order.currency }
+      payload = Serialize.new.call(order).slice(:id, :amount, :currency)
       Event.build(name: NAME, payload: payload, requester_id: requester_id)
     end
 
@@ -11,7 +11,8 @@ module SoT
       order_attrs = event.payload
       state.update_resource(:orders,
                             order_attrs[:id],
-                            price: order_attrs[:price], currency: order_attrs[:currency])
+                            amount: order_attrs[:amount],
+                            currency: order_attrs[:currency])
     end
   end
 end

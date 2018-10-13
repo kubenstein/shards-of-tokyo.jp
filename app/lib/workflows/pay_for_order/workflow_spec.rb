@@ -3,11 +3,11 @@ describe SoT::PayForOrder::Workflow do
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
   let(:order_repo) { APP_COMPONENTS[:order_repository] }
   let(:user) { user_repo.save(user_repo.new_user(email: 'user@test.pl')) }
-  let!(:order) { order_repo.save(order_repo.new_order(user: user, price: 100, currency: 'jpy')) }
+  let!(:order) { order_repo.save(order_repo.new_order(user: user, price: Money.new(100, :jpy))) }
 
   it 'pays the order' do
     expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
-      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, 'jpy'),
+      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, :jpy),
     )
 
     subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
@@ -15,7 +15,7 @@ describe SoT::PayForOrder::Workflow do
 
   it 'sends info email to me on successful payment' do
     expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
-      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, 'jpy'),
+      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, :jpy),
     )
 
     subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
@@ -27,7 +27,7 @@ describe SoT::PayForOrder::Workflow do
 
   it 'sends info email to user on successful' do
     expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
-      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, 'jpy'),
+      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, :jpy),
     )
 
     subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
@@ -39,7 +39,7 @@ describe SoT::PayForOrder::Workflow do
 
   it 'doesnt send info email to user on fail, it still sends to me' do
     expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
-      SoT::StripeGateway::FailedPayment.new('dummy_stripe_payment_id', 100, 'jpy', 'error_message'),
+      SoT::StripeGateway::FailedPayment.new('dummy_stripe_payment_id', 100, :jpy, 'error_message'),
     )
 
     expect {
@@ -55,7 +55,7 @@ describe SoT::PayForOrder::Workflow do
 
   it 'returns successful result if all is good' do
     expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
-      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, 'jpy'),
+      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, :jpy),
     )
 
     result = subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
@@ -71,7 +71,7 @@ describe SoT::PayForOrder::Workflow do
 
   it 'adds successful payment to an order on succesful pay' do
     expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
-      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, 'jpy'),
+      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, :jpy),
     )
 
     subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
@@ -79,13 +79,13 @@ describe SoT::PayForOrder::Workflow do
 
     expect(last_payment[:payment_id]).to eq 'dummy_stripe_payment_id'
     expect(last_payment[:amount]).to eq 100
-    expect(last_payment[:currency]).to eq 'jpy'
+    expect(last_payment[:currency]).to eq 'JPY'
     expect(last_payment[:error]).to eq nil
   end
 
   it 'adds failed payment to an order when something went wrong' do
     expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
-      SoT::StripeGateway::FailedPayment.new('dummy_stripe_payment_id', 100, 'jpy', 'error_message'),
+      SoT::StripeGateway::FailedPayment.new('dummy_stripe_payment_id', 100, :jpy, 'error_message'),
     )
 
     subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
@@ -93,7 +93,7 @@ describe SoT::PayForOrder::Workflow do
 
     expect(last_payment[:payment_id]).to eq 'dummy_stripe_payment_id'
     expect(last_payment[:amount]).to eq 100
-    expect(last_payment[:currency]).to eq 'jpy'
+    expect(last_payment[:currency]).to eq 'JPY'
     expect(last_payment[:error]).to eq 'error_message'
   end
 end

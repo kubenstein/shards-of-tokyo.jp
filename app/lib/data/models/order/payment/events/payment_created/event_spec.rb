@@ -10,8 +10,7 @@ describe SoT::PaymentCreatedEvent do
       id: 'id',
       order: order,
       payment_id: 'payment_id',
-      amount: 100,
-      currency: 'jpy',
+      price: Money.new(100, :jpy),
       error: nil,
       created_at: Time.now,
     )

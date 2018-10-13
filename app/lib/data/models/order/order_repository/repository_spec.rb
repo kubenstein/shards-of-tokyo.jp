@@ -8,7 +8,6 @@ describe SoT::OrderRepository do
 
     expect(order.user).to eq user
     expect(order.price).to eq nil
-    expect(order.currency).to eq nil
 
     last_event = order.instance_variable_get(:@_uncommited_events).last
     expect(last_event.name).to eq 'order_created'
@@ -48,7 +47,7 @@ describe SoT::OrderRepository do
     it 'finds an order (and order has payments and messages fully populated)' do
       order1.add_message(text: 'message1', from_user: user)
       order1.add_message(text: 'message2', from_user: user)
-      order1.add_successful_payment(payment_id: 'payment_id1', amount: 100, currency: 'usd')
+      order1.add_successful_payment(payment_id: 'payment_id1', price: Money.new(100, :usd))
       subject.save(order1)
 
       found_order = subject.find(order1.id)
@@ -65,7 +64,7 @@ describe SoT::OrderRepository do
 
       order2.add_message(text: 'message1', from_user: user)
       order2.add_message(text: 'message2', from_user: user)
-      order2.add_successful_payment(payment_id: 'payment_id1', amount: 100, currency: 'usd')
+      order2.add_successful_payment(payment_id: 'payment_id1', price: Money.new(100, :usd))
       subject.save(order2)
 
       found_orders = subject.for_user_newest_first(user_id: user.id)
