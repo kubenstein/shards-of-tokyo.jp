@@ -68,9 +68,20 @@ describe 'Utils' do
         @attr_d = 'd'
       end
     end
+
     it 'serializes an object using only @x instance variables' do
       obj = Klass.new
       expected_hash = { attr_c: 'c', attr_d: 'd' }
+      expect(subject.call(obj)).to eq(expected_hash)
+    end
+
+    it 'uses custom serializer when provided' do
+      obj = Klass.new
+      def obj.serialize
+        { custom_serializer: true }
+      end
+
+      expected_hash = { custom_serializer: true }
       expect(subject.call(obj)).to eq(expected_hash)
     end
   end
