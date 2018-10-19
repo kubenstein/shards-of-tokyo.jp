@@ -1,13 +1,13 @@
 module SoT
-  module OrderSerializable
+  module ObjWithPriceSerializable
     def serialize
-      OrderSerializer.new.call(self)
+      ObjWithPriceSerializer.new.call(self)
     end
   end
 
-  class OrderSerializer
-    def call(order)
-      DefaultSerializer.new.call(order).tap do |hash|
+  class ObjWithPriceSerializer
+    def call(obj)
+      DefaultSerializer.new.call(obj).tap do |hash|
         price = hash.delete(:price)
 
         if price

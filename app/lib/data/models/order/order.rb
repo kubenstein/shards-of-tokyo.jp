@@ -5,7 +5,7 @@
 module SoT
   class Order
     include Eventable
-    include OrderSerializable
+    include ObjWithPriceSerializable
 
     attr_reader :id, :user, :price, :created_at, :messages, :payments
 

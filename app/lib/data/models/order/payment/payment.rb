@@ -4,7 +4,7 @@
 
 module SoT
   class Payment
-    include PaymentSerializable
+    include ObjWithPriceSerializable
 
     attr_reader :id, :order, :price, :created_at, :error, :payment_id
 

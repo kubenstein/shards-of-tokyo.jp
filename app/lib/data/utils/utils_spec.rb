@@ -84,5 +84,20 @@ describe 'Utils' do
       expected_hash = { custom_serializer: true }
       expect(subject.call(obj)).to eq(expected_hash)
     end
+
+    it 'serializes an object with price attr by to exploading to amount and currency' do
+      class Klass
+        include SoT::ObjWithPriceSerializable
+
+        def initialize
+          @_attr_a = 'a'
+          @attr_b = 'b'
+          @price = Money.new(100, :jpy)
+        end
+      end
+      obj = Klass.new
+      expected_hash = { attr_b: 'b', amount: 100, currency: 'JPY' }
+      expect(subject.call(obj)).to eq(expected_hash)
+    end
   end
 end
