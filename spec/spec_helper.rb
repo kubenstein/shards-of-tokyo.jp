@@ -11,6 +11,7 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
       public_key: 'dummy_public_key',
     }
   end
+  c.register(:bugsnag_api_key, memoize: true) { nil }
   c.register(:logger, memoize: true) { Logger.new(IO::NULL) }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
   c.register(:order_repository, memoize: true) { SoT::OrderRepository.new }
@@ -28,6 +29,7 @@ end
 Import = AutoInject.new(APP_COMPONENTS)
 
 require_all(
+  ['./app/lib/setup/setup'] +
   Dir.glob('./app/lib/**/*.rb').reject { |fname|
     fname.include?('lib.rb') || # dont load original lib with dep definitions
     fname.include?('spec.rb')
