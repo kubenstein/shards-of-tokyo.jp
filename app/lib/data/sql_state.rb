@@ -84,7 +84,7 @@ module SoT
       @connection.create_table("#{@database_version}_orders") do
         String :id, primary_key: true
         String :user_id
-        Bignum :price
+        Bignum :amount
         String :currency
         Time :created_at
       end

@@ -4,7 +4,7 @@ describe SoT::AddOrderMessage::Workflow do
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
   let(:me) { user_repo.save(user_repo.new_user(email: SoT::User::ME_EMAIL)) }
   let(:user) { user_repo.save(user_repo.new_user(email: 'user@test.pl')) }
-  let(:order) { order_repo.save(order_repo.new_order(user: user, price: 100, currency: 'jpy')) }
+  let(:order) { order_repo.save(order_repo.new_order(user: user, price: Money.new(100, :jpy))) }
 
   it 'adds message to an order' do
     result = nil

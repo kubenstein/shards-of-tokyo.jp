@@ -1,6 +1,5 @@
 # rubocop:disable Style/BlockDelimiters, Metrics/BlockLength
 
-require 'bugsnag'
 require 'dry-container'
 require 'require_all'
 require './app/lib/auto_inject'
@@ -55,8 +54,7 @@ end
 
 Import = AutoInject.new(APP_COMPONENTS)
 
-Bugsnag.configure { |config| config.api_key = APP_COMPONENTS[:bugsnag_api_key] }
-
 require_all(
+  ['./app/lib/setup/setup'] +
   Dir.glob('./app/lib/**/*.rb').reject { |fname| fname.include?('spec.rb') },
 )

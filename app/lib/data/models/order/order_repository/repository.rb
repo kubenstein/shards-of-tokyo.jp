@@ -3,12 +3,11 @@ module SoT
     include Import[:state]
     include ResourceSavable
 
-    def new_order(user:, price: nil, currency: nil)
+    def new_order(user:, price: nil)
       order_attr = {
         id: GenerateId.new.call,
         user: user,
         price: price,
-        currency: currency,
         created_at: Time.now,
       }
       Order.new(order_attr).tap { |order|
@@ -34,6 +33,7 @@ module SoT
 
       # order without messages
       order_attr[:user] = users.find { |u| u.id == order_attr[:user_id] }
+      order_attr[:price] = money_from(order_attr)
       order = Order.new(order_attr)
 
       # messages
@@ -46,6 +46,7 @@ module SoT
       # payments
       payments = payments_attr.map { |payment_attr|
         payment_attr[:order] = order
+        payment_attr[:price] = money_from(payment_attr)
         Payment.new(payment_attr)
       }
 
@@ -70,6 +71,7 @@ module SoT
       orders = orders_attr.map { |order_attr|
         # orders without messages
         order_attr[:user] = users.find { |u| u.id == order_attr[:user_id] }
+        order_attr[:price] = money_from(order_attr)
         order = Order.new(order_attr)
 
         # messages
@@ -86,6 +88,7 @@ module SoT
                                 .select { |payment_attr| payment_attr[:order_id] == order.id }
                                 .map { |payment_attr|
           payment_attr[:order] = order
+          payment_attr[:price] = money_from(payment_attr)
           Payment.new(payment_attr)
         }
 
@@ -97,6 +100,12 @@ module SoT
       }
 
       orders
+    end
+
+    private
+
+    def money_from(attrs)
+      Money.new(attrs[:amount], attrs[:currency])
     end
   end
 end

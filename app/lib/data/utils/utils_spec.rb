@@ -68,9 +68,35 @@ describe 'Utils' do
         @attr_d = 'd'
       end
     end
+
     it 'serializes an object using only @x instance variables' do
       obj = Klass.new
       expected_hash = { attr_c: 'c', attr_d: 'd' }
+      expect(subject.call(obj)).to eq(expected_hash)
+    end
+
+    it 'uses custom serializer when provided' do
+      obj = Klass.new
+      def obj.serialize
+        { custom_serializer: true }
+      end
+
+      expected_hash = { custom_serializer: true }
+      expect(subject.call(obj)).to eq(expected_hash)
+    end
+
+    it 'serializes an object with price attr by to exploading to amount and currency' do
+      class Klass
+        include SoT::ObjWithPriceSerializable
+
+        def initialize
+          @_attr_a = 'a'
+          @attr_b = 'b'
+          @price = Money.new(100, :jpy)
+        end
+      end
+      obj = Klass.new
+      expected_hash = { attr_b: 'b', amount: 100, currency: 'JPY' }
       expect(subject.call(obj)).to eq(expected_hash)
     end
   end

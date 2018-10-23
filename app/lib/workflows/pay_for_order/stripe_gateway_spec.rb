@@ -30,7 +30,7 @@ describe SoT::StripeGateway do
     expect(stripe_charge).to receive(:create).with({
                                                      amount: 100,
                                                      description: 'Shards of Tokyo payment for order: orderID',
-                                                     currency: 'jpy',
+                                                     currency: :jpy,
                                                      customer: 'stripe_customer_id',
                                                      metadata: { order_id: 'orderID' },
                                                    },
@@ -40,7 +40,7 @@ describe SoT::StripeGateway do
       order_id: 'orderID',
       payer_email: 'test@test.pl',
       amount: 100,
-      currency: 'jpy',
+      currency: :jpy,
       payer_stripe_customer_id: 'stripe_customer_id',
     )
   end
@@ -57,7 +57,7 @@ describe SoT::StripeGateway do
       order_id: 'orderID',
       payer_email: 'test@test.pl',
       amount: 100,
-      currency: 'jpy',
+      currency: :jpy,
     )
     expect(result.customer_id).to eq 'test_new_stripe_customer_id'
   end
@@ -68,7 +68,7 @@ describe SoT::StripeGateway do
       order_id: 'orderID',
       payer_email: 'test@test.pl',
       amount: 100,
-      currency: 'jpy',
+      currency: :jpy,
       payer_stripe_customer_id: 'stripe_customer_id',
     )
     expect(result.success?).to eq true
@@ -85,13 +85,13 @@ describe SoT::StripeGateway do
       order_id: 'orderID',
       payer_email: 'test@test.pl',
       amount: 100,
-      currency: 'jpy',
+      currency: :jpy,
       payer_stripe_customer_id: 'stripe_customer_id',
     )
     expect(result.success?).to eq false
     expect(result.payment_id).to eq 'test_failed_payment_id'
     expect(result.amount).to eq 100
-    expect(result.currency).to eq 'jpy'
+    expect(result.currency).to eq :jpy
     expect(result.error_message).to eq 'test_err_code - test_err_message'
   end
 end

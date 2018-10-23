@@ -5,14 +5,14 @@
 module SoT
   class Order
     include Eventable
+    include ObjWithPriceSerializable
 
-    attr_reader :id, :user, :price, :currency, :created_at, :messages, :payments
+    attr_reader :id, :user, :price, :created_at, :messages, :payments
 
-    def initialize(id:, user:, price:, currency:, created_at:, messages: [], payments: [], **_) # rubocop:disable Metrics/ParameterLists
+    def initialize(id:, user:, price:, created_at:, messages: [], payments: [], **_) # rubocop:disable Metrics/ParameterLists
       @id = id
       @user_id = user.id
       @price = price
-      @currency = currency
       @created_at = created_at
       @_user = user
       @_messages = messages
@@ -28,16 +28,18 @@ module SoT
     end
 
     def amount_left_to_be_paid
-      (price || 0) - payments.select(&:successful?).reduce(0) { |total, payment| total + payment.amount }
+      return Money.new(0, :usd) unless price_set?
+      payments
+        .select(&:successful?)
+        .reduce(price) { |left, payment| left - payment.price }
     end
 
     def request_text
       messages[0]&.body || ''
     end
 
-    def set_price(price, currency, requester_id: nil)
+    def set_price(price, requester_id: nil)
       @price = price
-      @currency = currency
       add_event(OrderPriceChangedEvent.build(self, requester_id: requester_id))
     end
 
@@ -55,13 +57,12 @@ module SoT
       end
     end
 
-    def add_successful_payment(payment_id:, amount:, currency:)
+    def add_successful_payment(payment_id:, price:)
       payment_attrs = {
         id: GenerateId.new.call,
         order: self,
         payment_id: payment_id,
-        amount: amount,
-        currency: currency,
+        price: price,
         created_at: Time.now,
       }
       Payment.new(payment_attrs).tap do |payment|
@@ -70,13 +71,12 @@ module SoT
       end
     end
 
-    def add_failed_payment(payment_id:, amount:, currency:, error_message:)
+    def add_failed_payment(payment_id:, price:, error_message:)
       payment_attrs = {
         id: GenerateId.new.call,
         order: self,
         payment_id: payment_id,
-        amount: amount,
-        currency: currency,
+        price: price,
         error: error_message,
         created_at: Time.now,
       }
