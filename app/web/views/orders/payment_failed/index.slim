@@ -8,7 +8,7 @@
     br
     br
     = t('label_errors')
-    span.error-message = "「 #{errors.join(';')} 」"
+    span.error-message = errors.join(';')
     br
     br
     a<> href="/orders/#{order_id}" = t('btn_go_to_order')
