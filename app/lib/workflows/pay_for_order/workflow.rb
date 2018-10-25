@@ -1,5 +1,3 @@
-require 'stripe'
-
 module SoT
   module PayForOrder
     class Workflow
