@@ -17,10 +17,19 @@ module SoT
         validation_result = Validator.new.call(params)
         if validation_result.valid?
           order = order_repository.find(order_id)
-          result = pay(order: order, stripe_token: stripe_token)
-          send_email_to_user(order) if result.success?
-          send_email_to_me(order)
-          result
+          payment_result = pay(order: order, stripe_token: stripe_token)
+
+          if payment_result.success?
+            add_successful_payment(order, payment_result)
+            save_stripe_customer_id_if_needed(order, payment_result)
+            send_email_to_user(order)
+            send_email_to_me(order)
+            Results.new(order.id, [])
+          else
+            add_failed_payment(order, payment_result)
+            send_email_to_me(order)
+            Results.new(order.id, [payment_result.error_message])
+          end
         else
           Results.new(order_id, validation_result.errors)
         end
@@ -35,7 +44,7 @@ module SoT
       private
 
       def pay(order:, stripe_token:)
-        payment_result = StripeGateway.new.call(
+        StripeGateway.new.call(
           amount: order.amount_left_to_be_paid.fractional,
           currency: order.amount_left_to_be_paid.currency.iso_code,
           order_id: order.id,
@@ -43,15 +52,6 @@ module SoT
           payer_stripe_customer_id: order.user.stripe_customer_id,
           stripe_token: stripe_token,
         )
-
-        if payment_result.success?
-          add_successful_payment(order, payment_result)
-          save_stripe_customer_id_if_needed(order, payment_result)
-          Results.new(order.id, [])
-        else
-          add_failed_payment(order, payment_result)
-          Results.new(order.id, [payment_result.error_message])
-        end
       end
 
       def add_successful_payment(order, payment_result)
