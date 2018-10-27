@@ -20,11 +20,13 @@ module SoT
           if payment_result.success?
             add_successful_payment(order, payment_result)
             save_stripe_customer_id_if_needed(order, payment_result)
+            add_successful_message(order, payment_result)
             send_email_to_user(order)
             send_email_to_me(order)
             Results.new(order.id, [])
           else
             add_failed_payment(order, payment_result)
+            add_failed_message(order, payment_result)
             send_email_to_me(order)
             Results.new(order.id, [payment_result.error_message])
           end
@@ -83,6 +85,19 @@ module SoT
 
       def send_email_to_me(order)
         mailer.send_email_about_payment_to_me(order)
+      end
+
+      def add_successful_message(order, payment_result)
+        paid = Money.new(payment_result.amount, payment_result.currency)
+        text = "PAYMENT NOTIFICATION: succesfully paid #{paid.format}. Thank you!"
+        order.add_message(text: text, from_user: order.user)
+        order_repository.save(order)
+      end
+
+      def add_failed_message(order, payment_result)
+        text = "PAYMENT NOTIFICATION: error while paying.\n\nError message:\n'#{payment_result.error_message}'"
+        order.add_message(text: text, from_user: order.user)
+        order_repository.save(order)
       end
     end
   end

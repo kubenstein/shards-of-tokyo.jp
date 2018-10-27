@@ -96,4 +96,28 @@ describe SoT::PayForOrder::Workflow do
     expect(last_payment[:currency]).to eq 'JPY'
     expect(last_payment[:error]).to eq 'error_message'
   end
+
+  it 'adds successful payment message to an order on succesful pay' do
+    expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
+      SoT::StripeGateway::SuccessPayment.new('dummy_stripe_payment_id', 'dummy_stripe_payment_id', 100, :jpy),
+    )
+
+    subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
+    last_message = state.get_resources(:messages, order_id: order.id)[0]
+
+    expect(last_message[:order_id]).to eq order.id
+    expect(last_message[:body]).to include '¥100'
+  end
+
+  it 'adds failed payment message to an order when something went wrong' do
+    expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(
+      SoT::StripeGateway::FailedPayment.new('dummy_stripe_payment_id', 100, :jpy, 'error_message'),
+    )
+
+    subject.call(order_id: order.id, user: user, stripe_token: 'dummy_token')
+    last_message = state.get_resources(:messages, order_id: order.id)[0]
+
+    expect(last_message[:order_id]).to eq order.id
+    expect(last_message[:body]).to include 'error_message'
+  end
 end
