@@ -1,11 +1,10 @@
-require 'stripe'
-
 module SoT
   module PayForOrder
     class Workflow
       include Import[
         :order_repository,
         :user_repository,
+        :i18n,
         :mailer,
       ]
 
@@ -17,10 +16,21 @@ module SoT
         validation_result = Validator.new.call(params)
         if validation_result.valid?
           order = order_repository.find(order_id)
-          result = pay(order: order, stripe_token: stripe_token)
-          send_email_to_user(order) if result.success?
-          send_email_to_me(order)
-          result
+          payment_result = pay(order: order, stripe_token: stripe_token)
+
+          if payment_result.success?
+            add_successful_payment(order, payment_result)
+            save_stripe_customer_id_if_needed(order, payment_result)
+            add_successful_message(order, payment_result)
+            send_email_to_user(order)
+            send_email_to_me(order)
+            Results.new(order.id, [])
+          else
+            add_failed_payment(order, payment_result)
+            add_failed_message(order, payment_result)
+            send_email_to_me(order)
+            Results.new(order.id, [payment_result.error_message])
+          end
         else
           Results.new(order_id, validation_result.errors)
         end
@@ -35,7 +45,7 @@ module SoT
       private
 
       def pay(order:, stripe_token:)
-        payment_result = StripeGateway.new.call(
+        StripeGateway.new.call(
           amount: order.amount_left_to_be_paid.fractional,
           currency: order.amount_left_to_be_paid.currency.iso_code,
           order_id: order.id,
@@ -43,15 +53,6 @@ module SoT
           payer_stripe_customer_id: order.user.stripe_customer_id,
           stripe_token: stripe_token,
         )
-
-        if payment_result.success?
-          add_successful_payment(order, payment_result)
-          save_stripe_customer_id_if_needed(order, payment_result)
-          Results.new(order.id, [])
-        else
-          add_failed_payment(order, payment_result)
-          Results.new(order.id, [payment_result.error_message])
-        end
       end
 
       def add_successful_payment(order, payment_result)
@@ -85,6 +86,23 @@ module SoT
 
       def send_email_to_me(order)
         mailer.send_email_about_payment_to_me(order)
+      end
+
+      def add_successful_message(order, payment_result)
+        price = Money.new(payment_result.amount, payment_result.currency)
+        text = i18n.t('successful_payment_message', price: price.format, scope: [:pay_for_order_workflow])
+        order.add_message(text: text, from_user: order.user)
+        order_repository.save(order)
+      end
+
+      def add_failed_message(order, payment_result)
+        text = i18n.t(
+          'failed_payment_message',
+          error_message: payment_result.error_message,
+          scope: [:pay_for_order_workflow],
+        )
+        order.add_message(text: text, from_user: order.user)
+        order_repository.save(order)
       end
     end
   end
