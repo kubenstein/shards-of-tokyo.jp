@@ -4,6 +4,7 @@ module SoT
       include Import[
         :order_repository,
         :user_repository,
+        :i18n,
         :mailer,
       ]
 
@@ -88,14 +89,18 @@ module SoT
       end
 
       def add_successful_message(order, payment_result)
-        paid = Money.new(payment_result.amount, payment_result.currency)
-        text = "PAYMENT NOTIFICATION: succesfully paid #{paid.format}. Thank you!"
+        price = Money.new(payment_result.amount, payment_result.currency)
+        text = i18n.t('successful_payment_message', price: price.format, scope: [:pay_for_order_workflow])
         order.add_message(text: text, from_user: order.user)
         order_repository.save(order)
       end
 
       def add_failed_message(order, payment_result)
-        text = "PAYMENT NOTIFICATION: error while paying.\n\nError message:\n'#{payment_result.error_message}'"
+        text = i18n.t(
+          'failed_payment_message',
+          error_message: payment_result.error_message,
+          scope: [:pay_for_order_workflow],
+        )
         order.add_message(text: text, from_user: order.user)
         order_repository.save(order)
       end
