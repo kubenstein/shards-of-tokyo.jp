@@ -40,6 +40,7 @@ module SoT
                 rescue StandardError
                   e.to_s
                 end
+      Bugsnag.notify(e)
       FailedPayment.new(payment_id, amount, currency, message)
     end
 
