@@ -1,5 +1,5 @@
 en:
   orders_payment_success:
     title: Thank you for payment!
-    desc: I will process the shipment as soon as possible. Please wait for messages with all updates!
+    desc: Your payment is complete! Please wait for messages with all new updates!
     btn_go_to_order: Go back to the order

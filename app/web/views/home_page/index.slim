@@ -11,8 +11,6 @@
     .hero-img.hero5
 .content
   .section
-    strong.title.black= t('about_title')
-
     .avatar
       img src=asset_path('avatar.jpg')
     p = t('about_content')
@@ -38,12 +36,9 @@
       img src=asset_path('custom-plan.jpg')
     .right
       = t('custom_plan_content')
-
-  .section.two-columns
-    .left
-      = t('custom_plan_content2')
-    .right-img
-      img src=asset_path('custom-plan.jpg')
+      br
+      br
+      button.btn.iwant= t('custom_plan_button')
 
   .two-columns
     .left
