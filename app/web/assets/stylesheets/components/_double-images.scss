@@ -1,19 +1,34 @@
 .double-images {
-  position: relative;
-  padding-bottom: 80px;
+  @media (max-width: 720px) {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
 
-  img:last-child {
-    position: absolute;
-    transition: top 2s ease 0s, left 2s ease 0s, border-color 0.5s ease 0s;
-    top: 40px;
-    left: 40px;
-    padding: 10px 10px 10px 0;
-    border-right: 1px solid white;
+    .img-wrapper {
+      flex: 0 0 49%;
+    }
+
+    img {
+      width: 100%;
+    }
   }
 
-  img:first-child:hover + img {
-    top: 100px;
-    left: 175px;
-    border-right-color: $dodger_blue;
+  @media (min-width: 721px) {
+    position: relative;
+    padding-bottom: 80px;
+
+    .img-wrapper {
+      width: 100%;
+      max-width: 302px;
+
+      img {
+        width: 100%;
+      }
+    }
+    .img-wrapper:last-child {
+      position: absolute;
+      top: 100px;
+      right: 0;
+    }
   }
 }

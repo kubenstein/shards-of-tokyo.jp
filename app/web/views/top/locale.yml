@@ -1,5 +1,6 @@
 en:
   top:
-    link_login_signup: Login / Sign up
     link_orders: Orders
+    link_login: Login
+    link_signup: Sign up
     link_logout: Logout

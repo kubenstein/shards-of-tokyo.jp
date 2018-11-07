@@ -10,7 +10,7 @@
     .hero-img.hero4
     .hero-img.hero5
 .content
-  .section
+  .section.about
     .avatar
       img src=asset_path('avatar.jpg')
     p = t('about_content')
@@ -43,8 +43,10 @@
   .two-columns
     .left
       .double-images
-        img.iwant src=asset_path('side-img.jpg') data-info-placeholder=t('bentobox_iwant_text')
-        img.iwant src=asset_path('side-img-2.jpg') data-info-placeholder=t('charms_iwant_text')
+        .img-wrapper
+          img.iwant src=asset_path('side-img.jpg') data-info-placeholder=t('bentobox_iwant_text')
+        .img-wrapper
+          img.iwant src=asset_path('side-img-2.jpg') data-info-placeholder=t('charms_iwant_text')
 
     .right
       - if current_user

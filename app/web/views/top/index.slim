@@ -7,6 +7,14 @@
   .menu
     - if current_user
       a href='/orders/' = t('link_orders')
-      a href='/logout/' = t('link_logout')
+      a href='/logout/'
+        | &nbsp;&nbsp;
+        = t('link_logout')
     - else
-      a href='/login/' = t('link_login_signup')
+      a href='/login/'
+        span
+          = t('link_login')
+          = ' /'
+          | &nbsp;
+        span
+          = t('link_signup')

@@ -1,10 +1,14 @@
 .menu {
+  text-align: right;
+  
   a {
     display: inline-block;
-    margin-left: 50px;
-    text-align: center;
     color: $black;
     text-decoration: none;
+
+    span {
+      display: inline-block;
+    }
 
     &:hover {
       text-decoration: underline;
