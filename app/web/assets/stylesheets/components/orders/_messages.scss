@@ -1,11 +1,14 @@
 .messages {
   .message {
-    width: 80%;
     position: relative;
     margin-bottom: 25px;
     padding: 10px;
     font-size: 14px;
     white-space: pre-line;
+
+    @media (min-width: 721px) {
+      width: 80%;
+    }
 
     .time {
       position: absolute;
@@ -45,8 +48,11 @@
   }
 
   .me {
-    margin-left: 20%;
     background-color: rgba($secondary, .1);
+
+    @media (min-width: 721px) {
+      margin-left: 20%;
+    }
 
     &::before {
       right: -5px;
