@@ -14,7 +14,13 @@
 }
 
 .centered-container {
-  margin-top: 140px !important;
+  @media (max-width: 720px) {
+    margin-top: 40px !important;
+  }
+
+  @media (min-width: 721px) {
+    margin-top: 140px !important;
+  }
   margin-left: auto !important;
   margin-right: auto !important;
   max-width: 600px !important;
