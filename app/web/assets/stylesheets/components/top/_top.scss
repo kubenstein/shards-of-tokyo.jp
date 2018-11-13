@@ -3,15 +3,17 @@
   justify-content: space-between;
   align-items: center;
   margin: 10px 0;
+  height: 75px;
 
   .logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 330px;
-    height: 75px;
+    flex: 0 1 330px;
+    height: 100%;
+    margin-right: 10px;
     text-indent: -9999px;
-    background: asset-url('logo.png') no-repeat 0 0;
+    background: asset-url('logo.png') no-repeat 0 50%;
     background-size: contain;
   }
 }

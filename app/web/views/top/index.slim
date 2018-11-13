@@ -4,9 +4,20 @@
   a.logo href='/'
     h1 Shards of Tokyo
     strong Personalized Japanese items delivery
+
+  label.menu-trigger for="menu-trigger" ☰
+  input#menu-trigger.menu-trigger-toggler type="checkbox"
+  label.menu-trigger-curtain for="menu-trigger"
   .menu
     - if current_user
       a href='/orders/' = t('link_orders')
-      a href='/logout/' = t('link_logout')
+      a href='/logout/'
+        = t('link_logout')
     - else
-      a href='/login/' = t('link_login_signup')
+      a href='/login/'
+        span
+          = t('link_login')
+          = ' /'
+          | &nbsp;
+        span
+          = t('link_signup')

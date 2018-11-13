@@ -1,8 +1,51 @@
+.menu-trigger {
+  display: none;
+  position: relative;
+  top: -5px;
+  right: -8px;
+  font-size: 40px;
+  color: $main;
+  -moz-user-select: none;
+  user-select: none;
+
+  @media (max-width: 720px) {
+    display: block;
+  }
+}
+
+.menu-trigger-toggler {
+  display: none;
+}
+
+.menu-trigger-toggler:checked ~ .menu,
+.menu-trigger-toggler:checked ~ .menu-trigger-curtain {
+  display: block !important;
+}
+
 .menu {
+  text-align: right;
+
+  @media (max-width: 720px) {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    padding: 15px 0;
+    border: 1px solid $main;
+    background: white;
+    z-index: 12;
+  }
+
   a {
-    display: inline-block;
-    margin-left: 50px;
-    text-align: center;
+    @media (max-width: 720px) {
+      display: block;
+      padding: 3px 50px;
+    }
+
+    @media (min-width: 721px) {
+      display: inline-block;
+      margin-left: 10px;
+    }
     color: $black;
     text-decoration: none;
 
@@ -10,4 +53,14 @@
       text-decoration: underline;
     }
   }
+}
+
+.menu-trigger-curtain {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 11;
 }

@@ -1,12 +1,24 @@
 .two-columns {
   display: flex;
+  justify-content: space-between;
 
-  .left, .right {
-    flex-basis: 50%;
+  @media (max-width: 440px) {
+    flex-direction: column;
   }
 
-  .right-img {
-    @extend .right;
-    text-align: right;
+  .left {
+    flex-basis: 49%;
+
+    @media (max-width: 440px) {
+      margin: 0 auto 10px;
+    }
+
+    & > img {
+      max-width: 100%;
+    }
+  }
+
+  .right {
+    flex-basis: 49%;
   }
 }
