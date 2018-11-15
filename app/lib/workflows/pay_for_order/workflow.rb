@@ -1,12 +1,19 @@
 module SoT
   module PayForOrder
     class Workflow
-      include Import[
+      prepend Import[
         :order_repository,
         :user_repository,
         :i18n,
         :mailer,
       ]
+
+      attr_reader :stripe_public_key
+
+      def initialize(stripe_secret_key:, stripe_public_key:)
+        @stripe_public_key = stripe_public_key
+        @stripe_gateway = StripeGateway.new(stripe_secret_key: stripe_secret_key)
+      end
 
       def call(params)
         user = params[:user] # rubocop:disable Lint/UselessAssignment
@@ -45,7 +52,7 @@ module SoT
       private
 
       def pay(order:, stripe_token:)
-        StripeGateway.new.call(
+        @stripe_gateway.call(
           amount: order.amount_left_to_be_paid.fractional,
           currency: order.amount_left_to_be_paid.currency.iso_code,
           order_id: order.id,

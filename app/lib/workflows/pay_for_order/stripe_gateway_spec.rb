@@ -24,7 +24,13 @@ describe SoT::StripeGateway do
     )
   end
 
-  subject { described_class.new(stripe_charge: stripe_charge, stripe_customer: stripe_customer) }
+  subject {
+    described_class.new(
+      stripe_charge: stripe_charge,
+      stripe_customer: stripe_customer,
+      stripe_secret_key: 'dummy_secret_key',
+    )
+  }
 
   it 'calls stripe api properly during pay - payer_stripe_customer_id is known' do
     expect(stripe_charge).to receive(:create).with({
@@ -79,7 +85,12 @@ describe SoT::StripeGateway do
   end
 
   it 'returns failed result' do
-    gateway = described_class.new(stripe_charge: failing_stripe_charge, stripe_customer: stripe_customer)
+    gateway = described_class.new(
+      stripe_secret_key: 'dummy_secret_key',
+      stripe_charge: failing_stripe_charge,
+      stripe_customer: stripe_customer,
+    )
+
     result = gateway.call(
       stripe_token: 'stripeToken',
       order_id: 'orderID',
