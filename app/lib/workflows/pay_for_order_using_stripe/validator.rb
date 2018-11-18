@@ -1,5 +1,5 @@
 module SoT
-  module PayForOrder
+  module PayForOrderUsingSripe
     class Validator
       include Import[
         :order_repository

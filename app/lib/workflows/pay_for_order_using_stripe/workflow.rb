@@ -1,5 +1,5 @@
 module SoT
-  module PayForOrder
+  module PayForOrderUsingSripe
     class Workflow
       prepend Import[
         :order_repository,

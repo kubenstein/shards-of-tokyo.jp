@@ -1,4 +1,4 @@
-describe SoT::PayForOrder::Workflow do
+describe SoT::PayForOrderUsingSripe::Workflow do
   let(:state) { APP_COMPONENTS[:state] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
   let(:order_repo) { APP_COMPONENTS[:order_repository] }

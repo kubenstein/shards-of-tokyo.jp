@@ -19,7 +19,7 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
   c.register(:logout_user_workflow, memoize: true) { SoT::LogoutUser::Workflow.new }
   c.register(:set_order_price_workflow, memoize: true) { SoT::SetOrderPrice::Workflow.new }
   c.register(:pay_for_order_workflow, memoize: true) {
-    SoT::PayForOrder::Workflow.new(
+    SoT::PayForOrderUsingSripe::Workflow.new(
       stripe_secret_key: ENV['STRIPE_API_SECRET_KEY'],
       stripe_public_key: ENV['STRIPE_API_PUBLIC_KEY'],
     )
