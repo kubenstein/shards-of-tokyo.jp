@@ -102,6 +102,7 @@ module SoT
         String :id, primary_key: true
         String :order_id
         String :payment_id
+        String :gateway
         Bignum :amount
         String :currency
         String :error

@@ -64,6 +64,7 @@ module SoT
 
       def add_successful_payment(order, payment_result)
         order.add_successful_payment(
+          payment_gateway: 'stripe',
           payment_id: payment_result.payment_id,
           price: Money.new(payment_result.amount, payment_result.currency),
         )
@@ -72,6 +73,7 @@ module SoT
 
       def add_failed_payment(order, payment_result)
         order.add_failed_payment(
+          payment_gateway: 'stripe',
           payment_id: payment_result.payment_id,
           price: order.amount_left_to_be_paid,
           error_message: payment_result.error_message,

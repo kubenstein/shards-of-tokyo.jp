@@ -11,6 +11,7 @@ describe SoT::PaymentCreatedEvent do
       order: order,
       payment_id: 'payment_id',
       price: Money.new(100, :jpy),
+      gateway: 'stripe',
       error: nil,
       created_at: Time.now,
     )
