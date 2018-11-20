@@ -4,7 +4,7 @@ COMMANDS=$(cat <<'END_SCRIPT'
   cd /home/src ;
   npm i -g heroku ;
   apk add git openssl ;
-  heroku login ;
+  heroku login --interactive ;
   git push -f https://git.heroku.com/sot-stage.git master
 END_SCRIPT
 )
