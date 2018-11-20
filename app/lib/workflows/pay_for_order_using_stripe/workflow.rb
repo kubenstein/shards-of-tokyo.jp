@@ -57,7 +57,7 @@ module SoT
           currency: order.amount_left_to_be_paid.currency.iso_code,
           order_id: order.id,
           payer_email: order.user.email,
-          payer_stripe_customer_id: order.user.stripe_customer_id,
+          payer_stripe_customer_id: order.user.payment_gateway_customer_id,
           stripe_token: stripe_token,
         )
       end
@@ -81,9 +81,9 @@ module SoT
 
       def save_stripe_customer_id_if_needed(order, payment_result)
         user = order.user
-        return if user.stripe_customer_id
+        return if user.payment_gateway_customer_id
 
-        user.stripe_customer_id = payment_result.customer_id
+        user.payment_gateway_customer_id = payment_result.customer_id
         user_repository.save(user)
       end
 

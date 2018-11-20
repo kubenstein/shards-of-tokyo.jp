@@ -3,18 +3,18 @@ module SoT
     include Eventable
     ME_EMAIL = 'niewczas.jakub@gmail.com'
 
-    attr_reader :email, :id, :stripe_customer_id, :created_at
+    attr_reader :email, :id, :payment_gateway_customer_id, :created_at
 
-    def initialize(id:, email:, stripe_customer_id:, created_at:, **_)
+    def initialize(id:, email:, payment_gateway_customer_id:, created_at:, **_)
       @id = id
       @email = email
-      @stripe_customer_id = stripe_customer_id
+      @payment_gateway_customer_id = payment_gateway_customer_id
       @created_at = created_at
     end
 
-    def stripe_customer_id=(customer_id)
-      @stripe_customer_id = customer_id
-      add_event(UserStripeCustomerIdUpdatedEvent.build(self))
+    def payment_gateway_customer_id=(customer_id)
+      @payment_gateway_customer_id = customer_id
+      add_event(UserPaymentGatewayCustomerIdUpdatedEvent.build(self))
     end
 
     def me?
