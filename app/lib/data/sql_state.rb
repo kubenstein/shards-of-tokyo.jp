@@ -69,7 +69,7 @@ module SoT
       @connection.create_table("#{@database_version}_users") do
         String :id, primary_key: true
         String :email
-        String :stripe_customer_id
+        String :payment_gateway_customer_id
         Time :created_at
       end
 
@@ -102,6 +102,7 @@ module SoT
         String :id, primary_key: true
         String :order_id
         String :payment_id
+        String :gateway
         Bignum :amount
         String :currency
         String :error

@@ -57,11 +57,12 @@ module SoT
       end
     end
 
-    def add_successful_payment(payment_id:, price:)
+    def add_successful_payment(payment_gateway:, payment_id:, price:)
       payment_attrs = {
         id: GenerateId.new.call,
         order: self,
         payment_id: payment_id,
+        gateway: payment_gateway,
         price: price,
         created_at: Time.now,
       }
@@ -71,11 +72,12 @@ module SoT
       end
     end
 
-    def add_failed_payment(payment_id:, price:, error_message:)
+    def add_failed_payment(payment_gateway:, payment_id:, price:, error_message:)
       payment_attrs = {
         id: GenerateId.new.call,
         order: self,
         payment_id: payment_id,
+        gateway: payment_gateway,
         price: price,
         error: error_message,
         created_at: Time.now,

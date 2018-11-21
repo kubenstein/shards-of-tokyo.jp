@@ -12,7 +12,6 @@ class WebServer < Sinatra::Base
 
   include Import[
     :i18n,
-    :stripe_api_keys,
     :user_repository,
     :order_repository,
     :register_user_workflow,
@@ -159,7 +158,7 @@ class WebServer < Sinatra::Base
       orders: orders,
       selected_order: selected_order,
       message_form_error: !!params[:message_form_error],
-      stripe_public_token: stripe_api_keys[:public_key],
+      stripe_public_key: pay_for_order_workflow.stripe_public_key,
     }
   end
 

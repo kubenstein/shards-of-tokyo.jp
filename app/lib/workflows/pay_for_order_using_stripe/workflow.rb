@@ -1,12 +1,19 @@
 module SoT
-  module PayForOrder
+  module PayForOrderUsingSripe
     class Workflow
-      include Import[
+      prepend Import[
         :order_repository,
         :user_repository,
         :i18n,
         :mailer,
       ]
+
+      attr_reader :stripe_public_key
+
+      def initialize(stripe_secret_key:, stripe_public_key:)
+        @stripe_public_key = stripe_public_key
+        @stripe_gateway = StripeGateway.new(stripe_secret_key: stripe_secret_key)
+      end
 
       def call(params)
         user = params[:user] # rubocop:disable Lint/UselessAssignment
@@ -45,18 +52,19 @@ module SoT
       private
 
       def pay(order:, stripe_token:)
-        StripeGateway.new.call(
+        @stripe_gateway.call(
           amount: order.amount_left_to_be_paid.fractional,
           currency: order.amount_left_to_be_paid.currency.iso_code,
           order_id: order.id,
           payer_email: order.user.email,
-          payer_stripe_customer_id: order.user.stripe_customer_id,
+          payer_stripe_customer_id: order.user.payment_gateway_customer_id,
           stripe_token: stripe_token,
         )
       end
 
       def add_successful_payment(order, payment_result)
         order.add_successful_payment(
+          payment_gateway: 'stripe',
           payment_id: payment_result.payment_id,
           price: Money.new(payment_result.amount, payment_result.currency),
         )
@@ -65,6 +73,7 @@ module SoT
 
       def add_failed_payment(order, payment_result)
         order.add_failed_payment(
+          payment_gateway: 'stripe',
           payment_id: payment_result.payment_id,
           price: order.amount_left_to_be_paid,
           error_message: payment_result.error_message,
@@ -74,9 +83,9 @@ module SoT
 
       def save_stripe_customer_id_if_needed(order, payment_result)
         user = order.user
-        return if user.stripe_customer_id
+        return if user.payment_gateway_customer_id
 
-        user.stripe_customer_id = payment_result.customer_id
+        user.payment_gateway_customer_id = payment_result.customer_id
         user_repository.save(user)
       end
 

@@ -5,12 +5,6 @@ require 'require_all'
 require './app/lib/auto_inject'
 
 APP_COMPONENTS = Dry::Container.new.tap do |c|
-  c.register(:stripe_api_keys, memoize: true) do
-    {
-      secret_key: ENV['STRIPE_API_SECRET_KEY'],
-      public_key: ENV['STRIPE_API_PUBLIC_KEY'],
-    }
-  end
   c.register(:bugsnag_api_key, memoize: true) { ENV['BUGSNAG_API_KEY'] }
   c.register(:session_secret, memoize: true) { ENV['SESSION_SECRET'] || 'session_secret' }
   c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
@@ -24,7 +18,12 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
   c.register(:login_user_step3_check_token_workflow, memoize: true) { SoT::LoginUserStep3CheckToken::Workflow.new }
   c.register(:logout_user_workflow, memoize: true) { SoT::LogoutUser::Workflow.new }
   c.register(:set_order_price_workflow, memoize: true) { SoT::SetOrderPrice::Workflow.new }
-  c.register(:pay_for_order_workflow, memoize: true) { SoT::PayForOrder::Workflow.new }
+  c.register(:pay_for_order_workflow, memoize: true) {
+    SoT::PayForOrderUsingSripe::Workflow.new(
+      stripe_secret_key: ENV['STRIPE_API_SECRET_KEY'],
+      stripe_public_key: ENV['STRIPE_API_PUBLIC_KEY'],
+    )
+  }
   c.register(:i18n, memoize: true) { SoT::I18nProvider.new }
   c.register(:event_store, memoize: true) {
     SoT::SqlEventStore.new(ENV['EVENTS_DATABASE_URL'] || ENV['JAWSDB_MARIA_URL'])

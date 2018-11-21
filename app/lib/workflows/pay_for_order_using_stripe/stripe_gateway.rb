@@ -2,11 +2,8 @@ require 'stripe'
 
 module SoT
   class StripeGateway
-    prepend Import[
-      :stripe_api_keys,
-    ]
-
-    def initialize(stripe_charge: Stripe::Charge, stripe_customer: Stripe::Customer)
+    def initialize(stripe_secret_key:, stripe_charge: Stripe::Charge, stripe_customer: Stripe::Customer)
+      @stripe_secret_key = stripe_secret_key
       @stripe_charge = stripe_charge
       @stripe_customer = stripe_customer
     end
@@ -21,7 +18,7 @@ module SoT
                                               customer: customer_id,
                                               metadata: { order_id: order_id },
                                             },
-                                            api_key: stripe_api_keys[:secret_key])
+                                            api_key: @stripe_secret_key)
 
       SuccessPayment.new(
         customer_id,
@@ -65,7 +62,7 @@ module SoT
                                                   email: payer_email,
                                                   source: stripe_token,
                                                 },
-                                                api_key: stripe_api_keys[:secret_key])
+                                                api_key: @stripe_secret_key)
       stripe_customer.id
     end
   end

@@ -47,7 +47,7 @@ describe SoT::OrderRepository do
     it 'finds an order (and order has payments and messages fully populated)' do
       order1.add_message(text: 'message1', from_user: user)
       order1.add_message(text: 'message2', from_user: user)
-      order1.add_successful_payment(payment_id: 'payment_id1', price: Money.new(100, :usd))
+      order1.add_successful_payment(payment_gateway: 'stripe', payment_id: 'payment_id1', price: Money.new(100, :usd))
       subject.save(order1)
 
       found_order = subject.find(order1.id)
@@ -64,7 +64,7 @@ describe SoT::OrderRepository do
 
       order2.add_message(text: 'message1', from_user: user)
       order2.add_message(text: 'message2', from_user: user)
-      order2.add_successful_payment(payment_id: 'payment_id1', price: Money.new(100, :usd))
+      order2.add_successful_payment(payment_gateway: 'stripe', payment_id: 'payment_id1', price: Money.new(100, :usd))
       subject.save(order2)
 
       found_orders = subject.for_user_newest_first(user_id: user.id)

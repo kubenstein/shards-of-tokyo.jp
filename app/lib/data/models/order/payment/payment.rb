@@ -6,13 +6,14 @@ module SoT
   class Payment
     include ObjWithPriceSerializable
 
-    attr_reader :id, :order, :price, :created_at, :error, :payment_id
+    attr_reader :id, :order, :price, :created_at, :error, :payment_id, :gateway
 
-    def initialize(id:, order:, payment_id:, price:, error: nil, created_at:, **_) # rubocop:disable Metrics/ParameterLists
+    def initialize(id:, order:, payment_id:, price:, gateway:, error: nil, created_at:, **_) # rubocop:disable Metrics/ParameterLists
       @id = id
       @order_id = order.id
       @payment_id = payment_id
       @price = price
+      @gateway = gateway
       @error = error
       @created_at = created_at
       @_order = order

@@ -20,11 +20,11 @@ describe SoT::Order do
     expect(subject.paid?).to eq false
 
     # paid but not enought
-    subject.add_successful_payment(payment_id: 'payment_id1', price: Money.new(40, :usd))
+    subject.add_successful_payment(payment_gateway: 'stripe', payment_id: 'payment_id1', price: Money.new(40, :usd))
     expect(subject.paid?).to eq false
 
     # paid
-    subject.add_successful_payment(payment_id: 'payment_id2', price: Money.new(60, :usd))
+    subject.add_successful_payment(payment_gateway: 'stripe', payment_id: 'payment_id2', price: Money.new(60, :usd))
     expect(subject.paid?).to eq true
   end
 
@@ -34,10 +34,10 @@ describe SoT::Order do
     subject.set_price(Money.new(100, :usd))
     expect(subject.amount_left_to_be_paid).to eq Money.new(100, :usd)
 
-    subject.add_successful_payment(payment_id: 'payment_id1', price: Money.new(40, :usd))
+    subject.add_successful_payment(payment_gateway: 'stripe', payment_id: 'payment_id1', price: Money.new(40, :usd))
     expect(subject.amount_left_to_be_paid).to eq Money.new(60, :usd)
 
-    subject.add_successful_payment(payment_id: 'payment_id2', price: Money.new(60, :usd))
+    subject.add_successful_payment(payment_gateway: 'stripe', payment_id: 'payment_id2', price: Money.new(60, :usd))
     expect(subject.amount_left_to_be_paid).to eq Money.new(0, :usd)
   end
 
@@ -55,7 +55,7 @@ describe SoT::Order do
   end
 
   it 'stores successful payment' do
-    subject.add_successful_payment(payment_id: 'payment_id', price: Money.new(60, :usd))
+    subject.add_successful_payment(payment_gateway: 'stripe', payment_id: 'payment_id', price: Money.new(60, :usd))
 
     last_event = subject.instance_variable_get(:@_uncommited_events).last
     expect(last_event.name).to eq 'payment_created'
@@ -63,7 +63,12 @@ describe SoT::Order do
   end
 
   it 'stores failed payment' do
-    subject.add_failed_payment(payment_id: 'payment_id', price: Money.new(60, :usd), error_message: 'error XYZ')
+    subject.add_failed_payment(
+      payment_gateway: 'stripe',
+      payment_id: 'payment_id',
+      price: Money.new(60, :usd),
+      error_message: 'error XYZ',
+    )
 
     last_event = subject.instance_variable_get(:@_uncommited_events).last
     expect(last_event.name).to eq 'payment_created'

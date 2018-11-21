@@ -1,9 +1,16 @@
-describe SoT::PayForOrder::Workflow do
+describe SoT::PayForOrderUsingSripe::Workflow do
   let(:state) { APP_COMPONENTS[:state] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
   let(:order_repo) { APP_COMPONENTS[:order_repository] }
   let(:user) { user_repo.save(user_repo.new_user(email: 'user@test.pl')) }
   let!(:order) { order_repo.save(order_repo.new_order(user: user, price: Money.new(100, :jpy))) }
+
+  subject {
+    described_class.new(
+      stripe_secret_key: 'dummy_secret_key',
+      stripe_public_key: 'dummy_public_key',
+    )
+  }
 
   it 'pays the order' do
     expect_any_instance_of(SoT::StripeGateway).to receive(:call).and_return(

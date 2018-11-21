@@ -7,7 +7,7 @@ module SoT
       user_attr = {
         id: GenerateId.new.call,
         email: email,
-        stripe_customer_id: nil,
+        payment_gateway_customer_id: nil,
         created_at: Time.now,
       }
 
