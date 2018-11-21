@@ -10,7 +10,7 @@ describe SoT::LoginToken do
 
     last_event = subject.instance_variable_get(:@_uncommited_events).last
     expect(subject.invalidated).to eq true
-    expect(last_event.name).to eq 'login_token_invalidated'
+    expect(last_event.name).to eq 'login_token_invalidated_v1'
   end
 
   it 'can be confirmed' do
@@ -18,7 +18,7 @@ describe SoT::LoginToken do
 
     last_event = subject.instance_variable_get(:@_uncommited_events).last
     expect(subject.confirmed).to eq true
-    expect(last_event.name).to eq 'login_token_confirmed'
+    expect(last_event.name).to eq 'login_token_confirmed_v1'
   end
 
   it 'reports itself as active when it is confirmed and not invalidated' do

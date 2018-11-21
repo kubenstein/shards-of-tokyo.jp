@@ -10,7 +10,7 @@ describe SoT::OrderRepository do
     expect(order.price).to eq nil
 
     last_event = order.instance_variable_get(:@_uncommited_events).last
-    expect(last_event.name).to eq 'order_created'
+    expect(last_event.name).to eq 'order_created_v1'
   end
 
   it 'saves order' do

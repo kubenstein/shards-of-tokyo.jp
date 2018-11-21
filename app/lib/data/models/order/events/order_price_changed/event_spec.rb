@@ -1,4 +1,4 @@
-describe SoT::OrderPriceChangedEvent do
+describe SoT::OrderPriceChangedV1Event do
   let(:state) { APP_COMPONENTS[:state] }
   let(:order_repo) { APP_COMPONENTS[:order_repository] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
@@ -9,7 +9,7 @@ describe SoT::OrderPriceChangedEvent do
     order.set_price(Money.new(500, :jpy))
     event = subject.build(order, requester_id: 'price_changer_user')
 
-    expect(event.name).to eq 'order_price_changed'
+    expect(event.name).to eq 'order_price_changed_v1'
     expect(event.requester_id).to eq 'price_changer_user'
     expect(event.payload[:id]).to eq order.id
     expect(event.payload[:amount]).to eq 500

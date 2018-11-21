@@ -12,7 +12,7 @@ module SoT
       }
 
       User.new(user_attr).tap { |user|
-        user.add_event(UserCreatedEvent.build(user))
+        user.add_event(UserCreatedV1Event.build(user))
       }
     end
 

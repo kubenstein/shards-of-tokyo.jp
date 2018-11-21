@@ -1,6 +1,6 @@
 module SoT
-  module OrderPriceChangedEvent
-    NAME = 'order_price_changed'
+  module OrderPriceChangedV1Event
+    NAME = 'order_price_changed_v1'
 
     def self.build(order, requester_id: nil)
       payload = Serialize.new.call(order).slice(:id, :amount, :currency)

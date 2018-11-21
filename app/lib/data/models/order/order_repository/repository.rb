@@ -11,7 +11,7 @@ module SoT
         created_at: Time.now,
       }
       Order.new(order_attr).tap { |order|
-        order.add_event(OrderCreatedEvent.build(order))
+        order.add_event(OrderCreatedV1Event.build(order))
       }
     end
 

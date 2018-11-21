@@ -14,7 +14,7 @@ module SoT
 
     def payment_gateway_customer_id=(customer_id)
       @payment_gateway_customer_id = customer_id
-      add_event(UserPaymentGatewayCustomerIdUpdatedEvent.build(self))
+      add_event(UserPaymentGatewayCustomerIdUpdatedV1Event.build(self))
     end
 
     def me?

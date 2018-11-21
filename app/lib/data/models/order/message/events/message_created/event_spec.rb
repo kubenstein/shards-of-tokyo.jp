@@ -1,4 +1,4 @@
-describe SoT::MessageCreatedEvent do
+describe SoT::MessageCreatedV1Event do
   let(:state) { APP_COMPONENTS[:state] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
   let(:order_repo) { APP_COMPONENTS[:order_repository] }
@@ -10,7 +10,7 @@ describe SoT::MessageCreatedEvent do
   it 'creates proper message created event from message object' do
     event = subject.build(message)
 
-    expect(event.name).to eq 'message_created'
+    expect(event.name).to eq 'message_created_v1'
     expect(event.requester_id).to eq user.id
     expect(event.payload[:id]).to eq message.id
   end

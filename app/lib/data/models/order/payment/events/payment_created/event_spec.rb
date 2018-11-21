@@ -1,4 +1,4 @@
-describe SoT::PaymentCreatedEvent do
+describe SoT::PaymentCreatedV1Event do
   let(:state) { APP_COMPONENTS[:state] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
   let(:order_repo) { APP_COMPONENTS[:order_repository] }
@@ -20,7 +20,7 @@ describe SoT::PaymentCreatedEvent do
   it 'creates proper payment created event from payment object' do
     event = subject.build(payment)
 
-    expect(event.name).to eq 'payment_created'
+    expect(event.name).to eq 'payment_created_v1'
     expect(event.requester_id).to eq user.id
     expect(event.payload[:id]).to eq payment.id
   end

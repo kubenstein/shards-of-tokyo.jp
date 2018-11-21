@@ -1,6 +1,6 @@
 module SoT
-  module PaymentCreatedEvent
-    NAME = 'payment_created'
+  module PaymentCreatedV1Event
+    NAME = 'payment_created_v1'
 
     def self.build(payment)
       payload = Serialize.new.call(payment)

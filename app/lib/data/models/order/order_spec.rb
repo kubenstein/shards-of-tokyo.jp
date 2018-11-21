@@ -58,7 +58,7 @@ describe SoT::Order do
     subject.add_successful_payment(payment_gateway: 'stripe', payment_id: 'payment_id', price: Money.new(60, :usd))
 
     last_event = subject.instance_variable_get(:@_uncommited_events).last
-    expect(last_event.name).to eq 'payment_created'
+    expect(last_event.name).to eq 'payment_created_v1'
     expect(last_event.payload[:error]).to eq nil
   end
 
@@ -71,7 +71,7 @@ describe SoT::Order do
     )
 
     last_event = subject.instance_variable_get(:@_uncommited_events).last
-    expect(last_event.name).to eq 'payment_created'
+    expect(last_event.name).to eq 'payment_created_v1'
     expect(last_event.payload[:error]).to eq 'error XYZ'
   end
 end

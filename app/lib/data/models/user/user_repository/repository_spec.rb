@@ -7,7 +7,7 @@ describe SoT::UserRepository do
     expect(user.email).to eq 'test@test.pl'
 
     last_event = user.instance_variable_get(:@_uncommited_events).last
-    expect(last_event.name).to eq 'user_created'
+    expect(last_event.name).to eq 'user_created_v1'
   end
 
   it 'saves users' do

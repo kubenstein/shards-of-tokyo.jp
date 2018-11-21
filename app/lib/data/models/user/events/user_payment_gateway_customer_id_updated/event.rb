@@ -1,6 +1,6 @@
 module SoT
-  module UserPaymentGatewayCustomerIdUpdatedEvent
-    NAME = 'user_payment_gateway_customer_id_updated'
+  module UserPaymentGatewayCustomerIdUpdatedV1Event
+    NAME = 'user_payment_gateway_customer_id_updated_v1'
 
     def self.build(user)
       payload = { id: user.id, payment_gateway_customer_id: user.payment_gateway_customer_id }
