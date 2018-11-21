@@ -2,7 +2,7 @@ en:
   mailers:
     registration_email_to_new_user:
       subject: Welcome to Shards of Tokyo
-      body: "Hello!\n\nThank you for creating an account at Shards of Tokyo, I really appreciate this and welcome you personally.\n\nShards of Tokyo is made for positive people fascinated by Japan and Japanese culture. I want to share a shard of my own happiness with other people by helping importing all kind of stuff. As I love receiving physical, touchable, tastable, readable, joyable, memorable gifts myself please feel free to contact me whenever there is anything you wish to receive specially for you, directly from Japan!\n\nThe link below is a one-time login link leading you to your dashboard. Each time you want login a new one-time login link will be send to your email.\n\nlogin link:\nhttp://shards-of-tokyo.jp/login/accept_link_from_email?token_id=%{login_token_id}\n\nYou can visit your dashboard at anytime to place new requests or to check those that are already ongoing.\n\nAll notifications will be sent on that email address.\n\nStay tuned,\n\nSoT"
+      body: "Hello!\n\nThank you for creating an account at Shards of Tokyo, I really appreciate this and welcome you personally.\n\nShards of Tokyo is made for positive people fascinated by Japan and Japanese culture. I want to share a shard of my own happiness with other people by helping importing all kind of stuff. As I love receiving physical, touchable, tastable, readable, joyable, memorable gifts myself please feel free to contact me whenever there is anything you wish to receive specially for you, directly from Japan!\n\nThe link below is a one-time login link leading you to your dashboard. Each time you want login a new one-time login link will be send to your email.\n\nlogin link:\n%{base_url}login/accept_link_from_email?token_id=%{login_token_id}\n\nYou can visit your dashboard at anytime to place new requests or to check those that are already ongoing.\n\nAll notifications will be sent on that email address.\n\nStay tuned,\n\nSoT"
 
     email_about_new_message_to_user:
       subject: "[Shards of Tokyo] new message!"
@@ -10,7 +10,7 @@ en:
 
     email_with_login_token_to_user:
       subject: "[Shards of Tokyo] login link"
-      body: "Hello!\n\nBy clicking link below you will be automatically log in on device you asked for login\n\nhttp://shards-of-tokyo.jp/login/accept_link_from_email?token_id=%{login_token_id} \n\nCheers,\nSoT"
+      body: "Hello!\n\nBy clicking link below you will be automatically log in on device you asked for login\n\n%{base_url}login/accept_link_from_email?token_id=%{login_token_id} \n\nCheers,\nSoT"
 
     email_about_payment_to_user:
       subject: "[Shards of Tokyo] order %{order_id} payment!"

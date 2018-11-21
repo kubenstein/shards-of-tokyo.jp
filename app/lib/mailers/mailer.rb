@@ -7,7 +7,8 @@ module SoT
       :logger,
     ]
 
-    def initialize(smtp_options: nil)
+    def initialize(server_base_url:, smtp_options: nil)
+      @base_url = server_base_url
       @via = smtp_options ? :smtp : :test
       @via_options = smtp_options || {}
     end
@@ -16,7 +17,10 @@ module SoT
       send(
         to: user.email,
         subject: i18n.t('registration_email_to_new_user.subject', scope: :mailers),
-        body: i18n.t('registration_email_to_new_user.body', login_token_id: login_token.id, scope: :mailers),
+        body: i18n.t('registration_email_to_new_user.body',
+                     login_token_id: login_token.id,
+                     base_url: @base_url,
+                     scope: :mailers),
       )
     end
 
@@ -56,7 +60,10 @@ module SoT
       send(
         to: user.email,
         subject: i18n.t('email_with_login_token_to_user.subject', scope: :mailers),
-        body: i18n.t('email_with_login_token_to_user.body', login_token_id: token.id, scope: :mailers),
+        body: i18n.t('email_with_login_token_to_user.body',
+                     login_token_id: token.id,
+                     base_url: @base_url,
+                     scope: :mailers),
       )
     end
 
