@@ -35,19 +35,22 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
   if ENV['RACK_ENV'] == 'production'
     c.register(:logger, memoize: true) { Logger.new(STDOUT).tap { |logger| logger.level = Logger::INFO } }
     c.register(:mailer, memoize: true) {
-      SoT::Mailer.new(smtp_options: {
-                        domain: 'shards-of-tokyo.jp',
-                        address: 'smtp.sendgrid.net',
-                        port: 587,
-                        enable_starttls_auto: true,
-                        user_name: ENV['SENDGRID_USERNAME'],
-                        password: ENV['SENDGRID_PASSWORD'],
-                        authentication: :plain,
-                      })
+      SoT::Mailer.new(
+        server_base_url: ENV['SERVER_BASE_URL'],
+        smtp_options: {
+          domain: 'shards-of-tokyo.jp',
+          address: 'smtp.sendgrid.net',
+          port: 587,
+          enable_starttls_auto: true,
+          user_name: ENV['SENDGRID_USERNAME'],
+          password: ENV['SENDGRID_PASSWORD'],
+          authentication: :plain,
+        },
+      )
     }
   else
     c.register(:logger, memoize: true) { Logger.new(STDOUT) }
-    c.register(:mailer, memoize: true) { SoT::Mailer.new }
+    c.register(:mailer, memoize: true) { SoT::Mailer.new(server_base_url: 'http://localhost:3000/') }
   end
 end
 
