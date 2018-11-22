@@ -1,11 +1,11 @@
-describe SoT::UserCreatedEvent do
+describe SoT::UserCreatedV1Event do
   let(:state) { APP_COMPONENTS[:state] }
   let(:user) { APP_COMPONENTS[:user_repository].new_user(email: 'test@test.pl') }
 
   it 'creates proper user created event from user object' do
     event = subject.build(user)
 
-    expect(event.name).to eq 'user_created'
+    expect(event.name).to eq 'user_created_v1'
     expect(event.requester_id).to eq 'system'
     expect(event.payload[:id]).to eq user.id
   end

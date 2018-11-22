@@ -1,6 +1,6 @@
 module SoT
-  module OrderCreatedEvent
-    NAME = 'order_created'
+  module OrderCreatedV1Event
+    NAME = 'order_created_v1'
 
     def self.build(order)
       payload = Serialize.new.call(order)

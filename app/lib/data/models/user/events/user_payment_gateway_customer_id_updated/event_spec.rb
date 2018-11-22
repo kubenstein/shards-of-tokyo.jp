@@ -1,4 +1,4 @@
-describe SoT::UserPaymentGatewayCustomerIdUpdatedEvent do
+describe SoT::UserPaymentGatewayCustomerIdUpdatedV1Event do
   let(:state) { APP_COMPONENTS[:state] }
   let(:repo) { APP_COMPONENTS[:user_repository] }
 
@@ -8,7 +8,7 @@ describe SoT::UserPaymentGatewayCustomerIdUpdatedEvent do
     user.payment_gateway_customer_id = 'new_payment_gateway_customer_id'
     event = subject.build(user)
 
-    expect(event.name).to eq 'user_payment_gateway_customer_id_updated'
+    expect(event.name).to eq 'user_payment_gateway_customer_id_updated_v1'
     expect(event.requester_id).to eq user.id
     expect(event.payload[:id]).to eq user.id
     expect(event.payload[:payment_gateway_customer_id]).to eq 'new_payment_gateway_customer_id'

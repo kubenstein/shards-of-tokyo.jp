@@ -1,4 +1,4 @@
-describe SoT::LoginTokenConfirmedEvent do
+describe SoT::LoginTokenConfirmedV1Event do
   let(:state) { APP_COMPONENTS[:state] }
   let(:lt_repo) { APP_COMPONENTS[:login_token_repository] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
@@ -9,7 +9,7 @@ describe SoT::LoginTokenConfirmedEvent do
   it 'creates proper token confirmed event from login_token object' do
     event = subject.build(login_token)
 
-    expect(event.name).to eq 'login_token_confirmed'
+    expect(event.name).to eq 'login_token_confirmed_v1'
     expect(event.requester_id).to eq user.id
     expect(event.payload[:id]).to eq login_token.id
   end

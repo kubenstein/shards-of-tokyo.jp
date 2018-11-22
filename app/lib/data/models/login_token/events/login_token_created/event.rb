@@ -1,6 +1,6 @@
 module SoT
-  module LoginTokenCreatedEvent
-    NAME = 'login_token_created'
+  module LoginTokenCreatedV1Event
+    NAME = 'login_token_created_v1'
 
     def self.build(login_token)
       payload = Serialize.new.call(login_token)

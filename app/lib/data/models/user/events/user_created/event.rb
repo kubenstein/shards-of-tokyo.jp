@@ -1,6 +1,6 @@
 module SoT
-  module UserCreatedEvent
-    NAME = 'user_created'
+  module UserCreatedV1Event
+    NAME = 'user_created_v1'
 
     def self.build(user)
       payload = Serialize.new.call(user)

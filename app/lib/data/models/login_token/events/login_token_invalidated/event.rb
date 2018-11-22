@@ -1,6 +1,6 @@
 module SoT
-  module LoginTokenInvalidatedEvent
-    NAME = 'login_token_invalidated'
+  module LoginTokenInvalidatedV1Event
+    NAME = 'login_token_invalidated_v1'
 
     def self.build(login_token)
       payload = { id: login_token.id }

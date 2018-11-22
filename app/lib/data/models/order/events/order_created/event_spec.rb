@@ -1,4 +1,4 @@
-describe SoT::OrderCreatedEvent do
+describe SoT::OrderCreatedV1Event do
   let(:state) { APP_COMPONENTS[:state] }
   let(:order_repo) { APP_COMPONENTS[:order_repository] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
@@ -8,7 +8,7 @@ describe SoT::OrderCreatedEvent do
   it 'creates proper order created event from order object' do
     event = subject.build(order)
 
-    expect(event.name).to eq 'order_created'
+    expect(event.name).to eq 'order_created_v1'
     expect(event.requester_id).to eq user.id
     expect(event.payload[:id]).to eq order.id
   end

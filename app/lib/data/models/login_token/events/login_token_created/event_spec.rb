@@ -1,4 +1,4 @@
-describe SoT::LoginTokenCreatedEvent do
+describe SoT::LoginTokenCreatedV1Event do
   let(:state) { APP_COMPONENTS[:state] }
   let(:lt_repo) { APP_COMPONENTS[:login_token_repository] }
   let(:user_repo) { APP_COMPONENTS[:user_repository] }
@@ -9,7 +9,7 @@ describe SoT::LoginTokenCreatedEvent do
   it 'creates proper token create event from login_token object' do
     event = subject.build(login_token)
 
-    expect(event.name).to eq 'login_token_created'
+    expect(event.name).to eq 'login_token_created_v1'
     expect(event.requester_id).to eq user.id
   end
 

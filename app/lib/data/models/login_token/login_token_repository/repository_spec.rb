@@ -11,7 +11,7 @@ describe SoT::LoginTokenRepository do
     expect(login_token.confirmed).to eq false
 
     last_event = login_token.instance_variable_get(:@_uncommited_events).last
-    expect(last_event.name).to eq 'login_token_created'
+    expect(last_event.name).to eq 'login_token_created_v1'
   end
 
   it 'saves login tokens' do

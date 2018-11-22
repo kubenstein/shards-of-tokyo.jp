@@ -20,12 +20,12 @@ module SoT
 
     def invalidate!
       @invalidated = true
-      add_event(LoginTokenInvalidatedEvent.build(self))
+      add_event(LoginTokenInvalidatedV1Event.build(self))
     end
 
     def confirm!
       @confirmed = true
-      add_event(LoginTokenConfirmedEvent.build(self))
+      add_event(LoginTokenConfirmedV1Event.build(self))
     end
 
     def active?

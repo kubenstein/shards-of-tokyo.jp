@@ -40,7 +40,7 @@ module SoT
 
     def set_price(price, requester_id: nil)
       @price = price
-      add_event(OrderPriceChangedEvent.build(self, requester_id: requester_id))
+      add_event(OrderPriceChangedV1Event.build(self, requester_id: requester_id))
     end
 
     def add_message(text:, from_user:)
@@ -53,7 +53,7 @@ module SoT
       }
       Message.new(message_attrs).tap do |message|
         @_messages << message
-        add_event(MessageCreatedEvent.build(message))
+        add_event(MessageCreatedV1Event.build(message))
       end
     end
 
@@ -68,7 +68,7 @@ module SoT
       }
       Payment.new(payment_attrs).tap do |payment|
         @_payments << payment
-        add_event(PaymentCreatedEvent.build(payment))
+        add_event(PaymentCreatedV1Event.build(payment))
       end
     end
 
@@ -84,7 +84,7 @@ module SoT
       }
       Payment.new(payment_attrs).tap do |payment|
         @_payments << payment
-        add_event(PaymentCreatedEvent.build(payment))
+        add_event(PaymentCreatedV1Event.build(payment))
       end
     end
 
