@@ -33,8 +33,9 @@
       - if selected_order.nil?
         p.section.prompt= t('text_no_orders_yet')
       - else
-        - selected_order.messages.each do |message|
-          .message class=(message.from_user? ? 'guest' : 'me')
+        small.topic-label= t('label_topic')
+        - selected_order.messages.each_with_index do |message, i|
+          .message class="#{message.from_user? ? 'guest' : 'me'} #{i == 0 ? 'topic' : ''}"
             = message.body
             small.time = message.created_at.strftime('%H:%M %d-%m-%Y')
 

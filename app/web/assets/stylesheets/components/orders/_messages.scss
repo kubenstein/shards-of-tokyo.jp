@@ -1,4 +1,14 @@
 .messages {
+  .topic-label {
+    position: relative;
+    top: 9px;
+    left: 9px;
+    padding: 0 10px;
+    z-index: 1;
+    color: $secondary;
+    background-color: $white;
+  }
+
   .message {
     position: relative;
     margin-bottom: 25px;
@@ -26,7 +36,7 @@
       border-right: 5px solid;
     }
 
-    &:first-child {
+    &.topic {
       width: 100%;
       background-color: transparent;
       border-bottom: 1px dashed $secondary;
