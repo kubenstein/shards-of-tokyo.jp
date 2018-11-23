@@ -36,7 +36,10 @@ module SoT
       send(
         to: message.order.user.email,
         subject: i18n.t('email_about_new_message_to_user.subject', scope: :mailers),
-        body: i18n.t('email_about_new_message_to_user.body', message_body: message.body, scope: :mailers),
+        body: i18n.t('email_about_new_message_to_user.body',
+                     base_url: @base_url,
+                     message_body: message.body,
+                     scope: :mailers),
       )
     end
 

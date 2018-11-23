@@ -6,7 +6,7 @@ en:
 
     email_about_new_message_to_user:
       subject: "[Shards of Tokyo] new message!"
-      body: "message: %{message_body}"
+      body: A replay message was sent to your Shards-of-Tokyo account:\n\n\n\n"%{message_body}"\n\n\n\nYou can see whole conversation at %{base_url}\n\n\n\nCheers,\n\nSoT
 
     email_with_login_token_to_user:
       subject: "[Shards of Tokyo] login link"
