@@ -133,7 +133,6 @@ class WebServer < Sinatra::Base
     return redirect '/login/' unless current_user
 
     params[:user] = current_user
-    params[:stripe_token] = params[:stripeToken]
     results = pay_for_order_workflow.call(params)
     if results.success?
       redirect "/orders/#{results.order_id}/pay/success"

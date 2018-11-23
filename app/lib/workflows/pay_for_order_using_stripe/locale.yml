@@ -1,4 +1,0 @@
-en:
-  pay_for_order_workflow:
-    successful_payment_message: "PAYMENT NOTIFICATION: succesfully paid %{price}. Thank you!"
-    failed_payment_message: "PAYMENT NOTIFICATION: error while paying.\n\nError message:\n'%{error_message}'"
