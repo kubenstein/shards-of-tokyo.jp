@@ -9,6 +9,8 @@ en:
     error_text_empty: Text can't be empty
     btn_new_order: Place new Order
     btn_submit_order: Submit Order
+    btn_proceed_payment: Go to Payment Page
+    btn_proceed_payment_info: You will be redirected to Dotpay.pl payment provider
     text_no_orders_yet: 「 You haven’t placed any order yet, feel free to add one from the right hand side menu 」
     text_order_paid: Order paid! Thank you!
     text_order_stripe_desc: "Payment for order:"

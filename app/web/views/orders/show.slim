@@ -12,6 +12,11 @@
         = t('label_order-price')
         br
         = selected_order.amount_left_to_be_paid.format
+        form.payment-form action=dotpay_form.url method=dotpay_form.method
+          - dotpay_form.params.each do |key, value|
+            input type='hidden' name=key value=value
+          button.btn = t('btn_proceed_payment')
+          small.info = t('btn_proceed_payment_info')
       - if selected_order.paid?
         .order-price= t('text_order_paid')
 

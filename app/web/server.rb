@@ -22,6 +22,7 @@ class WebServer < Sinatra::Base
     :login_user_step3_check_token_workflow,
     :logout_user_workflow,
     :pay_for_order_workflow,
+    :dotpay_step1_generate_form_workflow,
   ]
 
   helpers do
@@ -157,7 +158,7 @@ class WebServer < Sinatra::Base
       orders: orders,
       selected_order: selected_order,
       message_form_error: !!params[:message_form_error],
-      stripe_public_key: pay_for_order_workflow.stripe_public_key,
+      dotpay_form: dotpay_step1_generate_form_workflow.call(order_id: selected_order.id),
     }
   end
 

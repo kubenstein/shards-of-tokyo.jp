@@ -90,7 +90,6 @@
 
   .order-price {
     display: flex;
-    align-items: center;
     margin-bottom: 40px;
     padding: 10px;
     border-left: 1px dashed $main;
@@ -100,24 +99,14 @@
   .payment-form {
     display: inline-block;
     margin-left: 40px;
+    max-width: 170px;
 
-    .stripe-button-el {
-      @extend .btn;
-      width: 100%;
-      padding: 0 !important;
-      background-image: none !important;
+    .btn {
+      font-weight: bold;
+    }
 
-      &,
-      &:not(:disabled):active,
-      &:not(:disabled):active span {
-        background: $main !important;
-      }
-
-      span {
-        background: none;
-        border: none;
-        text-shadow: none;
-      }
+    .info {
+      font-size: 12px;
     }
   }
 
