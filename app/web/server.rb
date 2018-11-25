@@ -158,7 +158,7 @@ class WebServer < Sinatra::Base
       orders: orders,
       selected_order: selected_order,
       message_form_error: !!params[:message_form_error],
-      dotpay_form: dotpay_step1_generate_form_workflow.call(order_id: selected_order.id),
+      dotpay_form: dotpay_step1_generate_form_workflow.call(order_id: selected_order&.id, user: current_user),
     }
   end
 

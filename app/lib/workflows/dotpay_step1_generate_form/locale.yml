@@ -1,0 +1,3 @@
+en:
+  dotpay_step1_generate_form:
+    transaction_description: "SHARDS OF TOKYO PAYMENT FOR ORDER: %{order_id}"

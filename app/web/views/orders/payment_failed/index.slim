@@ -1,14 +1,9 @@
 - i18n.scope = 'orders_payment_failed'
 
-.content.payment-failed
+.content
   p.section
     strong.title= t('title')
     = t('desc')
-    br
-    br
-    br
-    = t('label_errors')
-    span.error-message = errors.join(';')
     br
     br
     a<> href="/orders/#{order_id}" = t('btn_go_to_order')

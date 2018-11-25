@@ -45,9 +45,24 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
         },
       )
     }
+    c.register(:dotpay_step1_generate_form_workflow, memoize: true) {
+      SoT::DotpayStep1GenerateForm::Workflow.new(
+        dotpay_id: ENV['DOTPAY_ID'],
+        dotpay_pin: ENV['DOTPAY_PIN'],
+        server_base_url: ENV['SERVER_BASE_URL'],
+      )
+    }
   else
     c.register(:logger, memoize: true) { Logger.new(STDOUT) }
-    c.register(:mailer, memoize: true) { SoT::Mailer.new(server_base_url: 'http://localhost:3000/') }
+    c.register(:mailer, memoize: true) { SoT::Mailer.new(server_base_url: ENV['SERVER_BASE_URL']) }
+    c.register(:dotpay_step1_generate_form_workflow, memoize: true) {
+      SoT::DotpayStep1GenerateForm::Workflow.new(
+        env: :dev,
+        dotpay_id: ENV['DOTPAY_ID'],
+        dotpay_pin: ENV['DOTPAY_PIN'],
+        server_base_url: ENV['SERVER_BASE_URL'],
+      )
+    }
   end
 end
 
