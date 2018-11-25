@@ -1,6 +1,7 @@
 en:
   orders:
     title_new_order: New Order
+    label_summary: "Summary:"
     label_topic: "Topic:"
     label_order: Order
     label_order-price: "Order price:"

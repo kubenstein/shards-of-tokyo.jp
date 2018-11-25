@@ -9,6 +9,7 @@
   .order
     - if show_payment_box
       .order-price
+        small.box-label= t('label_summary')
         = t('label_order-price')
         br
         = selected_order.amount_left_to_be_paid.format
@@ -33,7 +34,7 @@
       - if selected_order.nil?
         p.section.prompt= t('text_no_orders_yet')
       - else
-        small.topic-label= t('label_topic')
+        small.box-label= t('label_topic')
         - selected_order.messages.each_with_index do |message, i|
           .message class="#{message.from_user? ? 'guest' : 'me'} #{i == 0 ? 'topic' : ''}"
             = message.body

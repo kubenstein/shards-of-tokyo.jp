@@ -1,9 +1,10 @@
 .messages {
-  .topic-label {
-    position: relative;
-    top: 9px;
-    left: 9px;
-    padding: 0 10px;
+  position: relative;
+  .box-label {
+    position: absolute;
+    top: -9px;
+    left: 4px;
+    padding: 0 5px;
     z-index: 1;
     color: $secondary;
     background-color: $white;
