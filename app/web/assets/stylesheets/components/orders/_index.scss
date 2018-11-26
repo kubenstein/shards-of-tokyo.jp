@@ -89,12 +89,23 @@
   }
 
   .order-price {
+    position: relative;
     display: flex;
     align-items: center;
     margin-bottom: 40px;
     padding: 10px;
-    border-left: 1px dashed $main;
+    border-top: 1px dashed $main;
     border-bottom: 1px dashed $main;
+
+    .box-label {
+      position: absolute;
+      top: -9px;
+      left: 4px;
+      padding: 0 5px;
+      z-index: 1;
+      color: $main;
+      background-color: $white;
+    }
   }
 
   .payment-form {
