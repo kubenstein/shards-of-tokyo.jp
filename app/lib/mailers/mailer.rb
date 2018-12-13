@@ -89,6 +89,14 @@ module SoT
       )
     end
 
+    def send_email_about_webhook_failure_to_me(payment_webhook_params)
+      send(
+        to: User::ME_EMAIL,
+        subject: '[Shards of Tokyo] ERROR ON WEBHOOK!',
+        body: "params:\n\n#{payment_webhook_params}",
+      )
+    end
+
     private
 
     def send(to:, subject:, body:)

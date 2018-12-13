@@ -1,0 +1,4 @@
+en:
+  dotpay_step_2_receive_payment:
+    successful_payment_message: "PAYMENT NOTIFICATION: succesfully paid %{price}. Thank you!"
+    failed_payment_message: "PAYMENT NOTIFICATION: error while paying."

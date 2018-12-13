@@ -18,9 +18,7 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
   c.register(:login_user_step3_check_token_workflow, memoize: true) { SoT::LoginUserStep3CheckToken::Workflow.new }
   c.register(:logout_user_workflow, memoize: true) { SoT::LogoutUser::Workflow.new }
   c.register(:set_order_price_workflow, memoize: true) { SoT::SetOrderPrice::Workflow.new }
-  c.register(:pay_for_order_workflow, memoize: true) {
-    # todo
-  }
+  c.register(:dotpay_step2_receive_payment_workflow, memoize: true) { SoT::DotpayStep2ReceivePayment::Workflow.new }
   c.register(:i18n, memoize: true) { SoT::I18nProvider.new }
   c.register(:event_store, memoize: true) {
     SoT::SqlEventStore.new(ENV['EVENTS_DATABASE_URL'] || ENV['JAWSDB_MARIA_URL'])

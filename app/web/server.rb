@@ -21,8 +21,8 @@ class WebServer < Sinatra::Base
     :login_user_step2_confirm_token_workflow,
     :login_user_step3_check_token_workflow,
     :logout_user_workflow,
-    :pay_for_order_workflow,
     :dotpay_step1_generate_form_workflow,
+    :dotpay_step2_receive_payment_workflow,
   ]
 
   helpers do
@@ -130,6 +130,11 @@ class WebServer < Sinatra::Base
     slim :'orders/new', locals: { orders: orders }
   end
 
+  post '/orders/:order_id/pay/result_callback' do
+    params[:ip] = request.ip
+    result = dotpay_step2_receive_payment_workflow.call(params)
+    result.web_response
+  end
 
   post '/orders/:order_id/pay/result_user_callback' do
     return redirect '/login/' unless current_user
