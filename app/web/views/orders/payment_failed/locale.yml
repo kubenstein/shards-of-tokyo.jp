@@ -1,6 +1,5 @@
 en:
   orders_payment_failed:
     title: Unfortunately there were errors during processing your payment.
-    desc: I will be notified about the error and will try to check and resolve it shortly. Sorry for all the troubles.
-    label_errors: "Error Mesages:"
+    desc: Our Dotpay payment gateway refused the payment, details will posted on order dashboard as a message. Additionally I will be notified about the error and will try to check and resolve it shortly. Sorry for all troubles.
     btn_go_to_order: Go back to the order

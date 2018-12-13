@@ -130,21 +130,26 @@ class WebServer < Sinatra::Base
     slim :'orders/new', locals: { orders: orders }
   end
 
-  post '/orders/:order_id/pay' do
-    return redirect '/login/' unless current_user
 
-    params[:user] = current_user
-    results = pay_for_order_workflow.call(params)
-    if results.success?
-      redirect "/orders/#{results.order_id}/pay/success"
+  post '/orders/:order_id/pay/result_user_callback' do
+    return redirect '/login/' unless current_user
+    order_id = params[:order_id]
+    status = params[:status]
+    if status == 'OK'
+      redirect "/orders/#{order_id}/pay/success"
     else
-      slim :'orders/payment_failed/index', locals: { order_id: params[:order_id], errors: results.errors }
+      redirect "/orders/#{order_id}/pay/failed"
     end
   end
 
   get '/orders/:order_id/pay/success' do
     return redirect '/login/' unless current_user
     slim :'orders/payment_success/index', locals: { order_id: params[:order_id] }
+  end
+
+  get '/orders/:order_id/pay/failed' do
+    return redirect '/login/' unless current_user
+    slim :'orders/payment_failed/index', locals: { order_id: params[:order_id] }
   end
 
   get '/orders/?:order_id?/?' do
