@@ -87,7 +87,7 @@ module SoT
       payment = order.payments.last
       send(
         to: User::ME_EMAIL,
-        subject: '[Shards of Tokyo] new payment!',
+        subject: "[Shards of Tokyo] new #{payment.successful? ? 'successful' : 'failed'} payment!",
         body: "from user: #{user.email}\n\norder id: #{order.id}\n\npayment: #{payment.payment_id}\n#{payment.price.format}\n",
       )
     end
