@@ -16,6 +16,7 @@
           - dotpay_form.params.each do |key, value|
             input type='hidden' name=key value=value
           button.btn = t('btn_proceed_payment')
+          img.credit-cards src=asset_path('credit-cards.png')
           small.info = t('btn_proceed_payment_info')
       - if selected_order.paid?
         .order-price= t('text_order_paid')

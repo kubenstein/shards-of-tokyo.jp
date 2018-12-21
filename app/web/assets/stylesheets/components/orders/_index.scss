@@ -98,16 +98,27 @@
   .payment-form {
     display: inline-block;
     margin-left: 40px;
-    max-width: 170px;
+    max-width: 248px;
 
     .btn {
+      display: inline-block;
+      margin-right: 13px;
       font-weight: bold;
     }
 
+    .credit-cards {
+      position: relative;
+      top: 10px;
+      height: 16px;
+    }
+
     .info {
+      display: block;
       font-size: 12px;
+      margin-top: 10px;
     }
   }
+
 
   .prompt {
     padding-top: 20px;
