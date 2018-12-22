@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'slim'
+require 'json'
 require './app/lib/lib'
 require './app/web/lib/asset_pipeline'
 
@@ -133,7 +134,7 @@ class WebServer < Sinatra::Base
     return redirect '/login/' unless current_user
 
     params[:user] = current_user
-    params[:stripe_token] = params[:stripeToken]
+    params[:paypal_authorize_data] = JSON.parse(params[:paypal_authorize_data], symbolize_names: true)
     results = pay_for_order_workflow.call(params)
     if results.success?
       redirect "/orders/#{results.order_id}/pay/success"
@@ -158,7 +159,8 @@ class WebServer < Sinatra::Base
       orders: orders,
       selected_order: selected_order,
       message_form_error: !!params[:message_form_error],
-      stripe_public_key: pay_for_order_workflow.stripe_public_key,
+      paypal_env: pay_for_order_workflow.env,
+      paypal_client_id: pay_for_order_workflow.client_id,
     }
   end
 
