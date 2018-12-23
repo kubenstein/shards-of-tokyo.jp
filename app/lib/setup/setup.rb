@@ -1,5 +1,6 @@
 require 'bugsnag'
 require 'money'
+require 'monetize'
 require './app/lib/setup/polyfills'
 
 Bugsnag.configure do |config|
