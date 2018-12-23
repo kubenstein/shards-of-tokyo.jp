@@ -6,6 +6,7 @@ module SoT
         :user_repository,
         :i18n,
         :mailer,
+        :logger,
       ]
 
       attr_reader :env, :client_id
@@ -13,7 +14,7 @@ module SoT
       def initialize(env:, client_id:, secret:)
         @env = env
         @client_id = client_id
-        @paypal_gateway = PaypalGateway.new(env: env, client_id: client_id, secret: secret)
+        @paypal_gateway = PaypalGateway.new(env: env, client_id: client_id, secret: secret, logger: logger)
       end
 
       def call(params)
