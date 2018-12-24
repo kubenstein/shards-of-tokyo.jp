@@ -14,7 +14,6 @@ gem 'require_all'
 gem 'sequel'
 gem 'sinatra'
 gem 'slim'
-gem 'stripe'
 
 gem 'sass'
 gem 'sprockets'

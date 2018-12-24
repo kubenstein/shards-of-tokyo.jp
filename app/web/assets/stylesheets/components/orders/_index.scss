@@ -100,25 +100,6 @@
   .payment-form {
     display: inline-block;
     margin-left: 40px;
-
-    .stripe-button-el {
-      @extend .btn;
-      width: 100%;
-      padding: 0 !important;
-      background-image: none !important;
-
-      &,
-      &:not(:disabled):active,
-      &:not(:disabled):active span {
-        background: $main !important;
-      }
-
-      span {
-        background: none;
-        border: none;
-        text-shadow: none;
-      }
-    }
   }
 
   .prompt {
