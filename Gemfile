@@ -5,14 +5,15 @@ ruby '2.3.1'
 gem 'bugsnag'
 gem 'dry-container'
 gem 'i18n'
+gem 'monetize'
 gem 'money'
+gem 'paypal-sdk-rest'
 gem 'pony'
 gem 'rake'
 gem 'require_all'
 gem 'sequel'
 gem 'sinatra'
 gem 'slim'
-gem 'stripe'
 
 gem 'sass'
 gem 'sprockets'
@@ -27,6 +28,8 @@ end
 
 group :test do
   gem 'rspec'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :production do

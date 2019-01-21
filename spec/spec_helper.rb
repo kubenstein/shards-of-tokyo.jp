@@ -2,6 +2,8 @@
 
 require 'dry-container'
 require 'require_all'
+require 'vcr'
+require 'webmock/rspec'
 require './app/lib/auto_inject'
 
 APP_COMPONENTS = Dry::Container.new.tap do |c|
@@ -38,6 +40,8 @@ def state.reset!
   configure
 end
 
+# teste env configuration
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -51,4 +55,9 @@ RSpec.configure do |config|
   config.before(:context) do
     state.reset!
   end
+end
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  config.hook_into :webmock
 end

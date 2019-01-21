@@ -14,4 +14,4 @@ en:
     btn_proceed_payment: Proceed with Payment
     text_no_orders_yet: 「 You haven’t placed any order yet, feel free to add one from the right hand side menu 」
     text_order_paid: Order paid! Thank you!
-    text_order_stripe_desc: "Payment for order:"
+    text_order_desc: "Payment for order:"

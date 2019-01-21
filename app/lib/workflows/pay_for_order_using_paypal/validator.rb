@@ -1,16 +1,16 @@
 module SoT
-  module PayForOrderUsingSripe
+  module PayForOrderUsingPaypal
     class Validator
       include Import[
         :order_repository
       ]
 
       def call(params)
-        stripe_token = params[:stripe_token]
+        paypal_authorize_data = params[:paypal_authorize_data]
         order_id = params[:order_id]
         user = params[:user]
 
-        return Results.new([:stripe_token_not_found]) unless stripe_token
+        return Results.new([:paypal_authorize_data_invalid]) unless paypal_authorize_data_valid?(paypal_authorize_data)
         return Results.new([:user_not_found]) unless user
         return Results.new([:order_not_found]) unless order_exists?(order_id, user.id)
 
@@ -27,6 +27,13 @@ module SoT
 
       def order_exists?(order_id, user_id)
         order_repository.exists?(id: order_id, user_id: user_id)
+      end
+
+      def paypal_authorize_data_valid?(data)
+        return false unless data.is_a?(Hash)
+        return false if data[:payerID].to_s.empty?
+        return false if data[:paymentID].to_s.empty?
+        true
       end
     end
   end

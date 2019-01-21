@@ -4,7 +4,7 @@ describe SoT::UserPaymentGatewayCustomerIdUpdatedV1Event do
 
   let(:user) { repo.save(repo.new_user(email: 'test@test.pl')) }
 
-  it 'creates proper stripe id update event from user object' do
+  it 'creates proper payment gateway id update event from user object' do
     user.payment_gateway_customer_id = 'new_payment_gateway_customer_id'
     event = subject.build(user)
 
@@ -14,7 +14,7 @@ describe SoT::UserPaymentGatewayCustomerIdUpdatedV1Event do
     expect(event.payload[:payment_gateway_customer_id]).to eq 'new_payment_gateway_customer_id'
   end
 
-  it 'handles the event by updating stripe customer id for a given user' do
+  it 'handles the event by updating payment gateway customer id for a given user' do
     user.payment_gateway_customer_id = 'new_payment_gateway_customer_id'
     event = subject.build(user)
 

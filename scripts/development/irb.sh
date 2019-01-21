@@ -3,6 +3,7 @@
 HEROKU_RELEASE_VERSION=dev \
 EVENTS_DATABASE_URL='sqlite://./app/db/events.db' \
 DATABASE_URL='sqlite://./app/db/state.db' \
-STRIPE_API_SECRET_KEY='sk_test_z2aoTikjCm0urBhNoMEzhtZr' \
-STRIPE_API_PUBLIC_KEY='pk_test_RbiERyephGoRFvc2q1nPrlKe' \
+PAYPAL_ENV='sandbox' \
+PAYPAL_CLIENT_ID='Ae8y-aV7qaRi6XeLwdVUivsOQ-ZRJ3U05pRDtSzD62wibyOz_MvrxBhbI6Hx0c0FKorgYxOUqtIsSMTr' \
+PAYPAL_SECRET='EARm8oY3Lp2S8VlnNpDpacBwo3or_jmTtrgm33I05fBurFDDgerO8XSIaItNblK7jFzk9rm2GLJOgExr' \
 irb -r './app/lib/lib'

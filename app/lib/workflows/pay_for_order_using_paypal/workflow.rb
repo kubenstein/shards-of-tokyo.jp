@@ -1,33 +1,34 @@
 module SoT
-  module PayForOrderUsingSripe
+  module PayForOrderUsingPaypal
     class Workflow
       prepend Import[
         :order_repository,
         :user_repository,
         :i18n,
         :mailer,
+        :logger,
       ]
 
-      attr_reader :stripe_public_key
+      attr_reader :env, :client_id
 
-      def initialize(stripe_secret_key:, stripe_public_key:)
-        @stripe_public_key = stripe_public_key
-        @stripe_gateway = StripeGateway.new(stripe_secret_key: stripe_secret_key)
+      def initialize(env:, client_id:, secret:)
+        @env = env
+        @client_id = client_id
+        @paypal_gateway = PaypalGateway.new(env: env, client_id: client_id, secret: secret, logger: logger)
       end
 
       def call(params)
-        user = params[:user] # rubocop:disable Lint/UselessAssignment
         order_id = params[:order_id]
-        stripe_token = params[:stripe_token]
+        authorize_data = params[:paypal_authorize_data]
 
         validation_result = Validator.new.call(params)
         if validation_result.valid?
           order = order_repository.find(order_id)
-          payment_result = pay(order: order, stripe_token: stripe_token)
+          payment_result = pay(payment_id: authorize_data[:paymentID], payer_id: authorize_data[:payerID])
 
           if payment_result.success?
             add_successful_payment(order, payment_result)
-            save_stripe_customer_id_if_needed(order, payment_result)
+            save_paypal_customer_id_if_needed(order, payment_result)
             add_successful_message(order, payment_result)
             send_email_to_user(order)
             send_email_to_me(order)
@@ -51,20 +52,13 @@ module SoT
 
       private
 
-      def pay(order:, stripe_token:)
-        @stripe_gateway.call(
-          amount: order.amount_left_to_be_paid.fractional,
-          currency: order.amount_left_to_be_paid.currency.iso_code,
-          order_id: order.id,
-          payer_email: order.user.email,
-          payer_stripe_customer_id: order.user.payment_gateway_customer_id,
-          stripe_token: stripe_token,
-        )
+      def pay(payment_id:, payer_id:)
+        @paypal_gateway.call(payment_id: payment_id, payer_id: payer_id)
       end
 
       def add_successful_payment(order, payment_result)
         order.add_successful_payment(
-          payment_gateway: 'stripe',
+          payment_gateway: 'paypal',
           payment_id: payment_result.payment_id,
           price: Money.new(payment_result.amount, payment_result.currency),
         )
@@ -73,7 +67,7 @@ module SoT
 
       def add_failed_payment(order, payment_result)
         order.add_failed_payment(
-          payment_gateway: 'stripe',
+          payment_gateway: 'paypal',
           payment_id: payment_result.payment_id,
           price: order.amount_left_to_be_paid,
           error_message: payment_result.error_message,
@@ -81,7 +75,7 @@ module SoT
         order_repository.save(order)
       end
 
-      def save_stripe_customer_id_if_needed(order, payment_result)
+      def save_paypal_customer_id_if_needed(order, payment_result)
         user = order.user
         return if user.payment_gateway_customer_id
 
