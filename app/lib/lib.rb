@@ -20,7 +20,7 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
   c.register(:set_order_price_workflow, memoize: true) { SoT::SetOrderPrice::Workflow.new }
   c.register(:pay_for_order_workflow, memoize: true) {
     SoT::PayForOrderUsingPaypal::Workflow.new(
-      env: ENV['PAYPAL_ENV'],
+      env: ENV['PAYPAL_ENV'], # production vs sandbox
       client_id: ENV['PAYPAL_CLIENT_ID'],
       secret: ENV['PAYPAL_SECRET'],
     )
