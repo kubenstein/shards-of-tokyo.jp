@@ -39,7 +39,7 @@ APP_COMPONENTS = Dry::Container.new.tap do |c|
       SoT::Mailer.new(
         server_base_url: ENV['SERVER_BASE_URL'],
         smtp_options: {
-          domain: 'shards-of-tokyo.jp',
+          domain: ENV['SENDGRID_DOMAIN'],
           address: 'smtp.sendgrid.net',
           port: 587,
           enable_starttls_auto: true,
