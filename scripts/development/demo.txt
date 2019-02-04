@@ -1,0 +1,19 @@
+order_id = '16c6f03b5d'
+text = '...'
+
+workflow = APP_COMPONENTS[:add_order_message_workflow]
+me = APP_COMPONENTS[:user_repository].find_me
+
+workflow.call(user: me, order_id: order_id, text: text)
+
+
+
+
+
+---------------
+
+
+workflow.call(order_id: order_id, requester: me, price: Money.new(200, :usd))
+
+paypal:
+qba_n-buy@wp.eu
