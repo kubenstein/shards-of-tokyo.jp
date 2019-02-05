@@ -5,7 +5,7 @@ module SoT
     def initialize(env:, client_id:, secret:, logger: nil)
       # global setting but I dont know how to set it per request
       PayPal::SDK.configure(
-        mode: env === 'production' ? 'live' : 'sandbox',
+        mode: env == 'production' ? 'live' : 'sandbox',
         client_id: client_id,
         client_secret: secret,
         ssl_options: {},
