@@ -25,13 +25,18 @@ describe SoT::RegisterUser::Workflow do
     }.by(1)
   end
 
+  it 'sends info email to me with an info when given' do
+    subject.call(email: 'test3@test.pl', session_id: 'session_id', info: 'registration message')
+    expect(Mail::TestMailer.deliveries.last.body.to_s).to include 'registration message'
+  end
+
   it 'sends email to a user' do
     expect {
-      subject.call(email: 'test3@test.pl', session_id: 'session_id')
+      subject.call(email: 'test4@test.pl', session_id: 'session_id')
     }.to change {
       Mail::TestMailer
         .deliveries
-        .select { |mail| mail.to.include?('test3@test.pl') }
+        .select { |mail| mail.to.include?('test4@test.pl') }
         .count
     }.by(1)
   end
