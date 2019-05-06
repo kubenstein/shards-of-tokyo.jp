@@ -3,6 +3,10 @@ describe SoT::RegisterUser::Workflow do
   let(:order_repo) { APP_COMPONENTS[:order_repository] }
   let(:lt_repo) { APP_COMPONENTS[:login_token_repository] }
 
+  before(:each) do
+    Mail::TestMailer.deliveries.clear
+  end
+
   it 'creates a user' do
     result = nil
     expect {
@@ -15,25 +19,18 @@ describe SoT::RegisterUser::Workflow do
   end
 
   it 'sends info email to me' do
-    expect {
-      subject.call(email: 'test2@test.pl', session_id: 'session_id')
-    }.to change {
-      Mail::TestMailer
-        .deliveries
-        .select { |mail| mail.to.include?(SoT::User::ME_EMAIL) }
-        .count
-    }.by(1)
+    subject.call(email: 'test2@test.pl', session_id: 'session_id')
+    expect(Mail::TestMailer.deliveries.map(&:to).flatten).to include SoT::User::ME_EMAIL
+  end
+
+  it 'sends info email to me with an info when given' do
+    subject.call(email: 'test3@test.pl', session_id: 'session_id', info: 'registration message')
+    expect(Mail::TestMailer.deliveries.last.body.to_s).to include 'registration message'
   end
 
   it 'sends email to a user' do
-    expect {
-      subject.call(email: 'test3@test.pl', session_id: 'session_id')
-    }.to change {
-      Mail::TestMailer
-        .deliveries
-        .select { |mail| mail.to.include?('test3@test.pl') }
-        .count
-    }.by(1)
+    subject.call(email: 'test4@test.pl', session_id: 'session_id')
+    expect(Mail::TestMailer.deliveries.map(&:to).flatten).to include('test4@test.pl')
   end
 
   it 'doesnt allow creating multiple users with same email' do

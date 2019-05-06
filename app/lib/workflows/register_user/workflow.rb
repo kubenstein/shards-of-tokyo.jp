@@ -16,10 +16,10 @@ module SoT
         validation_result = Validator.new.call(params)
         if validation_result.valid?
           user = create_user(email)
-          create_initial_message(user, info) unless info.to_s.empty?
+          message = create_initial_message(user, info) unless info.to_s.empty?
           login_token = create_login_token_for_user(user, session_id)
           send_email_to_user(user, login_token)
-          send_email_to_me(user)
+          send_email_to_me(user, message)
           Results.new(user, [])
         else
           Results.new(nil, validation_result.errors)
@@ -44,10 +44,11 @@ module SoT
         )
       end
 
-      def create_initial_message(from_user, message)
+      def create_initial_message(from_user, info)
         order = order_repository.new_order(user: from_user)
-        order.add_message(text: message, from_user: from_user)
+        message = order.add_message(text: info, from_user: from_user)
         order_repository.create(order)
+        message
       end
 
       def create_login_token_for_user(user, session_id)
@@ -60,8 +61,8 @@ module SoT
         mailer.send_registration_email_to_new_user(user, login_token)
       end
 
-      def send_email_to_me(user)
-        mailer.send_info_email_about_new_user(user)
+      def send_email_to_me(user, message)
+        mailer.send_info_email_about_new_user(user, message)
       end
     end
   end
