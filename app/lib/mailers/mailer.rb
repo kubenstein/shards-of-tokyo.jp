@@ -26,7 +26,7 @@ module SoT
 
     def send_info_email_about_new_user(user, message = nil)
       body = "new user: #{user.email}!"
-      body += "\n\nmessage:\n#{message.body}" if message
+      body += "\n\nmessage:\n#{message.body[0..200]}" if message
       send(
         to: User::ME_EMAIL,
         subject: '[Shards of Tokyo] new user!',
