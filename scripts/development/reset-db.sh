@@ -1,5 +1,5 @@
 #!/bin/bash
-rm app/db/*.db
+rm -rf app/db/*.db
 (
 export HEROKU_RELEASE_VERSION=dev
 export EVENTS_DATABASE_URL='sqlite://./app/db/events.db'
