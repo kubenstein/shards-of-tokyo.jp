@@ -17,7 +17,7 @@ module AssetPipeline
     assets.append_path('vendor/assets/javascripts')
 
     app.configure :development do
-      assets.cache = Sprockets::Cache::FileStore.new('./tmp')
+      assets.cache = Sprockets::Cache::FileStore.new('./.tmp')
       app.get '/assets/*' do
         env['PATH_INFO'].sub!(%r{^/assets}, '')
         settings.assets.call(env)
