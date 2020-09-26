@@ -11,7 +11,9 @@ module SoT
         mode: env == 'production' ? 'live' : 'sandbox',
         client_id: client_id,
         client_secret: secret,
-        ssl_options: {},
+        ssl_options: {
+          ca_file: nil,
+        },
       )
       PayPal::SDK.logger = logger
     end
