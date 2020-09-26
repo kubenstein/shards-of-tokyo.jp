@@ -2,7 +2,10 @@ require 'paypal-sdk-rest'
 
 module SoT
   class PaypalGateway
+    attr_reader :env
+
     def initialize(env:, client_id:, secret:, logger: nil)
+      @env = env
       # global setting but I dont know how to set it per request
       PayPal::SDK.configure(
         mode: env == 'production' ? 'live' : 'sandbox',
@@ -31,7 +34,8 @@ module SoT
         )
       end
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Bugsnag.notify(e) if env == 'production'
+
       FailedPayment.new(
         payment_id,
         0,
