@@ -21,6 +21,7 @@ gem 'sprockets-helpers'
 gem 'sprockets-sass'
 
 group :development do
+  gem 'pry'
   gem 'rubocop'
   gem 'shotgun'
   gem 'sqlite3'

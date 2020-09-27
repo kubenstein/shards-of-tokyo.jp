@@ -13,7 +13,7 @@
 .content
   .section.about
     .avatar
-      img src=asset_path('avatar.jpg')
+      img src='/assets/images/avatar.jpg'
     p = t('about_content')
 
   p.section
@@ -21,7 +21,7 @@
 
   .section.two-columns
     .left
-      img src=asset_path('candies-plan.jpg')
+      img src='/assets/images/candies-plan.jpg'
     .right
       = t('candies_plan_content')
       br
@@ -34,7 +34,7 @@
 
   .section.two-columns
     .left
-      img src=asset_path('custom-plan.jpg')
+      img src='/assets/images/custom-plan.jpg'
     .right
       = t('custom_plan_content')
       br
@@ -45,9 +45,9 @@
     .left
       .double-images
         .img-wrapper
-          img.iwant src=asset_path('side-img.jpg') data-info-placeholder=t('bentobox_iwant_text')
+          img.iwant src='/assets/images/side-img.jpg' data-info-placeholder=t('bentobox_iwant_text')
         .img-wrapper
-          img.iwant src=asset_path('side-img-2.jpg') data-info-placeholder=t('charms_iwant_text')
+          img.iwant src='/assets/images/side-img-2.jpg' data-info-placeholder=t('charms_iwant_text')
 
     .right
       - if current_user

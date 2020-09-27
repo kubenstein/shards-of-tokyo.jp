@@ -1,7 +1,7 @@
 .bundle
+.tmp
 .DS_Store
 log/*.log
-tmp/**/*
 .idea/**/*
 .idea
 .autotest
