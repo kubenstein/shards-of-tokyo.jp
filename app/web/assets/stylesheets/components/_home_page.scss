@@ -11,7 +11,7 @@
     right: 0;
     z-index: 10;
     padding-bottom: 2.3%;
-    background: asset-url('hero-edge.png') no-repeat 0 0;
+    background: url('/assets/images/hero-edge.png') no-repeat 0 0;
   }
 
   &::after {
@@ -23,7 +23,7 @@
     z-index: 10;
     padding-bottom: 2.3%;
     transform: rotate(180deg);
-    background: asset-url('hero-edge.png') no-repeat 0 0;
+    background: url('/assets/images/hero-edge.png') no-repeat 0 0;
   }
 }
 
@@ -63,12 +63,12 @@
     background-size: cover;
   }
 
-  .hero1 { background-image: asset-url('hero/hero1.jpg'); }
-  .hero2 { background-image: asset-url('hero/hero2.jpg'); }
-  .hero3 { background-image: asset-url('hero/hero3.jpg'); }
-  .hero4 { background-image: asset-url('hero/hero4.jpg'); }
-  .hero5 { background-image: asset-url('hero/hero5.jpg'); }
-  .hero6 { background-image: asset-url('hero/hero6.jpg'); }
+  .hero1 { background-image: url('/assets/images/hero/hero1.jpg'); }
+  .hero2 { background-image: url('/assets/images/hero/hero2.jpg'); }
+  .hero3 { background-image: url('/assets/images/hero/hero3.jpg'); }
+  .hero4 { background-image: url('/assets/images/hero/hero4.jpg'); }
+  .hero5 { background-image: url('/assets/images/hero/hero5.jpg'); }
+  .hero6 { background-image: url('/assets/images/hero/hero6.jpg'); }
 }
 
 .about {
@@ -92,7 +92,7 @@
       right: 0;
       bottom: 0;
       z-index: 10;
-      background: asset-url('avatar-edge.png') no-repeat 0 0;
+      background: url('/assets/images/avatar-edge.png') no-repeat 0 0;
     }
   }
 }

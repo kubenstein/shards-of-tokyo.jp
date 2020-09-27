@@ -8,12 +8,11 @@ module AssetPipeline
     app.set :assets, assets = Sprockets::Environment.new(app.settings.root)
     app.set :public_folder, -> { File.join(root, 'public') }
     app.set :assets_path, -> { File.join(public_folder, 'assets') }
-    app.set :assets_precompile, %w[application.js application.css *.png *.jpg *.svg *.eot *.ttf *.woff]
+    app.set :assets_precompile, %w[application.js application.css *.svg *.eot *.ttf *.woff]
 
     assets.append_path('assets/fonts')
     assets.append_path('assets/javascripts')
     assets.append_path('assets/stylesheets')
-    assets.append_path('assets/images')
     assets.append_path('vendor/assets/javascripts')
 
     app.configure :development do
@@ -30,13 +29,13 @@ module AssetPipeline
 
     Sprockets::Helpers.configure do |config|
       config.environment = assets
-      config.prefix      = '/assets'
+      config.prefix = '/assets'
 
-      config.debug       = true if app.development?
+      config.debug = true if app.development?
 
       if app.production?
-        config.digest      = true
-        config.manifest    = Sprockets::Manifest.new(assets, File.join(app.assets_path, 'manifesto.json'))
+        config.digest = true
+        config.manifest = Sprockets::Manifest.new(assets, File.join(app.assets_path, 'manifesto.json'))
       end
     end
 
