@@ -39,6 +39,10 @@ class WebServer < Sinatra::Base
     slim :'home_page/index'
   end
 
+  get '/technical-documentation' do
+    slim :'technical_documentation/index'
+  end
+
   get '/login/?' do
     return redirect '/orders/' if current_user
 

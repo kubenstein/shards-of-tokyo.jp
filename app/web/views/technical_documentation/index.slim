@@ -1,0 +1,172 @@
+.content
+  .section.technical-documentation
+    strong.title Details how I built https://shards-of-tokyo.jp
+    | <b>shards-of-tokyo.jp</b> is an online store, focusing on shipment of souvenirs to fans of Japanese culture all around the world. Registered users can place an order and, after confirming a payment, a particular souvenir is bought and sent.
+
+    strong.section-title Demo
+    br
+    img src='/assets/images/technical-documentation/demo1.jpg'
+    br
+    br
+    img src='/assets/images/technical-documentation/demo2.jpg'
+
+    strong.section-title General architecture, ideas and choices
+
+    | shards-of-tokyo.jp is a ruby app designed as fully event sourced, DDD system. Every single operation is represented by submitting an event which is later on handled as an adequate change in the app State.
+    br
+    br
+    | <i>The State</i> is a projection/reduction of all events. It's <i>always</i> fully deletable and regenerable. By traversing all events from the Event Store we can recreate state at any time. The store is an ordinary relation database with multiple tables.
+    br
+    br
+    | <i>The Event Store</i> is a heart of the system, a source of truth and actual persistent data store. It's append only, immutable list of events. In this implementation its also a table in relation database but other systems like Redis or RabitMQ will work as well.
+    br
+    br
+    | The system strictly (and actually naturally) follows CQRS - Command/Query Responsibility Segregation. CQRS is an idea that saving and reading data is handled by different flows, using often completely different objects or even technologies.
+    | - Reading is done by reading The state (it's done via repository objects).
+    | - Writing is done via submitting events to the Event Store that will be later on picked by event handlers resulting in changes to The State.
+
+
+    strong.section-subtitle Passwordless system
+    | The system is designed to be passwordless. The reason behind is to reduce  user on-boarding process friction. Registration is still needed but each login requires confirming a one-time-token sent via email.
+
+    strong.section-title Backend
+    | Backend is a ruby app, implemented in heavy layered fashion. Some layers use dedicated supporting gems and some are implemented from scratch by me. Those written from scratch are written in that way mostly for educational purposes. <i>"What I cannot create, I do not understand".</i>
+
+    strong.section-subtitle Layers
+    | - <b>Dependency injection container</b> - Majority of objects in the system are registered in DI container. Environment separation is also provided by DI by registering and serving different objects depending on environment. Registered objects are available via global <code>APP_COMPONENTS</code> variable or by including module AutoInject module.
+    br
+    br
+    | - <b>Http handler</b> - App Http I/O is handled by Sinatra. It's responsible only for accepting connections and returning data. It instantly delegates flows to corresponding workflows. That way “we are not a web app with a logic, but an app with http I/O plugged in”
+    br
+    br
+    | - <b>Workflow</b> - a workflow is an explicitly modeled representation on a flow. It first invokes validator for params checking and if params are valid, business logic is executed.
+    br
+    br
+    | - <b>Validator</b> - validator is a separate internal function object of a workflow. It checks if params make sense as well as if the data are valid in a context of corresponding workflow and logged it user. <strong>Validation is contextual.</strong>
+    br
+    br
+    | - <b>Data access layer</b> - business logic is modeled by a graph of models, also called an aggregation. Returned models are completed and fully loaded graph of business objects.
+    br
+    br
+    | - <b>Models</b> - models are ruby object capable of handling all business interaction. Changes to models are also stored as uncommitted events. During committing aggregation, the list of events is persisted in the Event Store. That way changes can be stored and recreated.
+    br
+    br
+    | - <b>Repositories</b> - Repositories are object responsible for providing complete graph of objects for a particular workflow. Repositories queue underlying persistence layer for raw data and transform it into aggregations.
+    br
+    br
+    | - <b>Events/EventHandlers</b> - Events are simple data structures representing an event in the system. In my implementation they are containing useful build function as well as whole event handler logic. Events are versioned and once deployed to production they can't be changed.
+    br
+    br
+    | - <b>Persistence</b> - persistence is done by sequlize gem. It uses Postgres in production env and sqlite in development and testing.
+    br
+    br
+    | - <b>Payment gateway</b> - After multiple changes and experiments PayPal was eventually picked as a payment gateway.
+    br
+    br
+    | - <b>Mailer</b> - a mail sending service integration using <code>Pony</code>.
+    br
+    br
+    img src='/assets/images/technical-documentation/flowBackend.jpg'
+
+    strong.section-subtitle Databases
+    | The app uses two databases.
+    br
+    br
+    | - <b>The State</b> - a relational database storing current state of the app.
+    br
+    br
+    | - <b>The EventStore</b> - an immutable, append only events log. Event Store is a simple storage responsible for storing and returning range of events. It is implemented in relational db.
+    br
+    br
+    img src='/assets/images/technical-documentation/dbSchema.jpg'
+
+    strong.section-subtitle Passwordless system
+    | The app doesn't use passwords so each time a user wants to login, a confirmation token is sent via an email. After clicking a link, current session is considered valid and access is granted.
+
+    strong.section-subtitle Workflows and the console
+    | Workflows, as part of business logic core, independent from web I/O can be easily invoked from a console. Other possible scenarios are for example background jobs or CLI. Example of adding message to an order:
+    code.block.ruby
+      |
+        order_id = '...'
+
+        #
+        # adding message to an order
+        text = '...'
+        me = APP_COMPONENTS[:user_repository].find_me
+        add_message_workflow = APP_COMPONENTS[:add_order_message_workflow]
+
+        add_message_workflow.call(user: me, order_id: order_id, text: text)
+
+        #
+        # adding a price to an order
+        price = Money.new(2000, :usd) # $20
+        price_workflow = APP_COMPONENTS[:set_order_price_workflow]
+
+        price_workflow.call(order_id: order_id, requester: me, price: price)
+
+
+    strong.section-subtitle AutoInject
+    | AutoInject is a convenient solution of making global dependencies available in objects, it's my own implementation, heavily inspired by dry-auto_inject lib.
+
+    code.block
+      |
+        APP_COMPONENTS = Dry::Container.new.tap do |c|
+          c.register(:user_repository, memoize: true) { SoT::UserRepository.new }
+        end
+
+        Import = AutoInject.new(APP_COMPONENTS)
+
+
+        class AClass
+          include Import[
+            :user_repository,
+          ]
+
+          def a_method
+            user_repository.find('...')
+          end
+        end
+
+    strong.section-title Devops
+    | The app is hosted on Heroku.
+    br
+    | I bought <code>.jp</code> domain from Onamae and configured its nameservers to point at Cloudflare. The reason is Onamae's UX is very confusing and seems unreliable. On the other hand Cloudflare is extremely professional, powerful and intuitive. Whole traffic is proxied through Cloudflare for full SSL encryption, CDN support and basic redirections.
+    br
+    br
+    | Note on latency: Heroku hosts it's apps in US region, that’s why each request takes around +400ms more when accessed from Japan.
+
+    br
+    br
+    img src='/assets/images/technical-documentation/flowInfra.jpg'
+    img src='/assets/images/technical-documentation/ssl.jpg'
+
+    strong.section-title Git repository
+    | I’m very strict about keeping git history clean. Each feature was coded on a feature branch and merged to master after a brief self-codereview. Besides a few very first commits setting project up, master branch consists only merge commits.
+    br
+    br
+    img src='/assets/images/technical-documentation/git.jpg'
+
+    strong.section-title Development
+    code.block.bash
+      |
+        # start server (local and docker version)
+        ./scripts/development/run-server.sh
+        ./scripts/development/run-server-docker.sh
+
+        # irb (local and docker version)
+        ./scripts/development/app-console.sh
+        ./scripts/development/app-console-docker.sh
+
+        # reset and seed db (local and docker version)
+        ./scripts/development/reset-db.sh
+        ./scripts/development/app-console-docker.sh ./scripts/development/reset-db.sh
+
+
+javascript:
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('code.block').forEach((block) => {
+      hljs.highlightBlock(block);
+    });
+  });
+
+
