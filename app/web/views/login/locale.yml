@@ -6,16 +6,16 @@ en:
     error_email_empty: email can't be empty..
     error_token_not_found: login token was not found..
     label_email: Email
-    label_email-desc: This system is password-less, each time you want to login, a login link will be sent to a registered email. Please type your address, check your inbox and click confirmation login link in received email.
+    label_email-desc: This system is password-less, each time you want to login, a login link will be sent to your registered email. Please type your email address, check your inbox and click confirmation login link in received email.
     btn_create_account: Create Account
     btn_additional_or: or
     btn_login: Log in
 
   login_waiting:
-    title: Waiting for confirming login...
-    desc: "To login open login link from the email we just sent. Opening link form a different device will log in this session as well. We sent login email at:"
+    title: Waiting for login confirmation...
+    desc: "To log in open login link from an email we just sent to you. Opening link form a different device will log in this session as well. We sent confirmation email at:"
 
   login_accept_token:
-    title: Thank you for login in!
+    title: Thank you for log in!
     desc: Requested device will be automatically logged in.
     error_token_not_found: login token could not be found..

@@ -1,6 +1,6 @@
 en:
   orders_payment_failed:
     title: Unfortunately there were errors during processing your payment.
-    desc: I will be notified about the error and will try to check and resolve it shortly. Sorry for all the troubles.
+    desc: I will be notified about the error and will try to check and resolve it shortly. Sorry for all inconvenience.
     label_errors: "Error Mesages:"
     btn_go_to_order: Go back to the order
