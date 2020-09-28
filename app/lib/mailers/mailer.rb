@@ -106,7 +106,7 @@ module SoT
         via: @via,
         via_options: @via_options,
       )
-      logger.debug(mail.to_s)
+      logger.debug("\n\n######################################\n\n#{mail}\n\n######################################n\n")
       logger.info("Email sent: '#{subject}' to '#{to}'")
     end
   end
